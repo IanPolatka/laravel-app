@@ -17,7 +17,6 @@ class CreateCurrentYear extends Migration
         Schema::create('current_year', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('year_id');
-            $table->foreign('year_id')->references('id')->on('years');
             $table->timestamps();
         });
 
@@ -30,6 +29,8 @@ class CreateCurrentYear extends Migration
      */
     public function down()
     {
-        //
+        
+        Schema::dropIfExists('current_year');
+
     }
 }

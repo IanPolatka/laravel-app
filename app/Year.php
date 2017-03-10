@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\CurrentYear;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Year extends Model
@@ -9,4 +11,14 @@ class Year extends Model
     protected $fillable = [
         'year'
     ];
+
+
+
+    public function currentYear()
+    {
+
+    	return $this->belongsTo('CurrentYear');
+
+    }
+
 }
