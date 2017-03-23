@@ -68,7 +68,21 @@ Route::delete('/teams/{team}', 'TeamsController@delete');
 
 //  Current Year
 Route::get('/current-year/', 'CurrentyearController@index');
-Route::get('/current-year/{currentyear}', 'CurrentyearController@show');
+
+Route::get('/current-year/edit', 'CurrentyearController@edit');
+Route::patch('/current-year', 'CurrentyearController@update');
 
 
+
+//  Tennis
+Route::get('/tennis', 'TennisController@index');
+
+Route::get('/tennis/create', 'TennisController@create');
+Route::post('/tennis/', 'TennisController@store');
+
+Route::get('/tennis/{tennis}/edit', 'TennisController@edit');
+Route::patch('/tennis/{tennis}', 'TennisController@update');
+
+Route::get('/tennis/{tennis}', 'TennisController@show');
+Route::delete('/tennis/{tennis}', 'TennisController@delete');
 

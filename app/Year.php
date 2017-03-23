@@ -12,13 +12,4 @@ class Year extends Model
         'year'
     ];
 
-
-
-    public function currentYear()
-    {
-
-    	return $this->belongsTo('CurrentYear');
-
-    }
-
 }

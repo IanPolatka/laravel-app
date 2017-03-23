@@ -8,6 +8,11 @@ use App\Time;
 
 class TimesController extends Controller
 {
+
+	public function __construct() 
+	{
+	  $this->middleware('auth', ['except' => ['index', 'show']]);
+	}
     
 	public function index()
 	{

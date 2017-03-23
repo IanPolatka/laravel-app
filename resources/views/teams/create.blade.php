@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Create</div>
 
@@ -11,36 +11,16 @@
                     <form method="POST" action="/teams">
 
                       {{ csrf_field() }}
-
-                      <h3>School Info</h3>
-
-                      <div class="row">
-
-                        <div class="col-lg-6">  
                      
                           <div class="form-group">
                             <label for="school_name">School Name</label>
                             <input type="text" class="form-control" id="school_name" name="school_name">
                           </div>
-
-                        </div><!--  Col  -->
-
-                        <div class="col-lg-6">
                      
                           <div class="form-group">
                             <label for="mascot">Mascot</label>
                             <input type="text" class="form-control" id="mascot" name="mascot">
                           </div>
-
-                        </div><!--  Col  -->
-
-                    </div><!--  Row  -->
-
-                    <h3>Location</h3>
-
-                    <div class="row">
-
-                        <div class="col-lg-6"> 
 
                           <div class="form-group">
                             <label for="state">State</label>
@@ -100,24 +80,10 @@
                                </select>
                           </div>
 
-                        </div><!--  Col  -->
-
-                        <div class="col-lg-6">
-
                           <div class="form-group">
                             <label for="city">City</label>
                             <input type="text" class="form-control" id="city" name="city">
                           </div>
-
-                        </div><!--  Col  -->
-
-                    </div><!--  Row  -->
-
-                    <h3>Baseball Info</h3>
-
-                    <div class="row">
-
-                        <div class="col-lg-6"> 
 
                           <div class="form-group">
                             <label for="region_baseball">Region</label>
@@ -129,10 +95,6 @@
                               </select>
                           </div>
 
-                        </div><!--  Col  -->
-
-                        <div class="col-lg-6"> 
-
                           <div class="form-group">
                             <label for="district_baseball">District</label>
                               <select name="district_baseball" id="district_baseball" class="form-control">
@@ -142,16 +104,6 @@
                                     @endfor
                               </select>
                           </div>
-
-                        </div><!--  Col  -->
-
-                    </div><!--  Row  -->
-
-                    <h3>Basketball Info</h3>
-
-                    <div class="row">
-
-                        <div class="col-lg-6"> 
 
                           <div class="form-group">
                             <label for="region_basketball">Region</label>
@@ -163,10 +115,6 @@
                               </select>
                           </div>
 
-                        </div><!--  Col  -->
-
-                        <div class="col-lg-6"> 
-
                           <div class="form-group">
                             <label for="district_basketball">District</label>
                               <select name="district_basketball" id="district_basketball" class="form-control">
@@ -176,16 +124,6 @@
                                     @endfor
                               </select>
                           </div>
-
-                        </div><!--  Col  -->
-
-                    </div><!--  Row  -->
-
-                    <h3>Football Info</h3>
-
-                    <div class="row">
-
-                        <div class="col-lg-6"> 
 
                           <div class="form-group">
                             <label for="region_football">Region</label>
@@ -197,10 +135,6 @@
                               </select>
                           </div>
 
-                        </div><!--  Col  -->
-
-                        <div class="col-lg-6"> 
-
                           <div class="form-group">
                             <label for="district_football">District</label>
                               <select name="district_football" id="district_football" class="form-control">
@@ -210,16 +144,6 @@
                                     @endfor
                               </select>
                           </div>
-
-                        </div><!--  Col  -->
-
-                    </div><!--  Row  -->
-
-                    <h3>Soccer Info</h3>
-
-                    <div class="row">
-
-                        <div class="col-lg-6"> 
 
                           <div class="form-group">
                             <label for="region_soccer">Region</label>
@@ -231,10 +155,6 @@
                               </select>
                           </div>
 
-                        </div><!--  Col  -->
-
-                        <div class="col-lg-6"> 
-
                           <div class="form-group">
                             <label for="district_soccer">District</label>
                               <select name="district_soccer" id="district_soccer" class="form-control">
@@ -244,16 +164,6 @@
                                     @endfor
                               </select>
                           </div>
-
-                        </div><!--  Col  -->
-
-                    </div><!--  Row  -->
-
-                    <h3>Volleyball Info</h3>
-
-                    <div class="row">
-
-                        <div class="col-lg-6"> 
 
                           <div class="form-group">
                             <label for="region_volleyball">Region</label>
@@ -265,10 +175,6 @@
                               </select>
                           </div>
 
-                        </div><!--  Col  -->
-
-                        <div class="col-lg-6"> 
-
                           <div class="form-group">
                             <label for="district_volleyball">District</label>
                               <select name="district_volleyball" id="district_volleyball" class="form-control">
@@ -279,12 +185,8 @@
                               </select>
                           </div>
 
-                        </div><!--  Col  -->
-
-                    </div><!--  Row  -->
-
                       <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Publish</button>
+                        <button type="submit" class="btn btn-primary">Create School</button>
                       </div>
 
 

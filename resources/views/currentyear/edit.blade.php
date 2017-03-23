@@ -9,31 +9,32 @@
 
                 <div class="panel-body">
 
-                    <form method="POST" action="/years/{{ $year->id }}">
+                    <form method="POST" action="/current-year/">
 
                       {{ method_field('PATCH') }}
 
-                      {{ csrf_field() }}    
-                     
+                      {{ csrf_field() }}
+
+                      <p>Select The Current Year</p>
+
                       <div class="form-group">
-                        <label for="year">Year</label>
-                        <input type="text" class="form-control" id="year" name="year" value="{{ $year->year }}">
-                      </div>
 
-                        <button type="submit" class="btn btn-primary pull-left">Update Year</button>
+                        <select name="year_id" id="year_id" class="form-control">
 
+                          @foreach($years as $year)
 
-                    
-                    </form>
+                            <option value="{{ $year->id }}" 
+                              @if ($currentyear->year_id === $year->id) selected @endif>
+                                {{ $year->year }}
+                            </option>
 
+                          @endforeach
 
-                    <form method="POST" action="/years/{{ $year->id }}">
+                        </select>
 
-                      {{ method_field('DELETE') }}
+                      </div><!--  Form  Group  -->   
 
-                      {{ csrf_field() }}    
-
-                        <button type="submit" class="btn btn-danger pull-left">Delete Year</button>
+                      <button type="submit" class="btn btn-primary pull-left">Update Year</button>
                     
                     </form>
 

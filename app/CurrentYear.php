@@ -9,11 +9,8 @@ use App\Year;
 class CurrentYear extends Model
 {
     
-	protected $table = 'years';
+	protected $table = 'current_year';
 
-	 public function year()
-    {
-        return $this->belongsTo('year');
-    }
+	protected $fillable = ['year_id'];
 
 }
