@@ -16,17 +16,16 @@ class CreateTennisTable extends Migration
         
         Schema::create('tennis', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('school_year_id');
-            $table->integer('team_id');
+            $table->integer('year_id');
             $table->date('date');
             $table->integer('scrimmage');
             $table->string('tournament_title')->nullable();
-            $table->integer('is_away');
-            $table->integer('opponent_id')->nullable();
+            $table->integer('away_team_id');
+            $table->integer('home_team_id');
             $table->integer('time_id');
-            $table->string('boys_win_lose')->nullable();
+            $table->integer('boys_winner')->nullable();
             $table->string('boys_match_score')->nullable();
-            $table->string('girls_win_lose')->nullable();
+            $table->integer('girls_winner')->nullable();
             $table->string('girls_match_score')->nullable();
             $table->timestamps();
         });

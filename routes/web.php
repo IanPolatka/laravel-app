@@ -75,14 +75,32 @@ Route::patch('/current-year', 'CurrentyearController@update');
 
 
 //  Tennis
-Route::get('/tennis', 'TennisController@index');
+Route::get('/tennis/', 'TennisController@index');
 
 Route::get('/tennis/create', 'TennisController@create');
 Route::post('/tennis/', 'TennisController@store');
 
-Route::get('/tennis/{tennis}/edit', 'TennisController@edit');
+Route::get('/tennis/{id}/edit', 'TennisController@edit');
 Route::patch('/tennis/{tennis}', 'TennisController@update');
 
 Route::get('/tennis/{tennis}', 'TennisController@show');
 Route::delete('/tennis/{tennis}', 'TennisController@delete');
 
+Route::get('/tennis/team/{id}', 'TennisController@teamschedule');
+
+
+
+//  Football
+Route::get('/football/', 'FootballController@index');
+
+Route::get('/football/create', 'FootballController@create');
+Route::post('/football/', 'FootballController@store');
+
+Route::get('/football/game/{id}/edit', 'FootballController@edit');
+Route::patch('/football/{football}', 'FootballController@update');
+
+Route::get('/football/game/{id}', 'FootballController@show');
+Route::delete('/football/{id}', 'FootballController@delete');
+
+Route::get('/football/{year}/{team}', 'FootballController@teamschedule');
+Route::get('/football/{year}', 'FootballController@yearschedule');

@@ -17,7 +17,7 @@ class TimesController extends Controller
 	public function index()
 	{
 
-		$times = Time::orderBy('time', 'asc')->get();;
+		$times = Time::orderBy('id', 'asc')->get();
 
 		return view('times.index', compact('times'));
 

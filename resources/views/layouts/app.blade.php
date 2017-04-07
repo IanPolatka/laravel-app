@@ -77,6 +77,7 @@
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sports <span class="caret"></span></a>
                           <ul class="dropdown-menu">
                             <li><a href="/tennis">Tennis</a></li>
+                            <li><a href="/football">Football</a></li>
                           </ul>
                         </li>
                     </ul>
@@ -113,7 +114,10 @@
             </div>
         </nav>
 
+        @include('layouts.errors')
+
         @yield('content')
+
     </div>
 
     <!-- Scripts -->

@@ -8,7 +8,7 @@
                 <div class="panel-heading">Create</div>
 
                 <div class="panel-body">
-                    <form method="POST" action="/tennis">
+                    <form method="POST" action="/football">
 
                       {{ csrf_field() }}
 
@@ -20,7 +20,7 @@
 
                             <option value="">Select A School Year</option>
 
-                            <option value="{{ $thecurrentyear['id'] }}">{{ $thecurrentyear['year'] }}</option>
+                            <option value="{{ $thecurrentyear[0] }}">{{ $displayyear->year }} (the current school year)</option>
 
                             <option value="">---------------------</option>
 
@@ -110,7 +110,18 @@
                         </div><!--  Form  Group  -->
 
                         <div class="form-group">
-                          <button type="submit" class="btn btn-primary">Create School</button>
+
+                          <label for="district_game">Is This A District Game?</label>
+
+                          <select name="district_game" id="district_game" class="form-control">
+                              <option value="0">No</option>
+                              <option value="1">Yes</option>
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        <div class="form-group">
+                          <button type="submit" class="btn btn-primary">Create Football Game</button>
                         </div>
                     
                     </form>

@@ -8,7 +8,8 @@
                 <div class="panel-heading">The Compiled List</div>
                     <ul class="list-group">
                     @foreach ($teams as $team)
-                        <li class="list-group-item"><a href="/teams/{{ $team->id }}">{{ $team->school_name }} <span class="pull-right">{{ $team->mascot }}</span></a></li>
+                        <li class="list-group-item">
+                            <a href="/teams/{{ $team->id }}">{{ $team->school_name }} <span class="pull-right">{{ $team->mascot }}</span></a></li>
                     @endforeach
                     </ul>
             </div>

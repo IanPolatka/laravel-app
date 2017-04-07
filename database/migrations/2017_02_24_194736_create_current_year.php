@@ -16,7 +16,7 @@ class CreateCurrentYear extends Migration
         
         Schema::create('current_year', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('year_id');
+            $table->integer('year_id')->default(1);
             $table->timestamps();
         });
 

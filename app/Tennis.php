@@ -14,29 +14,33 @@ class Tennis extends Model
 
 	protected $table = 'tennis';
 
-	public function team()
+	public function home_team()
     {
-    	return $this->belongsTo('App\Team');
+    	return $this->belongsTo('App\Team', 'home_team_id');
     }
 
     public function year()
     {
     	return $this->belongsTo('App\Year');
     }
+
+    public function away_team()
+    {
+    	return $this->belongsTo('App\Team', 'away_team_id');
+    }
     
 	protected $fillable = [
 
-        'school_year_id',
-        'team_id',
+        'year_id',
         'date',
         'scrimmage',
         'tournament_title',
-        'is_away',
-        'opponent_id',
+        'away_team_id',
+        'home_team_id',
         'time_id',
-        'boys_win_lose',
+        'boys_winner',
         'boys_match_score',
-        'girls_won_lose',
+        'girls_winner',
         'girls_match_score'
 
     ];

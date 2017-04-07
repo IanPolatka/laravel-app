@@ -20,11 +20,11 @@ class TennisController extends Controller
 	public function index()
 	{
 
-		$todaysmatch = Tennis::whereDate('date', '=', Carbon::today()->toDateString())->get();
-
 		$tennis = Tennis::all();
 
-		return view('sports.tennis.index', compact('tennis', 'todaysmatch'));
+		//return $tennis;
+
+		return view('sports.tennis.index', compact('tennis'));
 
 	}
 
@@ -43,8 +43,7 @@ class TennisController extends Controller
 	{
 
 		//  Display the current year
-		$currentyear = \DB::table('current_year')->pluck('year_id');
-		$thecurrentyear	= Year::find($currentyear);
+		$thecurrentyear	= Year::find(1);
 
 		//  Display all the years
 		$years = Year::all();
@@ -55,7 +54,7 @@ class TennisController extends Controller
 		//  Display the game times
 		$times = Time::all();
 
-		return view('sports.tennis.create', compact('years', 'thecurrentyear', 'teams', 'times'));
+		return view('sports.tennis.create', compact('thecurrentyear', 'years', 'teams', 'times'));
 
 	}
 
@@ -66,18 +65,13 @@ class TennisController extends Controller
 
 		Tennis::create([
 
-			'school_year_id'			=>	request('school_year_id'),
-			'team_id'					=>	request('team_id'),
+			'year_id'					=>	request('year_id'),
 			'date'						=>	request('date'),
 			'scrimmage'					=>	request('scrimmage'),
 			'tournament_title'			=>	request('tournament_title'),
-			'is_away'					=>	request('is_away'),
-			'opponent_id'				=>	request('opponent_id'),
-			'time_id'					=>	request('time_id'),
-			'boys_win_lose'				=>	request('boys_win_lose'),
-			'boys_match_score'			=>	request('boys_match_score'),
-			'girls_win_lose'			=>	request('girls_win_lose'),
-			'girls_match_score'			=>	request('girls_match_score')
+			'away_team_id'				=>	request('away_team_id'),
+			'home_team_id'				=>	request('home_team_id'),
+			'time_id'					=>	request('time_id')
 
 		]);
 
@@ -87,12 +81,13 @@ class TennisController extends Controller
 
 
 
-	public function edit(tennis $tennis)
+	public function edit($id)
 	{
 
+		$tennis = Tennis::find($id);
+
 		//  Display the current year
-		$currentyear = \DB::table('current_year')->pluck('year_id');
-		$thecurrentyear	= Year::find($currentyear);
+		$thecurrentyear	= Year::find(1);
 
 		//  Display all the years
 		$years = Year::all();
@@ -103,26 +98,43 @@ class TennisController extends Controller
 		//  Display the game times
 		$times = Time::all();
 
-		return view('sports.tennis.edit', compact('years', 'thecurrentyear', 'teams', 'times', 'tennis'));
+		return view('sports.tennis.edit', compact('years', 'thecurrentyear', 'teams', 'times', 'tennis', 'away_team'));
 
 	}
 
 
 
-	public function update()
+	public function update(Request $request, tennis $tennis)
 	{
 
+		$tennis->update($request->all());
 
+		return redirect('/tennis');
 
 	}
 
 
 
-	public function delete()
+	public function delete($id)
+	{
+		$tennis = Tennis::find($id);
+		$tennis->delete();
+		return redirect('/tennis');
+	}
+
+
+
+	public function teamschedule($id)
 	{
 
+		$team = Team::find($id);
 
+		$tennis = Tennis::where('home_team_id', $id)->orWhere('away_team_id', $id)->get();
+
+		return view('sports.tennis.teamschedule', compact('team', 'tennis'));
 
 	}
+
+
 
 }

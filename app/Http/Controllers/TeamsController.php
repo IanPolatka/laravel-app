@@ -13,7 +13,7 @@ class TeamsController extends Controller
 	public function index()
 	{
 
-		$teams = Team::all();
+		$teams = Team::orderBy('school_name', 'asc')->get();
 
 		return view('teams.index', compact('teams'));
 
