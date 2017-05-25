@@ -111,7 +111,9 @@
 
                                     @elseif (($item->game_status > 0) && ($item->game_status < 7))
 
-                                        <strong class="pull-right game-list-status"><span style="color: red;">LIVE</span></strong>
+                                        <strong class="pull-right game-list-status">
+                                            <span style="color: red;">LIVE</span>
+                                        </strong>
 
                                     @endif
 

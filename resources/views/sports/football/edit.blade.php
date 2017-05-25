@@ -34,7 +34,13 @@
                         <tr>
                             <td width="17%">
                                 <div class="team-logo">
-                                    <a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}"><img src="/images/team-logos/{{ $football->away_team->logo }}" alt="{{ $football->away_team->school_name }}"></a>
+                                    <a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}">
+                                    @if ($football->home_team->logo)
+                                      <img src="/images/team-logos/{{ $football->away_team->logo }}" alt="{{ $football->away_team->school_name }}">
+                                    @else
+                                      <div class="blank-image"></div>
+                                    @endif
+                                    </a>
                                 </div>
                               <h4><a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}">{{ $football->away_team->abbreviated_name }}</a></h4>
                               <small class="text-muted">{{ $away_team_losses }}-{{ $away_team_wins }}</small>
@@ -115,7 +121,13 @@
                             </td>
                             <td width="17%">
                                 <div class="team-logo">
-                                    <a href="/football/{{ $football->year->year }}/{{ $football->home_team->school_name }}"><img src="/images/team-logos/{{ $football->home_team->logo }}" alt="{{ $football->home_team->school_name }}"></a>
+                                    <a href="/football/{{ $football->year->year }}/{{ $football->home_team->school_name }}">
+                                    @if ($football->home_team->logo)
+                                      <img src="/images/team-logos/{{ $football->home_team->logo }}" alt="{{ $football->home_team->school_name }}">
+                                    @else
+                                      <div class="blank-image"></div>
+                                    @endif
+                                    </a>
                                 </div>
                             <h4><a href="/football/{{ $football->year->year }}/{{ $football->home_team->school_name }}">{{ $football->home_team->abbreviated_name }}</a></h4>
                             <small class="text-muted">{{ $home_team_losses }}-{{ $home_team_wins }}</small></td>
@@ -659,12 +671,18 @@
 
                           <label for="away_team_final_score">{{ $football->away_team->school_name }}</label>
 
-                          <select name="away_team_final_score" id="away_team_final_score" class="form-control">
-                              <option value="">Enter Score</option>
-                              @for ($i = 0; $i < 199; $i++) 
-                                <option value="{{ $i }}" @if ($football->away_team_final_score == "$i") selected @endif>{{ $i }}</option>
-                              @endfor
-                          </select>
+                          <div class="input-group">
+                              <div class="input-group-btn">
+                                <button type="button" id="SubtractButtonAway" class="btn button-danger">-</button>
+                              </div><!--  Input Group Button  -->
+                              <input type="number" class="form-control text-center" 
+                                     id="away_team_final_score" 
+                                     name="away_team_final_score" 
+                                     value="{{ $football->away_team_final_score }}" min="0">
+                              <div class="input-group-btn">
+                                <button type="button" id="AddButtonAway" class="btn button-default">+</button>
+                              </div><!--  Input Group Button  -->
+                            </div><!--  Input Group  -->
 
                         </div><!--  Form  Group  -->
 
@@ -672,23 +690,23 @@
 
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                           <div class="form-group">
-                          <label for="home_team_final_score">
-                              {{ $football->home_team->school_name }} {{ $football->home_team->mascot }}
-                            </label>
-                          <div class="input-group">
-                            <div class="input-group-btn">
-                              <button type="button" id="SubtractButton" class="btn btn-danger">-</button>
-                            </div>
-                            <input type="number" class="form-control" 
-                                   id="home_team_final_score" 
-                                   name="home_team_final_score" 
-                                   value="{{ $football->home_team_final_score }}" min="0">
-                            <div class="input-group-btn">
-                              <button type="button" id="AddButton" class="btn btn-success">+</button>
-                            </div>
-                          </div>
-                        </div>
+                          <div class="form-group">
+                            <label for="home_team_final_score">
+                                {{ $football->home_team->school_name }}
+                              </label>
+                            <div class="input-group">
+                              <div class="input-group-btn">
+                                <button type="button" id="SubtractButtonHome" class="btn button-danger">-</button>
+                              </div><!--  Input Group Button  -->
+                              <input type="number" class="form-control text-center" 
+                                     id="home_team_final_score" 
+                                     name="home_team_final_score" 
+                                     value="{{ $football->home_team_final_score }}" min="0">
+                              <div class="input-group-btn">
+                                <button type="button" id="AddButtonHome" class="btn button-default">+</button>
+                              </div><!--  Input Group Button  -->
+                            </div><!--  Input Group  -->
+                          </div><!--  Form Group  -->
 
                         </div><!--  Col  -->
 
@@ -696,7 +714,7 @@
 
                       <div class="section-title">
                         Winner & Loser
-                      </div>
+                      </div><!--  Section Title  -->
 
                       <div class="row">
 

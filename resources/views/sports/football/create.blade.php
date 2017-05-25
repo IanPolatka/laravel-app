@@ -23,135 +23,222 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Create</div>
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
-                <div class="panel-body">
+              <div class="content-box">
+
+                    <h4>Create Football Game</h4>
+
                     <form method="POST" action="/football">
 
                       {{ csrf_field() }}
 
-                        <div class="form-group">
+                      <div class="section-title">
+                          School Year & Team Level
+                      </div><!--  Section Title  -->
 
-                          <label for="year_id">What Year Is This Game For?</label>
+                      <div class="row">
 
-                          <select name="year_id" id="year_id" class="form-control">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                            <option value="">Select A School Year</option>
+                          <div class="form-group">
 
-                            <option value="{{ $thecurrentyear[0] }}">{{ $displayyear->year }} (the current school year)</option>
+                            <label for="year_id">School Year</label>
 
-                            <option value="">---------------------</option>
+                            <select name="year_id" id="year_id" class="form-control">
 
-                            @foreach($years as $year)
+                              <option value="">Select A School Year</option>
 
-                              <option value="{{ $year->id }}" >
-                                  {{ $year->year }}
-                              </option>
+                              <option value="{{ $thecurrentyear[0] }}">{{ $displayyear->year }} (the current school year)</option>
 
-                            @endforeach
+                              <option value="">---------------------</option>
 
-                          </select>
+                              @foreach($years as $year)
 
-                        </div><!--  Form  Group  -->
+                                <option value="{{ $year->id }}" >
+                                    {{ $year->year }}
+                                </option>
 
-                        <div class="form-group">
-                          <label for="team_level">What Team Level Is This For?</label>
-                          <select name="team_level" id="team_level" class="form-control">
-                              <option value="1">Varsity</option>
-                              <option value="2">Junior Varsity</option>
-                              <option value="3">Freshman</option>
-                          </select>
+                              @endforeach
+
+                            </select>
+
+                          </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+                            <label for="team_level">Team Level</label>
+                            <select name="team_level" id="team_level" class="form-control">
+                                <option value="1">Varsity</option>
+                                <option value="2">Junior Varsity</option>
+                                <option value="3">Freshman</option>
+                            </select>
+                          </div>
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Date & Time
+                      </div><!--  Section Title  -->
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="text" class="form-control" id="datepicker" name="date">
+                          </div>
+
                         </div>
 
-                        <div class="form-group">
-                          <label for="date">Date</label>
-                          <input type="text" class="form-control" id="datepicker" name="date">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                            <label for="time_id">What Time Is The Match?</label>
+
+                            <select name="time_id" id="time_id" class="form-control">
+
+                              @foreach($times as $time)
+
+                                <option value="{{ $time->id }}" > {{ $time->time }}</option>
+
+                              @endforeach
+
+                            </select>
+
+                          </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Tournament Title
+                      </div><!--  Section Title  -->
+
+                      <div class="row">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                          <div class="form-group">
+                            <label for="tournament_title">Tournament Title</label>
+                            <input type="text" class="form-control" id="tournament_title" name="tournament_title">
+                          </div>
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Teams
+                      </div><!--  Section Title  -->
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                            <label for="away_team_id">Away Team</label>
+
+                            <select name="away_team_id" id="away_team_id" class="form-control">
+
+                              <option value="null">Please Select An Away School</option>
+
+                              @foreach($teams as $team)
+
+                                <option value="{{ $team['id'] }}" > {{ $team['school_name'] }}</option>
+
+                              @endforeach
+
+                            </select>
+
+                          </div><!--  Form  Group  -->
+
                         </div>
 
-                        <div class="form-group">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                          <label for="scrimmage">Is This A Scrimmage?</label>
+                          <div class="form-group">
 
-                          <select name="scrimmage" id="scrimmage" class="form-control">
-                              <option value="0">No</option>
-                              <option value="1">Yes</option>
-                          </select>
+                            <label for="home_team_id">Home Team</label>
 
-                        </div><!--  Form  Group  -->
+                            <select name="home_team_id" id="home_team_id" class="form-control">
 
-                        <div class="form-group">
-                          <label for="tournament_title">Tournament Title</label>
-                          <input type="text" class="form-control" id="tournament_title" name="tournament_title">
-                        </div>
+                              <option value="null">Please Select An Home School</option>
 
-                        <div class="form-group">
+                              @foreach($teams as $team)
 
-                          <label for="away_team_id">Away Team</label>
+                                <option value="{{ $team['id'] }}" > {{ $team['school_name'] }}</option>
 
-                          <select name="away_team_id" id="away_team_id" class="form-control">
+                              @endforeach
 
-                            <option value="null">Please Select An Away School</option>
+                            </select>
 
-                            @foreach($teams as $team)
+                          </div><!--  Form  Group  --> 
 
-                              <option value="{{ $team['id'] }}" > {{ $team['school_name'] }}</option>
+                        </div><!--  Col  -->
 
-                            @endforeach
+                      </div><!--  Row  -->
 
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-
-                          <label for="home_team_id">Home Team</label>
-
-                          <select name="home_team_id" id="home_team_id" class="form-control">
-
-                            <option value="null">Please Select An Home School</option>
-
-                            @foreach($teams as $team)
-
-                              <option value="{{ $team['id'] }}" > {{ $team['school_name'] }}</option>
-
-                            @endforeach
-
-                          </select>
-
-                        </div><!--  Form  Group  --> 
+                      <div class="section-title">
+                        District Game & Scrimmage
+                      </div><!--  Section Title  --> 
                      
-                        <div class="form-group">
+                      <div class="row">
 
-                          <label for="time_id">What Time Is The Match?</label>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                          <select name="time_id" id="time_id" class="form-control">
+                          <div class="form-group">
 
-                            @foreach($times as $time)
+                            <label for="scrimmage">Is This A Scrimmage?</label>
 
-                              <option value="{{ $time->id }}" > {{ $time->time }}</option>
+                            <select name="scrimmage" id="scrimmage" class="form-control">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
 
-                            @endforeach
+                          </div><!--  Form  Group  -->
 
-                          </select>
+                        </div><!--  Col  -->
 
-                        </div><!--  Form  Group  -->
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                        <div class="form-group">
+                          <div class="form-group">
 
-                          <label for="district_game">Is This A District Game?</label>
+                            <label for="district_game">Is This A District Game?</label>
 
-                          <select name="district_game" id="district_game" class="form-control">
-                              <option value="0">No</option>
-                              <option value="1">Yes</option>
-                          </select>
+                            <select name="district_game" id="district_game" class="form-control">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
 
-                        </div><!--  Form  Group  -->
+                          </div><!--  Form  Group  -->
 
-                        <div class="form-group">
-                          <button type="submit" class="btn btn-primary">Create Football Game</button>
-                        </div>
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <hr>
+
+                      <div class="row">
+
+                        <div class="col-lg-12">
+
+                          <div class="form-group">
+                            <button type="submit" class="button button-default btn-block">Create Football Game</button>
+                          </div>
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
                     
                     </form>
                 </div>

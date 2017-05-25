@@ -146,13 +146,26 @@
     <script>
 
         $(document).ready(function(){
+
             //var counter = $('#TextBox').val();
-            $('#AddButton').click( function() {
+            $('#AddButtonAway').click( function() {
+                var counter = $('#away_team_final_score').val();
+                counter++ ;
+                $('#away_team_final_score').val(counter);
+            });
+            $('#SubtractButtonAway').click( function() {
+                var counter = $('#away_team_final_score').val();
+                counter-- ;
+                $('#away_team_final_score').val(counter);
+            });
+
+            //var counter = $('#TextBox').val();
+            $('#AddButtonHome').click( function() {
                 var counter = $('#home_team_final_score').val();
                 counter++ ;
                 $('#home_team_final_score').val(counter);
             });
-            $('#SubtractButton').click( function() {
+            $('#SubtractButtonHome').click( function() {
                 var counter = $('#home_team_final_score').val();
                 counter-- ;
                 $('#home_team_final_score').val(counter);

@@ -33,7 +33,13 @@
                         <tr>
                             <td width="17%">
                                 <div class="team-logo">
-                                    <a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}"><img src="/images/team-logos/{{ $football->away_team->logo }}" alt="{{ $football->away_team->school_name }}"></a>
+                                    <a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}">
+                                    @if ($football->home_team->logo)
+                                      <img src="/images/team-logos/{{ $football->away_team->logo }}" alt="{{ $football->away_team->school_name }}">
+                                    @else
+                                      <div class="blank-image"></div>
+                                    @endif
+                                    </a>
                                 </div>
                             <h4><a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}">{{ $football->away_team->abbreviated_name }}</a></h4>
                             <small class="text-muted">{{ $away_team_wins }}-{{ $away_team_losses }}</small></td>
