@@ -1,13 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="secondary-menu">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                Football
+
+            </div><!--  Col  -->
+
+        </div><!--  Row  -->
+
+    </div><!--  Container  -->
+
+</div>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
             <div class="row">
 
-                <div class="col-lg-5">
+                <div @if (Auth::user()) class="col-lg-5" @else class="col-lg-6" @endif>
 
                     <div class="form-group">
 
@@ -17,7 +36,9 @@
 
                             @foreach($teams as $team)
 
-                              <option value="/football/{{$showcurrentyear[0]}}/{{ $team->school_name }}">{{ $team->school_name }}</option>
+                                <option value="/football/{{$showcurrentyear[0]}}/{{ $team->school_name }}">
+                                    {{ $team->school_name }} ({{ $team->city }}, {{ $team->state }})
+                                </option>
 
                             @endforeach
 
@@ -27,7 +48,7 @@
 
                 </div>
 
-                <div class="col-lg-5">
+                <div @if (Auth::user()) class="col-lg-5" @else class="col-lg-6" @endif>
 
                     <div class="form-group">
 
@@ -37,7 +58,9 @@
 
                             @foreach($years as $year)
 
-                              <option value="/football/{{ $year->year }}">{{ $year->year }}</option>
+                              <option value="/football/{{ $year->year }}" @if ($showcurrentyear[0] == $year->year) selected @endif>
+                                {{ $year->year }}
+                              </option>
 
                             @endforeach
 
@@ -47,38 +70,86 @@
 
                 </div><!--  Col  -->
 
-                <div class="col-lg-2">
-
-                    <p><a class="pull-right btn btn-success" href="/football/create">Create Game</a></p>
-
-                    <div class="clearfix"></div>
-
-                </div>
+                
 
             </div>
     
-            <div class="panel panel-default">
-                <div class="panel-heading">Football Schedule</div>
-                    <ul class="list-group">
-                        @foreach($football as $item)
 
-                            <li class="list-group-item">
-                                {{ Carbon\Carbon::parse($item->date)->format('l') }}<br />{{ Carbon\Carbon::parse($item->date)->format('M j, o') }}
-                                <a href="/football/{{ $showcurrentyear[0] }}/{{ $item->away_team->school_name }}">{{ $item->away_team->school_name }}</a> vs 
-                                <a href="/football/{{ $showcurrentyear[0] }}/{{ $item->home_team->school_name }}">{{ $item->home_team->school_name }}</a>
-                                @if ($item->tournament_title)
-                                    <small>({{ $item->tournament_title }})</small>
-                                @endif
-                                @if (Auth::user())
-                                    <span class="pull-right"><a href="/football/game/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
-                                @endif
-                            </li>
+           <div class="content-box">
 
-                        @endforeach
+                    <h4>Football Schedule</h4>
+                    <ul class="schedule-list">
+
+                        @if (Auth::user())
+
+                            <a href="/football/create" class="create-game">
+                                <li>
+                                    <img src="/images/team-logos/create-game.png">Create Game
+                                </li>
+                                <div class="clearfix"></div>
+                            </a>
+
+                        @endif
+
+                        @forelse ($football as $item)
+
+                            <li><a href="football/game/{{ $item->id }}">
+
+                                <div class="team">
+                                
+                                    @if ( $item->away_team->logo )
+                                        <img src="/images/team-logos/{{ $item->away_team->logo }}">
+                                    @endif
+
+                                    @if ($item->winning_team == $item->away_team_id)@endif
+
+                                    {{ $item->away_team->school_name }}
+
+                                    @if ($item->game_status < 1)
+
+                                        <strong class="pull-right game-list-status">{{ $item->time->time }}</strong>
+
+                                    @elseif (($item->game_status > 0) && ($item->game_status < 7))
+
+                                        <strong class="pull-right game-list-status"><span style="color: red;">LIVE</span></strong>
+
+                                    @endif
+
+                                    <span class="pull-right">{{ $item->away_team_final_score }}</span>
+
+                                    @if ($item->winning_team == $item->away_team_id)</strong>@endif
+
+                                </div><!--  Team  -->
+
+                                <div class="team">
+
+                                    @if ( $item->home_team->logo )
+                                        <img src="/images/team-logos/{{ $item->home_team->logo }}"> 
+                                    @endif
+
+                                    @if ($item->winning_team == $item->home_team_id)<strong>@endif
+
+                                    {{ $item->home_team->school_name }}
+
+                                    <span class="pull-right">{{ $item->home_team_final_score }}</span>
+
+                                    @if ($item->winning_team == $item->home_team_id)</strong>@endif
+
+                                </div><!--  Team  -->
+
+                            </a></li>
+
+                        @empty
+
+                            <li>No Games Posted</li>
+
+                        @endforelse
+
                     </ul>
             </div>
 
         </div>
+
     </div>
 </div>
 @endsection

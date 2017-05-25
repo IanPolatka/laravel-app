@@ -17,6 +17,7 @@ class CreateFootballTable extends Migration
         Schema::create('football', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('year_id');
+            $table->integer('team_level');
             $table->date('date');
             $table->integer('scrimmage');
             $table->string('tournament_title')->nullable();
@@ -37,8 +38,9 @@ class CreateFootballTable extends Migration
             $table->integer('home_team_overtime_score')->nullable();
             $table->integer('home_team_final_score')->nullable();
             $table->integer('game_status')->nullable();
-            $table->integer('minutes_remaining')->nullable();
-            $table->integer('seconds_remaining')->nullable();
+            $table->integer('possession')->nullable();
+            $table->string('minutes_remaining')->nullable();
+            $table->string('seconds_remaining')->nullable();
             $table->integer('winning_team')->nullable();
             $table->integer('losing_team')->nullable();
             $table->timestamps();

@@ -1,233 +1,453 @@
 @extends('layouts.app')
 
 
-
-<?php
-
-  if (isset($football->away_team_first_qrt_score)) :
-    $awayFirst = $football->away_team_first_qrt_score;
-  else:
-    $awayFirst = 0;
-  endif;
-  if (isset($football->away_team_second_qrt_score)) :
-    $awaySecond = $football->away_team_second_qrt_score;
-  else:
-    $awaySecond = 0;
-  endif;
-  if (isset($football->away_team_third_qrt_score)) :
-    $awayThird = $football->away_team_third_qrt_score;
-  else:
-    $awayThird = 0;
-  endif;
-  if (isset($football->away_team_fourth_qrt_score)) :
-    $awayFourth = $football->away_team_fourth_qrt_score;
-  else:
-    $awayFourth = 0;
-  endif;
-  if (isset($football->away_team_overtime_score)) :
-    $awayOver = $football->away_team_overtime_score;
-  else:
-    $awayOver = 0;
-  endif;
-
-  if (isset($football->home_team_first_qrt_score)) :
-    $homeFirst = $football->home_team_first_qrt_score;
-  else:
-    $homeFirst = 0;
-  endif;
-  if (isset($football->home_team_second_qrt_score)) :
-    $homeSecond = $football->home_team_second_qrt_score;
-  else:
-    $homeSecond = 0;
-  endif;
-  if (isset($football->home_team_third_qrt_score)) :
-    $homeThird = $football->home_team_third_qrt_score;
-  else:
-    $homeThird = 0;
-  endif;
-  if (isset($football->home_team_fourth_qrt_score)) :
-    $homeFourth = $football->home_team_fourth_qrt_score;
-  else:
-    $homeFourth = 0;
-  endif;
-  if (isset($football->home_team_overtime_score)) :
-    $homeOver = $football->home_team_overtime_score;
-  else:
-    $homeOver = 0;
-  endif;
-
-  $awayActiveScore = $awayFirst + $awaySecond + $awayThird + $awayFourth + $awayOver;
-  $homeActiveScore = $homeFirst + $homeSecond + $homeThird + $homeFourth + $homeOver;
-
-?>
-
 @section('content')
+
+<div class="secondary-menu">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <a href="/football">Football</a> &#187; Game &#187; {{ $football->id }} &#187; Edit
+
+            </div><!--  Col  -->
+
+        </div><!--  Row  -->
+
+    </div><!--  Container  -->
+
+</div>
+
+<div class="game-summary">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <table class="the-summary">
+                    <tbody>
+                        <tr>
+                            <td width="17%">
+                                <div class="team-logo">
+                                    <a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}"><img src="/images/team-logos/{{ $football->away_team->logo }}" alt="{{ $football->away_team->school_name }}"></a>
+                                </div>
+                              <h4><a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}">{{ $football->away_team->abbreviated_name }}</a></h4>
+                              <small class="text-muted">{{ $away_team_losses }}-{{ $away_team_wins }}</small>
+                            </td>
+                            <td width="17%">
+                              <div class="score">
+                                @if ($football->game_status > 0)
+                                  @if (isset($football->away_team_final_score))
+                                    {{ $football->away_team_final_score }}
+                                  @else
+                                    {{ $away_team_score_computed }}
+                                  @endif
+                                @else
+                                  -
+                                @endif
+
+                                @if ($football->possession === $football->away_team_id)
+                                  <div class="has-possession"></div>
+                                @else
+                                  <div class="no-possession"></div>
+                                @endif
+                              </div>
+                            </td>
+                            <td width="32%">
+                                <div class="game-status">
+                                  
+                                  @if ($football->game_status < 1)
+                                    {{ $football->time->time }}
+                                  @elseif (($football->game_status > 0) && ($football->game_status < 7))
+                                      @if ($football->game_status == 1) 
+                                          <span class="red-text">1st Quarter</span> 
+                                      @endif
+                                      @if ($football->game_status == 2) 
+                                          <span class="red-text">2nd Quarter</span> 
+                                      @endif
+                                      @if ($football->game_status == 3) 
+                                          <span class="red-text">Halftime</span> 
+                                      @endif
+                                      @if ($football->game_status == 4) 
+                                          <span class="red-text">3rd Quarter</span>
+                                      @endif
+                                      @if ($football->game_status == 5) 
+                                          <span class="red-text">4th Quarter</span> 
+                                      @endif
+                                      @if ($football->game_status == 6) 
+                                          <span class="red-text">vertime</span>
+                                      @endif
+                                  @else
+                                      Final
+                                  @endif
+
+                                </div>
+                                
+                                @if ($football->seconds_remaining)
+                                  <div class="game-time">
+                                    {{ $football->minutes_remaining }}:{{ $football->seconds_remaining }}
+                                  </div>
+                                @endif
+                            </td>
+                            <td width="17%">
+                              <div class="score">
+                                @if ($football->game_status > 0)
+                                  @if (isset($football->home_team_final_score))
+                                    {{ $football->home_team_final_score }}
+                                  @else
+                                    {{ $home_team_score_computed }}
+                                  @endif
+                                @else
+                                  -
+                                @endif
+
+                                @if ($football->possession === $football->home_team_id)
+                                  <div class="has-possession"></div>
+                                @else
+                                  <div class="no-possession"></div>
+                                @endif
+                              </div><!--  Score  -->
+                            </td>
+                            <td width="17%">
+                                <div class="team-logo">
+                                    <a href="/football/{{ $football->year->year }}/{{ $football->home_team->school_name }}"><img src="/images/team-logos/{{ $football->home_team->logo }}" alt="{{ $football->home_team->school_name }}"></a>
+                                </div>
+                            <h4><a href="/football/{{ $football->year->year }}/{{ $football->home_team->school_name }}">{{ $football->home_team->abbreviated_name }}</a></h4>
+                            <small class="text-muted">{{ $home_team_losses }}-{{ $home_team_wins }}</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Game ID: {{ $football['id'] }}
+                             
+                {{ $football->away_team->school_name }} vs {{ $football->home_team->school_name }}  -->
+
+            </div><!--  Col  -->
+
+        </div><!--  Row  -->
+
+    </div><!--  Container  -->
+
+</div><!--  Game Summary  -->
+
+
+
+
+
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Game Summary</div>
+        <div class="row">
 
-                    <ul class="list-group">
+          <div class="col-lg-12">
 
-                      <li class="list-group-item">
-                        {{ $football->away_team->school_name }}
-                        @if ($football->away_team_final_score)
-                          <span class="pull-right">{{$football->away_team_final_score}}&nbsp;</span>
+              <table class="table box-score">
+              <thead>
+                <tr>
+                  <th>@if ($football->tournament_title ) {{ $football->tournament_title }} @endif</th>
+                  <th>1</th>
+                  <th>2</th>
+                  <th>3</th>
+                  <th>4</th>
+                  @if (isset($football->away_team_overtime_score) && isset($football->home_team_overtime_score))
+                  <th>O</th>
+                  @endif
+                  <th>
+                    @if ($football->game_status < 7)
+                      T
+                    @else
+                      F
+                    @endif
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    @if ($football->away_team->logo)
+                      <img src="/images/team-logos/{{ $football->away_team->logo }}">
+                    @endif
+                    {{ $football->away_team->school_name }}
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->away_team_first_qrt_score))
+                        {{ $football->away_team_first_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->away_team_second_qrt_score))
+                        {{ $football->away_team_second_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->away_team_third_qrt_score))
+                        {{ $football->away_team_third_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->away_team_fourth_qrt_score))
+                        {{ $football->away_team_fourth_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  @if (isset($football->away_team_overtime_score) && isset($football->home_team_overtime_score))
+                    <td>@if ($football->game_status > 0)
+                        @if (isset($football->away_team_overtime_score))
+                          {{ $football->away_team_overtime_score }}
                         @else
-                          <span class="pull-right"><?php echo $awayActiveScore; ?>&nbsp;</span>
+                          -
                         @endif
-                        <span class="pull-right">{{ $football->away_team_overtime_score }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <span class="pull-right">{{ $football->away_team_fourth_qrt_score }}</span>
-                        <span class="pull-right">{{ $football->away_team_third_qrt_score }}</span>
-                        <span class="pull-right">{{ $football->away_team_second_qrt_score }}</span>
-                      </li>
-                      <li class="list-group-item">
-                        {{ $football->home_team->school_name }}
-                        @if ($football->home_team_final_score)
-                          <span class="pull-right">{{$football->home_team_final_score}}&nbsp;</span>
+                      @endif
+                    </td>
+                  @endif
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->away_team_final_score))
+                        {{ $football->away_team_final_score }}
+                      @else
+                        {{ $away_team_score_computed }}
+                      @endif
+                    @endif
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    @if ($football->home_team->logo)
+                      <img src="/images/team-logos/{{ $football->home_team->logo }}">
+                    @endif
+                    {{ $football->home_team->school_name }}
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->home_team_first_qrt_score))
+                        {{ $football->home_team_first_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->home_team_second_qrt_score))
+                        {{ $football->home_team_second_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->home_team_third_qrt_score))
+                        {{ $football->home_team_third_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->home_team_fourth_qrt_score))
+                        {{ $football->home_team_fourth_qrt_score }}
+                      @else
+                        -
+                      @endif
+                    @endif
+                  </td>
+                  @if (isset($football->away_team_overtime_score) && isset($football->home_team_overtime_score))
+                    <td>
+                      @if ($football->game_status > 0)
+                        @if (isset($football->home_team_overtime_score))
+                          {{ $football->home_team_overtime_score }}
                         @else
-                          <span class="pull-right"><?php echo $homeActiveScore; ?>&nbsp;</span>
+                          -
                         @endif
-                        <span class="pull-right">{{ $football->home_team_overtime_score }}&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <span class="pull-right">{{ $football->home_team_fourth_qrt_score }}</span>
-                        <span class="pull-right">{{ $football->home_team_third_qrt_score }}</span>
-                        <span class="pull-right">{{ $football->home_team_second_qrt_score }}</span>
-                      </li>
+                      @endif
+                    </td>
+                  @endif
+                  <td>
+                    @if ($football->game_status > 0)
+                      @if (isset($football->home_team_final_score))
+                        {{ $football->home_team_final_score }}
+                      @else
+                        {{ $home_team_score_computed }}
+                      @endif
+                    @endif
+                  </td>
+                </tr>
+              </tbody>
+              </table>
 
-                    </ul>
+          </div>
 
-            </div>
+          </div>
 
 
-            <div class="panel panel-default">
-                <div class="panel-heading">Update Game</div>
+          <div class="row">
 
-                <div class="panel-body">
-                    <form method="POST" action="/football/game/{{ $football->id }}">
+            <div class="col-lg-12">
+
+            <form method="POST" action="/football/game/{{ $football->id }}">
 
                       {{ method_field('PATCH') }}
 
                       {{ csrf_field() }}
 
-                        <div class="form-group">
+              <ul class="nav nav-tabs nav-justified edit-game-tabs">
+                    <li role="presentation" class="active"><a href="#1" data-toggle="tab">Edit Game Play</a>
+                    </li>
+                    <li role="presentation"><a href="#2" data-toggle="tab">Edit Game Settings</a></li>
+                  </ul>
 
-                          <label for="year_id">What Year Is This Match For?</label>
+                  <div class="team-profile no-top-border-radius">
 
-                          <select name="year_id" id="year_id" class="form-control">
+                  <div class="tab-content ">
+                    <div class="tab-pane active" id="1">
 
-                            <option value="">Select A School Year</option>
+                      <div class="section-title">
+                        Game Details
+                      </div>
 
-                            <option value="{{ $thecurrentyear['id'] }}">{{ $thecurrentyear['year'] }}</option>
+                      <div class="row">
 
-                            <option value="">---------------------</option>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                            @foreach($years as $year)
+                          <div class="form-group">
 
-                              <option value="{{ $year->id }}" @if ($football->year_id === $year->id) selected @endif >
-                                  {{ $year->year }}
+                          <label for="game_status">Game Status</label>
+
+                          <select name="game_status" id="game_status" class="form-control">
+
+                            <option value="" @if ($football->game_status == "") selected @endif>Select A Status</option>
+                            <option value="0" @if ($football->game_status == "0") selected @endif>Game Has Not Started Yet</option>
+                            <option value="1" @if ($football->game_status == "1") selected @endif>1st Quarter</option>
+                            <option value="2" @if ($football->game_status == "2") selected @endif>2nd Quarter</option>
+                            <option value="3" @if ($football->game_status == "3") selected @endif>Halftime</option>
+                            <option value="4" @if ($football->game_status == "4") selected @endif>3rd Quarter</option>
+                            <option value="5" @if ($football->game_status == "5") selected @endif>4th Quarter</option>
+                            <option value="6" @if ($football->game_status == "6") selected @endif>Overtime</option>
+                            <option value="7" @if ($football->game_status == "7") selected @endif>Final</option>
+
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="possession">Who Has Possession?</label>
+
+                          <select name="possession" id="possession" class="form-control">
+
+                            <option value="">Select A Team</option>
+
+                            <option value="{{ $football->away_team->id }}" @if ($football->possession === $football->away_team_id) selected @endif>
+                              {{ $football->away_team->school_name }}
+                            </option>
+                            <option value="{{ $football->home_team->id }}" @if ($football->possession === $football->home_team_id) selected @endif>
+                              {{ $football->home_team->school_name }}
+                            </option>
+
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+
+
+                      <div class="section-title">
+                        Game Time
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="minutes_remaining">Minutes Remaining?</label>
+
+                          <select name="minutes_remaining" id="minutes_remaining" class="form-control">
+                              <option value="">Enter A Minute</option>
+                              @for ($i = 0; $i < 15; $i++) 
+                                <option value="{{ $i }}" @if ($football->minutes_remaining == "$i") selected @endif>{{ $i }}</option>
+                              @endfor
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="seconds_remaining">Seconds Remaining?</label>
+
+                          <select name="seconds_remaining" id="seconds_remaining" class="form-control">
+                              <option value="">Enter A Second</option>
+                              <option value="00" @if ($football->seconds_remaining == "00") selected @endif>
+                                00
                               </option>
-
-                            @endforeach
-
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-                          <label for="date">Date</label>
-                          <input type="text" class="form-control" id="datepicker" name="date" value="{{ $football->date }}" required>
-                        </div>
-
-                        <div class="form-group">
-
-                          <label for="scrimmage">Is This A Scrimmage?</label>
-
-                          <select name="scrimmage" id="scrimmage" class="form-control">
-                              <option value="0" @if ($football->scrimmage == "0") selected @endif>No</option>
-                              <option value="1" @if ($football->scrimmage == "1") selected @endif>Yes</option>
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-                          <label for="tournament_title">Tournament Title</label>
-                          <input type="text" class="form-control" id="tournament_title" name="tournament_title" value="{{ $football->tournament_title }}">
-                        </div>
-
-                        <div class="form-group">
-
-                          <label for="away_team_id">Away Team</label>
-
-                          <select name="away_team_id" id="away_team_id" class="form-control">
-
-                            <option value="null">Please Select An Away School</option>
-
-                            @foreach($teams as $team)
-
-                              <option value="{{ $team->id }}" @if ($football->away_team_id === $team->id) selected @endif>
-                                {{ $team->school_name }}
+                              <option value="01" @if ($football->seconds_remaining == "01") selected @endif>
+                                01
                               </option>
-
-                            @endforeach
-
+                              <option value="02" @if ($football->seconds_remaining == "02") selected @endif>02</option>
+                              <option value="03" @if ($football->seconds_remaining == "03") selected @endif>03</option>
+                              <option value="04" @if ($football->seconds_remaining == "04") selected @endif>04</option>
+                              <option value="05" @if ($football->seconds_remaining == "05") selected @endif>05</option>
+                              <option value="06" @if ($football->seconds_remaining == "06") selected @endif>06</option>
+                              <option value="07" @if ($football->seconds_remaining == "07") selected @endif>07</option>
+                              <option value="08" @if ($football->seconds_remaining == "08") selected @endif>08</option>
+                              <option value="09" @if ($football->seconds_remaining == "09") selected @endif>09</option>
+                              @for ($i = 10; $i < 60; $i++)
+                                <option value="{{ $i }}" @if ($football->seconds_remaining == $i) selected @endif>{{ $i }}</option>
+                              @endfor
                           </select>
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="home_team_id">Home Team</label>
-
-                          <select name="home_team_id" id="home_team_id" class="form-control">
-
-                            <option value="null">Please Select An Home School</option>
-
-                            @foreach($teams as $team)
-
-                              <option value="{{ $team->id }}" @if ($football->home_team_id === $team->id) selected @endif>{{ $team->school_name }}</option>
-
-                            @endforeach
-
-                          </select>
-
-                        </div><!--  Form  Group  --> 
-                     
-                        <div class="form-group">
-
-                          <label for="time_id">What Time Is The Match?</label>
-
-                          <select name="time_id" id="time_id" class="form-control">
-
-                            @foreach($times as $time)
-
-                              <option value="{{ $time->id }}" @if ($football->time_id === $time->id) selected @endif>{{ $time->time }}</option>
-
-                            @endforeach
-
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-
-                          <label for="district_game">Is This A District Game?</label>
-
-                          <select name="district_game" id="district_game" class="form-control">
-                              <option value="0" @if ($football->district_game == "0") selected @endif>No</option>
-                              <option value="1" @if ($football->district_game == "1") selected @endif>Yes</option>
-                          </select>
-
-                        </div><!--  Form  Group  -->
+                      </div><!--  Row  -->
 
 
 
-                        <h4><strong>Game Score</strong></h4>
+                      <div class="section-title">
+                        First Quarter Score
+                      </div>
 
-                        <div class="form-group">
+                      <div class="row">
 
-                          <label for="away_team_first_qrt_score">{{ $football->away_team->school_name }} {{ $football->away_team->mascot }} First Quarter Score</label>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="away_team_first_qrt_score">{{ $football->away_team->school_name }} </label>
 
                           <select name="away_team_first_qrt_score" id="away_team_first_qrt_score" class="form-control">
                               <option value="">Enter Score</option>
@@ -238,76 +458,13 @@
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="away_team_second_qrt_score">{{ $football->away_team->school_name }} {{ $football->away_team->mascot }} Second Quarter Score</label>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                          <select name="away_team_second_qrt_score" id="away_team_second_qrt_score" class="form-control">
-                              <option value="">Enter Score</option>
-                              @for ($i = 0; $i < 99; $i++) 
-                                <option value="{{ $i }}" @if ($football->away_team_second_qrt_score == "$i") selected @endif>{{ $i }}</option>
-                              @endfor
-                          </select>
+                          <div class="form-group">
 
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-
-                          <label for="away_team_third_qrt_score">{{ $football->away_team->school_name }} {{ $football->away_team->mascot }} Third Quarter Score</label>
-
-                          <select name="away_team_third_qrt_score" id="away_team_third_qrt_score" class="form-control">
-                              <option value="">Enter Score</option>
-                              @for ($i = 0; $i < 99; $i++) 
-                                <option value="{{ $i }}" @if ($football->away_team_third_qrt_score == "$i") selected @endif>{{ $i }}</option>
-                              @endfor
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-
-                          <label for="away_team_fourth_qrt_score">{{ $football->away_team->school_name }} {{ $football->away_team->mascot }} Fourth Quarter Score</label>
-
-                          <select name="away_team_fourth_qrt_score" id="away_team_fourth_qrt_score" class="form-control">
-                              <option value="">Enter Score</option>
-                              @for ($i = 0; $i < 99; $i++) 
-                                <option value="{{ $i }}" @if ($football->away_team_fourth_qrt_score == "$i") selected @endif>{{ $i }}</option>
-                              @endfor
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-
-                          <label for="away_team_overtime_score">{{ $football->away_team->school_name }} {{ $football->away_team->mascot }} Overtime Score</label>
-
-                          <select name="away_team_overtime_score" id="away_team_overtime_score" class="form-control">
-                              <option value="">Enter Score</option>
-                              @for ($i = 0; $i < 99; $i++) 
-                                <option value="{{ $i }}" @if ($football->away_team_overtime_score == "$i") selected @endif>{{ $i }}</option>
-                              @endfor
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <div class="form-group">
-
-                          <label for="away_team_final_score">{{ $football->away_team->school_name }} {{ $football->away_team->mascot }} Final Score</label>
-
-                          <select name="away_team_final_score" id="away_team_final_score" class="form-control">
-                              <option value="">Enter Score</option>
-                              @for ($i = 0; $i < 199; $i++) 
-                                <option value="{{ $i }}" @if ($football->away_team_final_score == "$i") selected @endif>{{ $i }}</option>
-                              @endfor
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-                        <hr>
-
-                        <div class="form-group">
-
-                          <label for="away_team_first_qrt_score">{{ $football->home_team->school_name }} {{ $football->home_team->mascot }} First Quarter Score</label>
+                          <label for="away_team_first_qrt_score">{{ $football->home_team->school_name }}</label>
 
                           <select name="home_team_first_qrt_score" id="home_team_first_qrt_score" class="form-control">
                               <option value="">Enter Score</option>
@@ -318,9 +475,38 @@
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="home_team_second_qrt_score">{{ $football->home_team->school_name }} {{ $football->home_team->mascot }} Second Quarter Score</label>
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Second Quarter Score
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="away_team_second_qrt_score">{{ $football->away_team->school_name }}</label>
+
+                          <select name="away_team_second_qrt_score" id="away_team_second_qrt_score" class="form-control">
+                              <option value="">Enter Score</option>
+                              @for ($i = 0; $i < 99; $i++) 
+                                <option value="{{ $i }}" @if ($football->away_team_second_qrt_score == "$i") selected @endif>{{ $i }}</option>
+                              @endfor
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="home_team_second_qrt_score">{{ $football->home_team->school_name }}</label>
 
                           <select name="home_team_second_qrt_score" id="home_team_second_qrt_score" class="form-control">
                               <option value="">Enter Score</option>
@@ -331,9 +517,38 @@
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="home_team_third_qrt_score">{{ $football->home_team->school_name }} {{ $football->home_team->mascot }} Third Quarter Score</label>
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Third Quarter Score
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="away_team_third_qrt_score">{{ $football->away_team->school_name }}</label>
+
+                          <select name="away_team_third_qrt_score" id="away_team_third_qrt_score" class="form-control">
+                              <option value="">Enter Score</option>
+                              @for ($i = 0; $i < 99; $i++) 
+                                <option value="{{ $i }}" @if ($football->away_team_third_qrt_score == "$i") selected @endif>{{ $i }}</option>
+                              @endfor
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="home_team_third_qrt_score">{{ $football->home_team->school_name }}</label>
 
                           <select name="home_team_third_qrt_score" id="home_team_third_qrt_score" class="form-control">
                               <option value="">Enter Score</option>
@@ -344,9 +559,38 @@
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="home_team_fourth_qrt_score">{{ $football->home_team->school_name }} {{ $football->home_team->mascot }} Fourth Quarter Score</label>
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        4th Quarter Score
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="away_team_fourth_qrt_score">{{ $football->away_team->school_name }}</label>
+
+                          <select name="away_team_fourth_qrt_score" id="away_team_fourth_qrt_score" class="form-control">
+                              <option value="">Enter Score</option>
+                              @for ($i = 0; $i < 99; $i++) 
+                                <option value="{{ $i }}" @if ($football->away_team_fourth_qrt_score == "$i") selected @endif>{{ $i }}</option>
+                              @endfor
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="home_team_fourth_qrt_score">{{ $football->home_team->school_name }}</label>
 
                           <select name="home_team_fourth_qrt_score" id="home_team_fourth_qrt_score" class="form-control">
                               <option value="">Enter Score</option>
@@ -357,9 +601,38 @@
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="home_team_overtime_score">{{ $football->home_team->school_name }} {{ $football->home_team->mascot }} Overtime Score</label>
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Overtime Score
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="away_team_overtime_score">{{ $football->away_team->school_name }}</label>
+
+                          <select name="away_team_overtime_score" id="away_team_overtime_score" class="form-control">
+                              <option value="">Enter Score</option>
+                              @for ($i = 0; $i < 99; $i++) 
+                                <option value="{{ $i }}" @if ($football->away_team_overtime_score == "$i") selected @endif>{{ $i }}</option>
+                              @endfor
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                           <div class="form-group">
+
+                          <label for="home_team_overtime_score">{{ $football->home_team->school_name }}</label>
 
                           <select name="home_team_overtime_score" id="home_team_overtime_score" class="form-control">
                               <option value="">Enter Score</option>
@@ -370,22 +643,66 @@
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="home_team_final_score">{{ $football->home_team->school_name }} {{ $football->home_team->mascot }} Final Score</label>
+                      </div><!--  Row  -->
 
-                          <select name="home_team_final_score" id="home_team_final_score" class="form-control">
+                      <div class="section-title">
+                        Final Score
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="away_team_final_score">{{ $football->away_team->school_name }}</label>
+
+                          <select name="away_team_final_score" id="away_team_final_score" class="form-control">
                               <option value="">Enter Score</option>
                               @for ($i = 0; $i < 199; $i++) 
-                                <option value="{{ $i }}" @if ($football->home_team_final_score == "$i") selected @endif>{{ $i }}</option>
+                                <option value="{{ $i }}" @if ($football->away_team_final_score == "$i") selected @endif>{{ $i }}</option>
                               @endfor
                           </select>
 
                         </div><!--  Form  Group  -->
 
-                        <hr>
+                        </div><!--  Col  -->
 
-                        <div class="form-group">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                           <div class="form-group">
+                          <label for="home_team_final_score">
+                              {{ $football->home_team->school_name }} {{ $football->home_team->mascot }}
+                            </label>
+                          <div class="input-group">
+                            <div class="input-group-btn">
+                              <button type="button" id="SubtractButton" class="btn btn-danger">-</button>
+                            </div>
+                            <input type="number" class="form-control" 
+                                   id="home_team_final_score" 
+                                   name="home_team_final_score" 
+                                   value="{{ $football->home_team_final_score }}" min="0">
+                            <div class="input-group-btn">
+                              <button type="button" id="AddButton" class="btn btn-success">+</button>
+                            </div>
+                          </div>
+                        </div>
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Winner & Loser
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
 
                           <label for="winning_team">Winning Team</label>
 
@@ -404,53 +721,244 @@
 
                         </div><!--  Form  Group  -->
 
-                        <div class="form-group">
+                        </div><!--  Col  -->
 
-                          <label for="losing_team">Losing Team</label>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                          <select name="losing_team" id="losing_team" class="form-control">
+                          <div class="form-group">
 
-                            <option value="">Select A Team</option>
+                            <label for="losing_team">Losing Team</label>
 
-                            <option value="{{ $football->away_team->id }}" @if ($football->losing_team === $football->away_team_id) selected @endif>
-                              {{ $football->away_team->school_name }}
-                            </option>
-                            <option value="{{ $football->home_team->id }}" @if ($football->losing_team === $football->home_team_id) selected @endif>
-                              {{ $football->home_team->school_name }}
-                            </option>
+                            <select name="losing_team" id="losing_team" class="form-control">
 
-                          </select>
+                              <option value="">Select A Team</option>
 
-                        </div><!--  Form  Group  -->
+                              <option value="{{ $football->away_team->id }}" @if ($football->losing_team === $football->away_team_id) selected @endif>
+                                {{ $football->away_team->school_name }}
+                              </option>
+                              <option value="{{ $football->home_team->id }}" @if ($football->losing_team === $football->home_team_id) selected @endif>
+                                {{ $football->home_team->school_name }}
+                              </option>
 
+                            </select>
 
-                        <div class="form-group">
+                          </div><!--  Form  Group  -->
 
-                          <label for="game_status">Game Status</label>
+                        </div><!--  Col  -->
 
-                          <select name="game_status" id="game_status" class="form-control">
+                      </div><!--  Row  -->
+                       
+                    </div><!--  tab pane  -->
 
-                            <option value="">Select A Status</option>
-                            <option value="0">Game Has Not Started Yet</option>
-                            <option value="1">1st Quarter</option>
-                            <option value="2">2nd Quarter</option>
-                            <option value="3">Halftime</option>
-                            <option value="4">3rd Quarter</option>
-                            <option value="5">4th Quarter</option>
-                            <option value="6">Overtime</option>
-                            <option value="7">Final</option>
+                    <div class="tab-pane" id="2">
 
-                          </select>
+                      <div class="section-title">
+                          School Year & Team Level
+                      </div>
 
-                        </div><!--  Form  Group  -->
+                      <div class="row">
 
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
+                          <div class="form-group">
 
-                        <div class="form-group">
-                          <button type="submit" class="btn btn-primary">Update Game</button>
+                            <label for="year_id">What Year Is This Game For?</label>
+
+                            <select name="year_id" id="year_id" class="form-control">
+
+                              <option value="">Select A School Year</option>
+
+                              <option value="{{ $thecurrentyear['id'] }}">{{ $thecurrentyear['year'] }}</option>
+
+                              <option value="">---------------------</option>
+
+                              @foreach($years as $year)
+
+                                <option value="{{ $year->id }}" @if ($football->year_id === $year->id) selected @endif >
+                                    {{ $year->year }}
+                                </option>
+
+                              @endforeach
+
+                            </select>
+
+                          </div><!--  Form  Group  -->
+
                         </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+                          <label for="team_level">What Team Level?</label>
+                          <select name="team_level" id="team_level" class="form-control">
+                              <option value="1" @if ($football->team_level === "1") selected @endif>Varsity</option>
+                              <option value="2" @if ($football->team_level === "2") selected @endif>Junior Varsity</option>
+                              <option value="3" @if ($football->team_level === "3") selected @endif>Freshman</option>
+                          </select>
+                        </div><!--  Form Group  -->
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Date & Time
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="text" class="form-control" id="datepicker" name="date" value="{{ $football->date }}" required>
+                          </div>
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="time_id">What Time Is The Match?</label>
+
+                          <select name="time_id" id="time_id" class="form-control">
+
+                            @foreach($times as $time)
+
+                              <option value="{{ $time->id }}" @if ($football->time_id === $time->id) selected @endif>{{ $time->time }}</option>
+
+                            @endforeach
+
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        Tournament Title
+                      </div>
+
+                      <div class="form-group">
+                          <label for="tournament_title">Title</label>
+                          <input type="text" class="form-control" id="tournament_title" name="tournament_title" value="{{ $football->tournament_title }}">
+                      </div>
+
+                      <div class="section-title">
+                        Teams
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="away_team_id">Away Team</label>
+
+                          <select name="away_team_id" id="away_team_id" class="form-control">
+
+                            <option value="null">Please Select An Away School</option>
+
+                            @foreach($teams as $team)
+
+                              <option value="{{ $team['id'] }}" @if ($football->away_team_id == $team['id']) selected @endif>
+                                {{ $team['school_name'] }}
+                              </option>
+
+                            @endforeach
+
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="home_team_id">Home Team</label>
+
+                          <select name="home_team_id" id="home_team_id" class="form-control">
+
+                            <option value="null">Please Select An Home School</option>
+
+                            @foreach($teams as $team)
+
+                              <option value="{{ $team['id'] }}" @if ($football->home_team_id === $team['id']) selected @endif>{{ $team->school_name }}</option>
+
+                            @endforeach
+
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      <div class="section-title">
+                        District Game & Scrimmage
+                      </div>
+
+                      <div class="row">
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                        <div class="form-group">
+
+                          <label for="district_game">Is This A District Game?</label>
+
+                          <select name="district_game" id="district_game" class="form-control">
+                              <option value="0" @if ($football->district_game == "0") selected @endif>No</option>
+                              <option value="1" @if ($football->district_game == "1") selected @endif>Yes</option>
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                          <div class="form-group">
+
+                          <label for="scrimmage">Is This A Scrimmage?</label>
+
+                          <select name="scrimmage" id="scrimmage" class="form-control">
+                              <option value="0" @if ($football->scrimmage == "0") selected @endif>No</option>
+                              <option value="1" @if ($football->scrimmage == "1") selected @endif>Yes</option>
+                          </select>
+
+                        </div><!--  Form  Group  -->
+
+                        </div><!--  Col  -->
+
+                      </div><!--  Row  -->
+
+                      </div><!--  Col  -->
+                  </div><!--  Row  -->
+
+                        
+                  <hr>
+
+
+                  <div class="row">
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                      <div class="form-group">
+                       <button type="submit" class="button button-default">Update Game</button>
+                      </div>
                     
-                    </form>
+                      </form>
+
+                    </div><!--  Col  -->
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
                     <form method="POST" action="/football/{{ $football->id }}">
 
@@ -458,7 +966,7 @@
 
                       {{ csrf_field() }}    
 
-                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger pull-left">Delete Match</button>
+                        <button type="submit" onclick="return confirm('Are you sure?')" class="button button-danger pull-left">Delete Match</button>
                     
                     </form>
 
@@ -467,6 +975,12 @@
                           return confirm("Do you want to delete this item?");
                       });
                     </script>
+
+                    </div><!--  Col  -->
+
+                  </div><!--  Row  -->
+
+                  <div class="clearfix"></div>
 
                 </div>
             </div>

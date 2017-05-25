@@ -76,8 +76,24 @@
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sports <span class="caret"></span></a>
                           <ul class="dropdown-menu">
-                            <li><a href="/tennis">Tennis</a></li>
+                            <li><a href="/baseball">Baseball</a></li>
+                            <li><a href="/basketball-boys">Basketball (boys)</a></li>
+                            <li><a href="/basketball-girls">Basketball (girls)</a></li>
+                            <li><a href="/bowling-boys">Bowling (boys)</a></li>
+                            <li><a href="/bowling-girls">Bowling (girls)</a></li>
+                            <li><a href="/cross-country">Cross Country</a></li>
                             <li><a href="/football">Football</a></li>
+                            <li><a href="/golf-boys">Golf (boys)</a></li>
+                            <li><a href="/golf-girls">Golf (girls)</a></li>
+                            <li><a href="/soccer-boys">Soccer (boys)</a></li>
+                            <li><a href="/soccer-girls">Soccer (girls)</a></li>
+                            <li><a href="/softball">Softball</a></li>
+                            <li><a href="/swimming">Swimming</a></li>
+                            <li><a href="/tennis-boys">Tennis (boys)</a></li>
+                            <li><a href="/tennis-girls">Tennis (girls)</a></li>
+                            <li><a href="/track">Track</a></li>
+                            <li><a href="/volleyball">Volleyball</a></li>
+                            <li><a href="/wrestling">Wrestling</a></li>
                           </ul>
                         </li>
                     </ul>
@@ -116,6 +132,8 @@
 
         @include('layouts.errors')
 
+        @include('layouts.success')
+
         @yield('content')
 
     </div>
@@ -126,6 +144,27 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
     <script>
+
+        $(document).ready(function(){
+            //var counter = $('#TextBox').val();
+            $('#AddButton').click( function() {
+                var counter = $('#home_team_final_score').val();
+                counter++ ;
+                $('#home_team_final_score').val(counter);
+            });
+            $('#SubtractButton').click( function() {
+                var counter = $('#home_team_final_score').val();
+                counter-- ;
+                $('#home_team_final_score').val(counter);
+            });
+        });
+
+        window.setTimeout(function() {
+            $(".alert").fadeTo(700, 0).slideUp(200, function(){
+                $(this).remove(); 
+            });
+        }, 1000);
+
         jQuery( function() {
             jQuery( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
         } );

@@ -19,8 +19,6 @@ class CurrentyearController extends Controller
 
 		$showyear = Year::find($year);
 
-		$currentyear = CurrentYear::find(1);
-
 		return view('currentyear.index', compact('currentyear', 'showyear'));
 
 	}

@@ -1,6 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="secondary-menu">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <a href="/football">Football</a> &#187; Create Game
+
+            </div><!--  Col  -->
+
+        </div><!--  Row  -->
+
+    </div><!--  Container  -->
+
+</div>
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -14,7 +34,7 @@
 
                         <div class="form-group">
 
-                          <label for="year_id">What Year Is This Match For?</label>
+                          <label for="year_id">What Year Is This Game For?</label>
 
                           <select name="year_id" id="year_id" class="form-control">
 
@@ -35,6 +55,15 @@
                           </select>
 
                         </div><!--  Form  Group  -->
+
+                        <div class="form-group">
+                          <label for="team_level">What Team Level Is This For?</label>
+                          <select name="team_level" id="team_level" class="form-control">
+                              <option value="1">Varsity</option>
+                              <option value="2">Junior Varsity</option>
+                              <option value="3">Freshman</option>
+                          </select>
+                        </div>
 
                         <div class="form-group">
                           <label for="date">Date</label>
@@ -67,7 +96,7 @@
 
                             @foreach($teams as $team)
 
-                              <option value="{{ $team->id }}" > {{ $team->school_name }}</option>
+                              <option value="{{ $team['id'] }}" > {{ $team['school_name'] }}</option>
 
                             @endforeach
 
@@ -85,7 +114,7 @@
 
                             @foreach($teams as $team)
 
-                              <option value="{{ $team->id }}" > {{ $team->school_name }}</option>
+                              <option value="{{ $team['id'] }}" > {{ $team['school_name'] }}</option>
 
                             @endforeach
 

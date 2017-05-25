@@ -28,11 +28,17 @@ class Football extends Model
     {
         return $this->belongsTo('App\CurrentYear', 'year_id');
     }
+
+    public function time()
+    {
+        return $this->belongsTo('App\Time');
+    }
     
 	protected $fillable = [
 
         'year_id',
         'date',
+        'team_level',
         'scrimmage',
         'tournament_title',
         'away_team_id',
@@ -52,6 +58,9 @@ class Football extends Model
         'home_team_overtime_score',
         'home_team_final_score',
         'game_status',
+        'possession',
+        'minutes_remaining',
+        'seconds_remaining',
         'winning_team',
         'losing_team'
 

@@ -18,7 +18,7 @@
                             @foreach($teams as $team)
                                 
                                 <option value="/football/{{ $year }}/{{ $team->school_name }}" >
-                                    {{ $team->school_name }}
+                                    {{ $team->school_name }} ({{ $team->city }}, {{ $team->state }})
                                 </option>
 
                             @endforeach
@@ -33,7 +33,7 @@
 
                     <div class="form-group">
 
-                        <select name="home_team_id"class="form-control" onChange="window.location.href=this.value">
+                        <select name="home_team_id" class="form-control" onChange="window.location.href=this.value">
 
                             <option value="null">See A Specific Year Schedule</option>
 
@@ -72,7 +72,10 @@
 
                             <li class="list-group-item">
 
-                                {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
+                                {{ $item->id }}
+
+                                {{ Carbon\Carbon::parse($item->date)->format('l') }} 
+                                {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
                                 <a href="/football/{{ $selectedyear[0] }}/{{ $item->away_team->school_name }}">
                                     {{ $item->away_team->school_name }}
                                 </a>
@@ -81,8 +84,9 @@
                                     {{ $item->home_team->school_name }}
                                 </a>
                                 @if (Auth::user())
-                                    <span class="pull-right"><a href="/football/game/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
+                                    <span class="pull-right"><a href="/football/game/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;
                                 @endif
+                            
                             </li>
 
                         @empty
@@ -90,6 +94,7 @@
                             <li class="list-group-item">No Games Posted</li>
 
                         @endforelse
+                    
                     </ul>
             </div>
 
