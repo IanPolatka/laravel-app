@@ -43,7 +43,7 @@
                                     </a>
                                 </div>
                               <h4><a href="/football/{{ $football->year->year }}/{{ $football->away_team->school_name }}">{{ $football->away_team->abbreviated_name }}</a></h4>
-                              <small class="text-muted">{{ $away_team_losses }}-{{ $away_team_wins }}</small>
+                              <small class="text-muted">{{ $away_team_wins }}-{{ $away_team_losses }}</small>
                             </td>
                             <td width="17%">
                               <div class="score">
@@ -130,7 +130,7 @@
                                     </a>
                                 </div>
                             <h4><a href="/football/{{ $football->year->year }}/{{ $football->home_team->school_name }}">{{ $football->home_team->abbreviated_name }}</a></h4>
-                            <small class="text-muted">{{ $home_team_losses }}-{{ $home_team_wins }}</small></td>
+                            <small class="text-muted">{{ $home_team_wins }}-{{ $home_team_losses }}</small></td>
                         </tr>
                     </tbody>
                 </table>
