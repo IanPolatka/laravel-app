@@ -332,6 +332,7 @@ class FootballController extends Controller
 						    ->orderBy('date')
 							->get();
 
+
 		$away_team_score_computed = 	\DB::table('football')
     				->select(\DB::raw('sum(
     							IFNULL( `football`.`away_team_first_qrt_score` , 0 ) +

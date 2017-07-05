@@ -183,7 +183,7 @@
                                             <img src="/images/team-logos/{{ $item->away_team->logo }}" class="team-schedule-logo">
                                         @endif
                                         {{ $item->away_team->school_name }} 
-                                        <small class="text-muted">({{ $item->away_team->city }}, {{ $item->home_team->state }})</small>
+                                        <small class="text-muted">({{ $item->away_team->city }}, {{ $item->away_team->state }})</small>
 
                                         @if ($item->game_status < 1)
 
