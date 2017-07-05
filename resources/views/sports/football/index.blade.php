@@ -77,7 +77,8 @@
 
            <div class="content-box">
 
-                    <h4>Football Schedule</h4>
+                    <h4>Today's Games <small>({{ Carbon\Carbon::parse($date[0])->format('l M j, o') }})</small></h4>
+
                     <ul class="schedule-list">
 
                         @if (Auth::user())
@@ -148,6 +149,143 @@
                         @endforelse
 
                     </ul>
+
+            </div>
+
+            <div class="content-box">
+
+                    <h4>Yesterday's Games <small>({{ Carbon\Carbon::parse($yesterday)->format('l M j, o') }})</small></h4>
+
+                    <ul class="schedule-list">
+
+                        @forelse ($countYesterday as $item)
+
+                            <li><a href="football/game/{{ $item->id }}">
+
+                                <div class="team">
+                                
+                                    @if ( $item->away_team->logo )
+                                        <img src="/images/team-logos/{{ $item->away_team->logo }}">
+                                    @endif
+
+                                    @if ($item->winning_team == $item->away_team_id)@endif
+
+                                    {{ $item->away_team->school_name }}
+
+                                    @if ($item->game_status < 1)
+
+                                        <strong class="pull-right game-list-status">{{ $item->time->time }}</strong>
+
+                                    @elseif (($item->game_status > 0) && ($item->game_status < 7))
+
+                                        <strong class="pull-right game-list-status">
+                                            <span style="color: red;">LIVE</span>
+                                        </strong>
+
+                                    @endif
+
+                                    <span class="pull-right">{{ $item->away_team_final_score }}</span>
+
+                                    @if ($item->winning_team == $item->away_team_id)</strong>@endif
+
+                                </div><!--  Team  -->
+
+                                <div class="team">
+
+                                    @if ( $item->home_team->logo )
+                                        <img src="/images/team-logos/{{ $item->home_team->logo }}"> 
+                                    @endif
+
+                                    @if ($item->winning_team == $item->home_team_id)<strong>@endif
+
+                                    {{ $item->home_team->school_name }}
+
+                                    <span class="pull-right">{{ $item->home_team_final_score }}</span>
+
+                                    @if ($item->winning_team == $item->home_team_id)</strong>@endif
+
+                                </div><!--  Team  -->
+
+                            </a></li>
+
+                        @empty
+
+                            <li>No Games Posted</li>
+
+                        @endforelse
+
+                    </ul>
+
+
+            </div>
+
+
+
+            <div class="content-box">
+
+                    <h4>Tomorrows's Games <small>({{ Carbon\Carbon::parse($tomorrow)->format('l M j, o') }})</small></h4>
+
+                    <ul class="schedule-list">
+
+                        @forelse ($countTomorrow as $item)
+
+                            <li><a href="football/game/{{ $item->id }}">
+
+                                <div class="team">
+                                
+                                    @if ( $item->away_team->logo )
+                                        <img src="/images/team-logos/{{ $item->away_team->logo }}">
+                                    @endif
+
+                                    @if ($item->winning_team == $item->away_team_id)@endif
+
+                                    {{ $item->away_team->school_name }}
+
+                                    @if ($item->game_status < 1)
+
+                                        <strong class="pull-right game-list-status">{{ $item->time->time }}</strong>
+
+                                    @elseif (($item->game_status > 0) && ($item->game_status < 7))
+
+                                        <strong class="pull-right game-list-status">
+                                            <span style="color: red;">LIVE</span>
+                                        </strong>
+
+                                    @endif
+
+                                    <span class="pull-right">{{ $item->away_team_final_score }}</span>
+
+                                    @if ($item->winning_team == $item->away_team_id)</strong>@endif
+
+                                </div><!--  Team  -->
+
+                                <div class="team">
+
+                                    @if ( $item->home_team->logo )
+                                        <img src="/images/team-logos/{{ $item->home_team->logo }}"> 
+                                    @endif
+
+                                    @if ($item->winning_team == $item->home_team_id)<strong>@endif
+
+                                    {{ $item->home_team->school_name }}
+
+                                    <span class="pull-right">{{ $item->home_team_final_score }}</span>
+
+                                    @if ($item->winning_team == $item->home_team_id)</strong>@endif
+
+                                </div><!--  Team  -->
+
+                            </a></li>
+
+                        @empty
+
+                            <li>No Games Posted</li>
+
+                        @endforelse
+
+                    </ul>
+
+
             </div>
 
         </div>

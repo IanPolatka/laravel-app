@@ -36,9 +36,21 @@ class FootballController extends Controller
 		$showcurrentyear = Year::where('id', $currentyear)->pluck('year');
 
 		//  Query All Games By The Current Year
-		$football = Football::where('year_id', $currentyear)->orderBy('date')->select('football.*')->get();
+		$football = Football::where('year_id', $currentyear)->orderBy('date')->select('football.*')
+					->whereDate('date', Carbon::today())
+					->get();
 
-		return view('sports.football.index', compact('football', 'showcurrentyear', 'teams', 'years'));
+		$date = date('l d, Y');
+
+		$yesterday = date("Y-m-d", strtotime( '-1 days' ) );
+		$countYesterday = Football::whereDate('date', $yesterday )->get();
+
+		$tomorrow = date("Y-m-d", strtotime( '+1 days' ) );
+		$countTomorrow = Football::whereDate('date', $tomorrow )->get();
+
+
+
+		return view('sports.football.index', compact('date','countYesterday', 'countTomorrow', 'yesterday', 'tomorrow', 'football', 'showcurrentyear', 'teams', 'years'));
 
 	}
 

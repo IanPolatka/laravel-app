@@ -17,7 +17,7 @@ class TeamsController extends Controller
 
 		// $teams = Team::orderBy('school_name', 'asc')->filter(request(['schoolname'])->paginate(5);
 
-		$teams = Team::orderBy('school_name', 'asc')->paginate(12);
+		$teams = Team::orderBy('school_name', 'asc')->paginate(24);
 
 		// $sortedteams = Team::where('school_name', 'like', 'c%')->get();
 
