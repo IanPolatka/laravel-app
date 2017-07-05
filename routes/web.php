@@ -67,6 +67,8 @@ Route::post('/teams/{id}/image-upload','TeamsController@imageUploadPost');
 Route::get('/teams/{team}', 'TeamsController@show');
 Route::delete('/teams/{team}', 'TeamsController@delete');
 
+Route::get('/api/{team}', 'TeamsController@apiteam');
+
 
 
 //  Current Year

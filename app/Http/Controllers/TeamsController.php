@@ -164,4 +164,13 @@ class TeamsController extends Controller
 
 
 
+    public function apiteam(Team $team)
+	{
+
+		return $team;
+
+	}
+
+
+
 }
