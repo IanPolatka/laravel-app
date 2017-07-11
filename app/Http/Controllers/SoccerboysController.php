@@ -238,11 +238,11 @@ class SoccerboysController extends Controller
 		$theteam = Team::where('school_name', '=', $team)->pluck('id');
 
 		$soccer = Soccerboys::join('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
-							->join('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
-							->join('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
-							->join('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
+							->leftjoin('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
 							->join('years', 'soccer_boys.year_id', '=', 'years.id')
 							->join('times', 'soccer_boys.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
 							->select(
 									'soccer_boys.id',
 									'soccer_boys.date',
@@ -250,8 +250,6 @@ class SoccerboysController extends Controller
 									'scrimmage',
 									'time',
 									'soccer_boys.tournament_title',
-									'away_team_id',
-									'home_team_id',
 									'away_team.school_name as away_team',
 									'away_team.logo as away_team_logo',
 									'soccer_boys.away_team_first_half_score',
@@ -268,10 +266,10 @@ class SoccerboysController extends Controller
 									'soccer_boys.minutes_remaining',
 									'soccer_boys.winning_team',
 									'soccer_boys.losing_team',
-									'winner.school_name as the_winner',
-									'loser.school_name as the_loser'
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
 								)
-							->where('year', '=', $year)
+							->where('year', '=', '1900-1901')
 							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
 					    	->get();
 
@@ -286,10 +284,10 @@ class SoccerboysController extends Controller
 
 		$soccer = Soccerboys::join('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
 							->join('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
-							->join('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
-							->join('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
 							->join('years', 'soccer_boys.year_id', '=', 'years.id')
 							->join('times', 'soccer_boys.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
 							->select(
 									'soccer_boys.id',
 									'soccer_boys.date',
@@ -321,8 +319,8 @@ class SoccerboysController extends Controller
 									'soccer_boys.minutes_remaining',
 									'soccer_boys.winning_team',
 									'soccer_boys.losing_team',
-									'winner.school_name as the_winner',
-									'loser.school_name as the_loser'
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
 								)
 							->where('soccer_boys.id', '=', $id)
 					    	->get();
