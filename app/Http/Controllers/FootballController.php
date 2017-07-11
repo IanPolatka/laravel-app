@@ -544,6 +544,7 @@ class FootballController extends Controller
 							->where('football.id', '=', $id)
 					    	->get();
 
+	
 		return $football;
 
 	}

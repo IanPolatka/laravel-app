@@ -333,7 +333,7 @@
                           <select name="home_team_first_half_score" id="home_team_first_half_score" class="form-control">
                               <option value="">Enter Score</option>
                               @for ($i = 0; $i < 99; $i++) 
-                                <option value="{{ $i }}" @if ($soccer->home_team_first_qrt_score == "$i") selected @endif>{{ $i }}</option>
+                                 <option value="{{ $i }}" @if ($soccer->away_team_first_half_score == "$i") selected @endif>{{ $i }}</option>
                               @endfor
                           </select>
 
@@ -426,7 +426,7 @@
 
                           <select name="minutes_remaining" id="minutes_remaining" class="form-control">
                               <option value="">Enter A Minute</option>
-                              @for ($i = 0; $i < 15; $i++) 
+                              @for ($i = 0; $i < 150; $i++) 
                                 <option value="{{ $i }}" @if ($soccer->minutes_remaining == "$i") selected @endif>{{ $i }}</option>
                               @endfor
                           </select>
