@@ -239,6 +239,8 @@ class SoccerboysController extends Controller
 
 		$soccer = Soccerboys::join('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
 							->join('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
+							->join('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
+							->join('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
 							->join('years', 'soccer_boys.year_id', '=', 'years.id')
 							->join('times', 'soccer_boys.time_id', '=', 'times.id')
 							->select(
@@ -248,6 +250,8 @@ class SoccerboysController extends Controller
 									'scrimmage',
 									'time',
 									'soccer_boys.tournament_title',
+									'away_team_id',
+									'home_team_id',
 									'away_team.school_name as away_team',
 									'away_team.logo as away_team_logo',
 									'soccer_boys.away_team_first_half_score',
@@ -263,7 +267,9 @@ class SoccerboysController extends Controller
 									'soccer_boys.game_status',
 									'soccer_boys.minutes_remaining',
 									'soccer_boys.winning_team',
-									'soccer_boys.losing_team'
+									'soccer_boys.losing_team',
+									'winner.school_name as the_winner',
+									'loser.school_name as the_loser'
 								)
 							->where('year', '=', $year)
 							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
@@ -280,6 +286,8 @@ class SoccerboysController extends Controller
 
 		$soccer = Soccerboys::join('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
 							->join('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
+							->join('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
+							->join('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
 							->join('years', 'soccer_boys.year_id', '=', 'years.id')
 							->join('times', 'soccer_boys.time_id', '=', 'times.id')
 							->select(
@@ -312,7 +320,9 @@ class SoccerboysController extends Controller
 									'soccer_boys.game_status',
 									'soccer_boys.minutes_remaining',
 									'soccer_boys.winning_team',
-									'soccer_boys.losing_team'
+									'soccer_boys.losing_team',
+									'winner.school_name as the_winner',
+									'loser.school_name as the_loser'
 								)
 							->where('soccer_boys.id', '=', $id)
 					    	->get();
