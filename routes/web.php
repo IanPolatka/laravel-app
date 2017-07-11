@@ -291,6 +291,9 @@ Route::delete('/soccer-boys/{soccerboys}', 'SoccerboysController@delete');
 Route::get('/soccer-boys/{year}/{team}', 'SoccerboysController@teamschedule');
 Route::get('/soccer-boys/{year}', 'SoccerboysController@yearschedule');
 
+Route::get('/api/soccer-boys/schedule/{year}/{team}', 'SoccerboysController@apiteamschedule');
+Route::get('/api/soccer-boys/game/{id}', 'SoccerboysController@apigame');
+
 
 
 //  Soccer Girls
@@ -307,6 +310,9 @@ Route::delete('/soccer-girls/{soccergirls}', 'SoccergirlsController@delete');
 
 Route::get('/soccer-girls/{year}/{team}', 'SoccergirlsController@teamschedule');
 Route::get('/soccer-girls/{year}', 'SoccergirlsController@yearschedule');
+
+Route::get('/api/soccer-girls/schedule/{year}/{team}', 'SoccergirlsController@apiteamschedule');
+Route::get('/api/soccer-girls/game/{id}', 'SoccergirlsController@apigame');
 
 
 

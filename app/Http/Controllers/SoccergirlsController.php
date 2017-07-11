@@ -230,4 +230,97 @@ class SoccergirlsController extends Controller
 
 	}
 
+
+
+
+	public function apiteamschedule($year, $team)
+	{
+
+		$theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+		$soccer = Soccergirls::join('teams as home_team', 'soccer_girls.home_team_id', '=', 'home_team.id')
+							->join('teams as away_team', 'soccer_girls.away_team_id', '=', 'away_team.id')
+							->join('years', 'soccer_girls.year_id', '=', 'years.id')
+							->join('times', 'soccer_girls.time_id', '=', 'times.id')
+							->select(
+									'soccer_girls.id',
+									'soccer_girls.date',
+									'year',
+									'scrimmage',
+									'time',
+									'soccer_girls.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.logo as away_team_logo',
+									'soccer_girls.away_team_first_half_score',
+									'soccer_girls.away_team_second_half_score',
+									'soccer_girls.away_team_overtime_score',
+									'soccer_girls.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.logo as home_team_logo',
+									'soccer_girls.home_team_first_half_score',
+									'soccer_girls.home_team_second_half_score',
+									'soccer_girls.home_team_overtime_score',
+									'soccer_girls.home_team_final_score',
+									'soccer_girls.game_status',
+									'soccer_girls.minutes_remaining',
+									'soccer_girls.winning_team',
+									'soccer_girls.losing_team'
+								)
+							->where('year', '=', $year)
+							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
+					    	->get();
+
+		return $soccer;
+
+	}
+
+
+
+	public function apigame($id)
+	{
+
+		$soccer = Soccergirls::join('teams as home_team', 'soccer_girls.home_team_id', '=', 'home_team.id')
+							->join('teams as away_team', 'soccer_girls.away_team_id', '=', 'away_team.id')
+							->join('years', 'soccer_girls.year_id', '=', 'years.id')
+							->join('times', 'soccer_girls.time_id', '=', 'times.id')
+							->select(
+									'soccer_girls.id',
+									'soccer_girls.date',
+									'year',
+									'scrimmage',
+									'time',
+									'soccer_girls.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.abbreviated_name as away_team_abbreviated_name',
+									'away_team.mascot as away_team_mascot',
+									'away_team.logo as away_team_logo',
+									'away_team.city as away_team_city',
+									'away_team.state as away_team_state',
+									'soccer_girls.away_team_first_half_score',
+									'soccer_girls.away_team_second_half_score',
+									'soccer_girls.away_team_overtime_score',
+									'soccer_girls.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.abbreviated_name as home_team_abbreviated_name',
+									'home_team.mascot as home_team_mascot',
+									'home_team.logo as home_team_logo',
+									'home_team.city as home_team_city',
+									'home_team.state as home_team_state',
+									'soccer_girls.home_team_first_half_score',
+									'soccer_girls.home_team_second_half_score',
+									'soccer_girls.home_team_overtime_score',
+									'soccer_girls.home_team_final_score',
+									'soccer_girls.game_status',
+									'soccer_girls.minutes_remaining',
+									'soccer_girls.winning_team',
+									'soccer_girls.losing_team'
+								)
+							->where('soccer_girls.id', '=', $id)
+					    	->get();
+
+		return $soccer;
+
+	}
+
+
 }

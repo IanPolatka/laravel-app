@@ -503,6 +503,16 @@ class FootballController extends Controller
 							->join('teams as away_team', 'football.away_team_id', '=', 'away_team.id')
 							->join('years', 'football.year_id', '=', 'years.id')
 							->join('times', 'football.time_id', '=', 'times.id')
+							->select(\DB::raw('sum(
+    							IFNULL( `football`.`home_team_first_qrt_score` , 0 ) +
+    							IFNULL( `football`.`home_team_second_qrt_score` , 0 ) +
+    							IFNULL( `football`.`home_team_third_qrt_score` , 0 ) +
+    							IFNULL( `football`.`home_team_fourth_qrt_score` , 0 ) +
+    							IFNULL( `football`.`home_team_overtime_score` , 0 )
+    							)
+    							AS score')
+    							
+    						)
 							->select(
 									'football.id',
 									'football.date',
@@ -517,11 +527,6 @@ class FootballController extends Controller
 									'away_team.logo as away_team_logo',
 									'away_team.city as away_team_city',
 									'away_team.state as away_team_state',
-									'football.away_team_first_qrt_score',
-									'football.away_team_second_qrt_score',
-									'football.away_team_third_qrt_score',
-									'football.away_team_fourth_qrt_score',
-									'football.away_team_overtime_score',
 									'football.away_team_final_score',
 									'home_team.school_name as home_team',
 									'home_team.abbreviated_name as home_team_abbreviated_name',
@@ -541,11 +546,34 @@ class FootballController extends Controller
 									'football.winning_team',
 									'football.losing_team'
 								)
+							->selectSub(\DB::raw("SUM(
+							      football.away_team_first_qrt_score
+							      ) as items_count"
+								))
 							->where('football.id', '=', $id)
 					    	->get();
 
-		return $football;
+
+
+
+					    // 								Football::raw('SUM(	
+									// 			football.away_team_first_qrt_score
+									// 			football.away_team_second_qrt_score
+									// 			football.away_team_third_qrt_score
+									// 			football.away_team_fourth_qrt_score
+									// 			football.away_team_overtime_score)
+									// AS away_team_compiled_score'),
+
+		// return $football;
+
+		$categories = \DB::table('Football')
+    					->select(\DB::raw('football.*, (SELECT COUNT(t.id) FROM dental_support_tickets t 
+    										WHERE t.category_id=c.id AND t.status=0) AS num_tickets, (SELECT COUNT(a.id) FROM dental_support_category_admin a WHERE a.category_id=c.id) AS num_admins'))
+    					->get();
 
 	}
+
+
+		return $categories;
 
 }
