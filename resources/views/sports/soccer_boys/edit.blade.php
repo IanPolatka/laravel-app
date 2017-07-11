@@ -426,7 +426,7 @@
 
                           <select name="minutes_remaining" id="minutes_remaining" class="form-control">
                               <option value="">Enter A Minute</option>
-                              @for ($i = 0; $i < 15; $i++) 
+                              @for ($i = 0; $i < 150; $i++) 
                                 <option value="{{ $i }}" @if ($soccer->minutes_remaining == "$i") selected @endif>{{ $i }}</option>
                               @endfor
                           </select>
