@@ -517,11 +517,6 @@ class FootballController extends Controller
 									'away_team.logo as away_team_logo',
 									'away_team.city as away_team_city',
 									'away_team.state as away_team_state',
-									'football.away_team_first_qrt_score',
-									'football.away_team_second_qrt_score',
-									'football.away_team_third_qrt_score',
-									'football.away_team_fourth_qrt_score',
-									'football.away_team_overtime_score',
 									'football.away_team_final_score',
 									'home_team.school_name as home_team',
 									'home_team.abbreviated_name as home_team_abbreviated_name',
@@ -544,7 +539,7 @@ class FootballController extends Controller
 							->where('football.id', '=', $id)
 					    	->get();
 
-	
+
 		return $football;
 
 	}

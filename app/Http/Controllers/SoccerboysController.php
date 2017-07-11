@@ -230,4 +230,95 @@ class SoccerboysController extends Controller
 
 	}
 
+
+
+	public function apiteamschedule($year, $team)
+	{
+
+		$theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+		$soccer = Soccerboys::join('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
+							->join('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
+							->join('years', 'soccer_boys.year_id', '=', 'years.id')
+							->join('times', 'soccer_boys.time_id', '=', 'times.id')
+							->select(
+									'soccer_boys.id',
+									'soccer_boys.date',
+									'year',
+									'scrimmage',
+									'time',
+									'soccer_boys.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.logo as away_team_logo',
+									'soccer_boys.away_team_first_half_score',
+									'soccer_boys.away_team_second_half_score',
+									'soccer_boys.away_team_overtime_score',
+									'soccer_boys.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.logo as home_team_logo',
+									'soccer_boys.home_team_first_half_score',
+									'soccer_boys.home_team_second_half_score',
+									'soccer_boys.home_team_overtime_score',
+									'soccer_boys.home_team_final_score',
+									'soccer_boys.game_status',
+									'soccer_boys.minutes_remaining',
+									'soccer_boys.winning_team',
+									'soccer_boys.losing_team'
+								)
+							->where('year', '=', $year)
+							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
+					    	->get();
+
+		return $soccer;
+
+	}
+
+
+
+	public function apigame($id)
+	{
+
+		$soccer = Soccerboys::join('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
+							->join('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
+							->join('years', 'soccer_boys.year_id', '=', 'years.id')
+							->join('times', 'soccer_boys.time_id', '=', 'times.id')
+							->select(
+									'soccer_boys.id',
+									'soccer_boys.date',
+									'year',
+									'scrimmage',
+									'time',
+									'soccer_boys.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.abbreviated_name as away_team_abbreviated_name',
+									'away_team.mascot as away_team_mascot',
+									'away_team.logo as away_team_logo',
+									'away_team.city as away_team_city',
+									'away_team.state as away_team_state',
+									'soccer_boys.away_team_first_half_score',
+									'soccer_boys.away_team_second_half_score',
+									'soccer_boys.away_team_overtime_score',
+									'soccer_boys.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.abbreviated_name as home_team_abbreviated_name',
+									'home_team.mascot as home_team_mascot',
+									'home_team.logo as home_team_logo',
+									'home_team.city as home_team_city',
+									'home_team.state as home_team_state',
+									'soccer_boys.home_team_first_half_score',
+									'soccer_boys.home_team_second_half_score',
+									'soccer_boys.home_team_overtime_score',
+									'soccer_boys.home_team_final_score',
+									'soccer_boys.game_status',
+									'soccer_boys.minutes_remaining',
+									'soccer_boys.winning_team',
+									'soccer_boys.losing_team'
+								)
+							->where('soccer_boys.id', '=', $id)
+					    	->get();
+
+		return $soccer;
+
+	}
+
 }
