@@ -237,6 +237,8 @@ class SoccerboysController extends Controller
 
 		$theteam = Team::where('school_name', '=', $team)->pluck('id');
 
+		// return $theteam;
+
 		$soccer = Soccerboys::leftjoin('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
 							->leftjoin('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
 							->join('years', 'soccer_boys.year_id', '=', 'years.id')
@@ -270,11 +272,8 @@ class SoccerboysController extends Controller
 									'loser.school_name as losing_team'
 								)
 							->where('year', '=', $year)
-							->where(function($query)
-						    {
-						        $query->where('away_team_id', '=', $theteam)
-						        ->orWhere('home_team_id', '=', $theteam);
-						    })
+							->where('away_team_id', '=', $theteam)
+    						->orWhere('home_team_id', '=', $theteam)
 					    	->get();
 
 		return $soccer;
