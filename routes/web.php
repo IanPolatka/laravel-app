@@ -292,6 +292,7 @@ Route::get('/soccer-boys/{year}/{team}', 'SoccerboysController@teamschedule');
 Route::get('/soccer-boys/{year}', 'SoccerboysController@yearschedule');
 
 Route::get('/api/soccer-boys/schedule/{year}/{team}', 'SoccerboysController@apiteamschedule');
+Route::get('/api/soccer-boys/schedule-summary/{year}/{team}', 'SoccerboysController@apiteamschedulesummary');
 Route::get('/api/soccer-boys/game/{id}', 'SoccerboysController@apigame');
 
 
