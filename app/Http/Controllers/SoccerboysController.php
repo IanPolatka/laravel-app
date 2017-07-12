@@ -269,8 +269,12 @@ class SoccerboysController extends Controller
 									'winner.school_name as winning_team',
 									'loser.school_name as losing_team'
 								)
-							->where('year', '=', '1900-1901')
-							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
+							->where('year', '=', $year)
+							->where(function($query)
+						    {
+						        $query->where('away_team_id', '=', $theteam)
+						        ->orWhere('home_team_id', '=', $theteam);
+						    })
 					    	->get();
 
 		return $soccer;
