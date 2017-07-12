@@ -237,7 +237,7 @@ class SoccerboysController extends Controller
 
 		$theteam = Team::where('school_name', '=', $team)->pluck('id');
 
-		$soccer = Soccerboys::join('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
+		$soccer = Soccerboys::leftjoin('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
 							->leftjoin('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
 							->join('years', 'soccer_boys.year_id', '=', 'years.id')
 							->join('times', 'soccer_boys.time_id', '=', 'times.id')
