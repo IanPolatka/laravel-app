@@ -404,6 +404,8 @@ Route::get('/volleyball/{year}/{team}', 'VolleyballController@teamschedule');
 Route::get('/volleyball/{year}', 'VolleyballController@yearschedule');
 
 
-Route::get('/api/schedule/{year}/{team}', 'VolleyballController@apiteamschedule');
+Route::get('/api/volleyball/schedule/{year}/{team}', 'VolleyballController@apiteamschedule');
+Route::get('/api/volleyball/schedule-summary/{year}/{team}', 'VolleyballController@apiteamschedulesummary');
+Route::get('/api/volleyball/match/{id}', 'VolleyballController@apigame');
 
 

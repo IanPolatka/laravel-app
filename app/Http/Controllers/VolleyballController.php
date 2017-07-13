@@ -240,56 +240,56 @@ class VolleyballController extends Controller
 
 
 
-	// public function apiteamschedulesummary($year, $team)
-	// {
+	public function apiteamschedulesummary($year, $team)
+	{
 
-	// 	$theteam = Team::where('school_name', '=', $team)->pluck('id');
+		$theteam = Team::where('school_name', '=', $team)->pluck('id');
 
-	// 	// return $theteam;
+		// return $theteam;
 
-	// 	$volleyball = Volleyball::leftjoin('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
-	// 						->leftjoin('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
-	// 						->join('years', 'soccer_boys.year_id', '=', 'years.id')
-	// 						->join('times', 'soccer_boys.time_id', '=', 'times.id')
-	// 						->leftjoin('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
-	// 						->leftjoin('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
-	// 						->select(
-	// 								'soccer_boys.id',
-	// 								'soccer_boys.date',
-	// 								'year',
-	// 								'scrimmage',
-	// 								'time',
-	// 								'soccer_boys.tournament_title',
-	// 								'away_team.school_name as away_team',
-	// 								'away_team.logo as away_team_logo',
-	// 								'soccer_boys.away_team_first_half_score',
-	// 								'soccer_boys.away_team_second_half_score',
-	// 								'soccer_boys.away_team_overtime_score',
-	// 								'soccer_boys.away_team_final_score',
-	// 								'home_team.school_name as home_team',
-	// 								'home_team.logo as home_team_logo',
-	// 								'soccer_boys.home_team_first_half_score',
-	// 								'soccer_boys.home_team_second_half_score',
-	// 								'soccer_boys.home_team_overtime_score',
-	// 								'soccer_boys.home_team_final_score',
-	// 								'soccer_boys.game_status',
-	// 								'soccer_boys.minutes_remaining',
-	// 								'soccer_boys.winning_team',
-	// 								'soccer_boys.losing_team',
-	// 								'winner.school_name as winning_team',
-	// 								'loser.school_name as losing_team'
-	// 							)
-	// 						->where('year', '=', $year)
-	// 						->where('away_team_id', '=', $theteam)
- //    						->orWhere('home_team_id', '=', $theteam)
- //    						->where('date', '>=', Carbon::today()->toDateString())
- //    						->limit(4)
- //    						->orderBy('date')
-	// 				    	->get();
+		$volleyball = Volleyball::leftjoin('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
+							->leftjoin('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
+							->join('years', 'soccer_boys.year_id', '=', 'years.id')
+							->join('times', 'soccer_boys.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
+							->select(
+									'soccer_boys.id',
+									'soccer_boys.date',
+									'year',
+									'scrimmage',
+									'time',
+									'soccer_boys.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.logo as away_team_logo',
+									'soccer_boys.away_team_first_half_score',
+									'soccer_boys.away_team_second_half_score',
+									'soccer_boys.away_team_overtime_score',
+									'soccer_boys.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.logo as home_team_logo',
+									'soccer_boys.home_team_first_half_score',
+									'soccer_boys.home_team_second_half_score',
+									'soccer_boys.home_team_overtime_score',
+									'soccer_boys.home_team_final_score',
+									'soccer_boys.game_status',
+									'soccer_boys.minutes_remaining',
+									'soccer_boys.winning_team',
+									'soccer_boys.losing_team',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
+								)
+							->where('year', '=', $year)
+							->where('away_team_id', '=', $theteam)
+    						->orWhere('home_team_id', '=', $theteam)
+    						->where('date', '>=', Carbon::today()->toDateString())
+    						->limit(4)
+    						->orderBy('date')
+					    	->get();
 
-	// 	return $soccer;
+		return $soccer;
 
-	// }
+	}
 
 
 
@@ -298,11 +298,13 @@ class VolleyballController extends Controller
 
 		$theteam = Team::where('school_name', '=', $team)->pluck('id');
 
-		$volleyball = Volleyball::join('teams as home_team', 'volleyball.home_team_id', '=', 'home_team.id')
-							->join('teams as away_team', 'volleyball.away_team_id', '=', 'away_team.id')
-							->join('years', 'volleyball.year_id', '=', 'years.id')
-							->join('times', 'volleyball.time_id', '=', 'times.id')
-							->select(
+		$volleyball = Volleyball::leftjoin('teams as home_team', 'volleyball.home_team_id', '=', 'home_team.id')
+								->leftjoin('teams as away_team', 'volleyball.away_team_id', '=', 'away_team.id')
+								->join('years', 'volleyball.year_id', '=', 'years.id')
+								->join('times', 'volleyball.time_id', '=', 'times.id')
+								->leftjoin('teams as winner', 'volleyball.winning_team', '=', 'winner.id')
+								->leftjoin('teams as loser', 'volleyball.losing_team', '=', 'loser.id')
+								->select(
 									'volleyball.id',
 									'volleyball.date',
 									'year',
@@ -310,24 +312,27 @@ class VolleyballController extends Controller
 									'time',
 									'volleyball.tournament_title',
 									'away_team.school_name as away_team',
-									'volleyball.away_team_first_qrt_score',
-									'volleyball.away_team_second_qrt_score',
-									'volleyball.away_team_third_qrt_score',
-									'volleyball.away_team_fourth_qrt_score',
-									'volleyball.away_team_overtime_score',
-									'volleyball.away_team_final_score',
+									'volleyball.away_team_first_game_score',
+									'volleyball.away_team_second_game_score',
+									'volleyball.away_team_third_game_score',
+									'volleyball.away_team_fourth_game_score',
+									'volleyball.away_team_fifth_game_score',
 									'home_team.school_name as home_team',
-									'volleyball.home_team_first_qrt_score',
-									'volleyball.home_team_second_qrt_score',
-									'volleyball.home_team_third_qrt_score',
-									'volleyball.home_team_fourth_qrt_score',
-									'volleyball.home_team_overtime_score',
-									'volleyball.home_team_final_score',
+									'volleyball.home_team_first_game_score',
+									'volleyball.home_team_second_game_score',
+									'volleyball.home_team_third_game_score',
+									'volleyball.home_team_fourth_game_score',
+									'volleyball.home_team_fifth_game_score',
 									'volleyball.game_status',
-									'volleyball.minutes_remaining',
-									'volleyball.seconds_remaining',
+									'volleyball.game_one_winner',
+									'volleyball.game_two_winner',
+									'volleyball.game_three_winner',
+									'volleyball.game_four_winner',
+									'volleyball.game_five_winner',
 									'volleyball.winning_team',
-									'volleyball.losing_team'
+									'volleyball.losing_team',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
 								)
 							->where('year', '=', $year)
 							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
