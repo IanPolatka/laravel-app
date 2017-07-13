@@ -272,6 +272,7 @@ Route::get('/football/{year}', 'FootballController@yearschedule');
 
 
 Route::get('/api/football/schedule/{year}/{team}', 'FootballController@apiteamschedule');
+Route::get('/api/football/schedule-summary/{year}/{team}', 'FootballController@apiteamschedulesummary');
 Route::get('/api/match/{id}', 'FootballController@apigame');
 
 

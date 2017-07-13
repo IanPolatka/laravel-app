@@ -496,6 +496,61 @@ class FootballController extends Controller
 
 
 
+	public function apiteamschedulesummary($year, $team)
+	{
+
+		$date = Carbon::now()->endOfDay()->toDateTimeString();
+
+		$theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+		$football = Football::join('teams as home_team', 'football.home_team_id', '=', 'home_team.id')
+							->join('teams as away_team', 'football.away_team_id', '=', 'away_team.id')
+							->join('years', 'football.year_id', '=', 'years.id')
+							->join('times', 'football.time_id', '=', 'times.id')
+							->select(
+									'football.id',
+									'football.date',
+									'year',
+									'scrimmage',
+									'time',
+									'football.tournament_title',
+									'football.possession',
+									'away_team.school_name as away_team',
+									'away_team.logo as away_team_logo',
+									'football.away_team_first_qrt_score',
+									'football.away_team_second_qrt_score',
+									'football.away_team_third_qrt_score',
+									'football.away_team_fourth_qrt_score',
+									'football.away_team_overtime_score',
+									'football.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.logo as home_team_logo',
+									'football.home_team_first_qrt_score',
+									'football.home_team_second_qrt_score',
+									'football.home_team_third_qrt_score',
+									'football.home_team_fourth_qrt_score',
+									'football.home_team_overtime_score',
+									'football.home_team_final_score',
+									'football.game_status',
+									'football.minutes_remaining',
+									'football.seconds_remaining',
+									'football.winning_team',
+									'football.losing_team'
+								)
+							->where('year', '=', $year)
+							->where('away_team_id', '=', $theteam)
+							->orWhere('home_team_id', '=', $theteam)
+							->where('date', '>=', $date)
+    						->orderBy('date')
+    						->limit(4)
+					    	->get();
+
+		return $football;
+
+	}
+
+
+
 	public function apigame($id)
 	{
 
