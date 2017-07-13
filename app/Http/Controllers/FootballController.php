@@ -19,7 +19,7 @@ class FootballController extends Controller
 
 	public function __construct() 
 	{
-	  $this->middleware('auth', ['except' => ['index', 'show', 'teamschedule', 'yearschedule', 'apiteamschedule', 'apigame']]);
+	  $this->middleware('auth', ['except' => ['index', 'show', 'teamschedule', 'yearschedule', 'apiteamschedule', 'apiteamschedulesummary', 'apigame']]);
 	}
     
 	public function index()
