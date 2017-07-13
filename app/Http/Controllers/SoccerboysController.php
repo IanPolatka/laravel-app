@@ -326,6 +326,7 @@ class SoccerboysController extends Controller
     						->orWhere('home_team_id', '=', $theteam)
     						->where('date', '>=', Carbon::today()->toDateString())
     						->limit(4)
+    						->orderBy('date')
 					    	->get();
 
 		return $soccer;

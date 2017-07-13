@@ -238,10 +238,14 @@ class SoccergirlsController extends Controller
 
 		$theteam = Team::where('school_name', '=', $team)->pluck('id');
 
-		$soccer = Soccergirls::join('teams as home_team', 'soccer_girls.home_team_id', '=', 'home_team.id')
-							->join('teams as away_team', 'soccer_girls.away_team_id', '=', 'away_team.id')
+		// return $theteam;
+
+		$soccer = Soccergirls::leftjoin('teams as home_team', 'soccer_girls.home_team_id', '=', 'home_team.id')
+							->leftjoin('teams as away_team', 'soccer_girls.away_team_id', '=', 'away_team.id')
 							->join('years', 'soccer_girls.year_id', '=', 'years.id')
 							->join('times', 'soccer_girls.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'soccer_girls.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'soccer_girls.losing_team', '=', 'loser.id')
 							->select(
 									'soccer_girls.id',
 									'soccer_girls.date',
@@ -264,10 +268,66 @@ class SoccergirlsController extends Controller
 									'soccer_girls.game_status',
 									'soccer_girls.minutes_remaining',
 									'soccer_girls.winning_team',
-									'soccer_girls.losing_team'
+									'soccer_girls.losing_team',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
 								)
 							->where('year', '=', $year)
-							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
+							->where('away_team_id', '=', $theteam)
+    						->orWhere('home_team_id', '=', $theteam)
+					    	->get();
+
+		return $soccer;
+
+	}
+
+
+
+	public function apiteamschedulesummary($year, $team)
+	{
+
+		$theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+		// return $theteam;
+
+		$soccer = Soccergirls::leftjoin('teams as home_team', 'soccer_girls.home_team_id', '=', 'home_team.id')
+							->leftjoin('teams as away_team', 'soccer_girls.away_team_id', '=', 'away_team.id')
+							->join('years', 'soccer_girls.year_id', '=', 'years.id')
+							->join('times', 'soccer_girls.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'soccer_girls.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'soccer_girls.losing_team', '=', 'loser.id')
+							->select(
+									'soccer_girls.id',
+									'soccer_girls.date',
+									'year',
+									'scrimmage',
+									'time',
+									'soccer_girls.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.logo as away_team_logo',
+									'soccer_girls.away_team_first_half_score',
+									'soccer_girls.away_team_second_half_score',
+									'soccer_girls.away_team_overtime_score',
+									'soccer_girls.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.logo as home_team_logo',
+									'soccer_girls.home_team_first_half_score',
+									'soccer_girls.home_team_second_half_score',
+									'soccer_girls.home_team_overtime_score',
+									'soccer_girls.home_team_final_score',
+									'soccer_girls.game_status',
+									'soccer_girls.minutes_remaining',
+									'soccer_girls.winning_team',
+									'soccer_girls.losing_team',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
+								)
+							->where('year', '=', $year)
+							->where('away_team_id', '=', $theteam)
+    						->orWhere('home_team_id', '=', $theteam)
+    						->where('date', '>=', Carbon::today()->toDateString())
+    						->limit(4)
+    						->orderBy('date')
 					    	->get();
 
 		return $soccer;
@@ -283,6 +343,8 @@ class SoccergirlsController extends Controller
 							->join('teams as away_team', 'soccer_girls.away_team_id', '=', 'away_team.id')
 							->join('years', 'soccer_girls.year_id', '=', 'years.id')
 							->join('times', 'soccer_girls.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'soccer_girls.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'soccer_girls.losing_team', '=', 'loser.id')
 							->select(
 									'soccer_girls.id',
 									'soccer_girls.date',
@@ -313,7 +375,9 @@ class SoccergirlsController extends Controller
 									'soccer_girls.game_status',
 									'soccer_girls.minutes_remaining',
 									'soccer_girls.winning_team',
-									'soccer_girls.losing_team'
+									'soccer_girls.losing_team',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
 								)
 							->where('soccer_girls.id', '=', $id)
 					    	->get();

@@ -313,6 +313,7 @@ Route::get('/soccer-girls/{year}/{team}', 'SoccergirlsController@teamschedule');
 Route::get('/soccer-girls/{year}', 'SoccergirlsController@yearschedule');
 
 Route::get('/api/soccer-girls/schedule/{year}/{team}', 'SoccergirlsController@apiteamschedule');
+Route::get('/api/soccer-girls/schedule-summary/{year}/{team}', 'SoccergirlsController@apiteamschedulesummary');
 Route::get('/api/soccer-girls/game/{id}', 'SoccergirlsController@apigame');
 
 
