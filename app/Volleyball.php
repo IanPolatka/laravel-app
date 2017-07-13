@@ -50,6 +50,11 @@ class Volleyball extends Model
         'home_team_third_game_score',
         'home_team_fourth_game_score',
         'home_team_fifth_game_score',
+        'game_one_winner',
+        'game_two_winner',
+        'game_three_winner',
+        'game_four_winner',
+        'game_five_winner',
         'game_status',
         'winning_team',
         'losing_team'

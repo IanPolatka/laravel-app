@@ -26,6 +26,14 @@ class VolleyballController extends Controller
 		//  Query All Years
 		$years = Year::all();
 
+		$date = date('l d, Y');
+
+		$yesterday = date("Y-m-d", strtotime( '-1 days' ) );
+		$countYesterday = Volleyball::whereDate('date', $yesterday )->get();
+
+		$tomorrow = date("Y-m-d", strtotime( '+1 days' ) );
+		$countTomorrow = Volleyball::whereDate('date', $tomorrow )->get();
+
 		//  Query The Current Year
 		$currentyear = CurrentYear::find(1)->pluck('year_id');
 		$showcurrentyear = Year::where('id', $currentyear)->pluck('year');
@@ -33,7 +41,7 @@ class VolleyballController extends Controller
 		//  Query All Games By The Current Year
 		$volleyball = Volleyball::where('year_id', $currentyear)->orderBy('date')->select('volleyball.*')->get();
 
-		return view('sports.volleyball.index', compact('volleyball', 'showcurrentyear', 'teams', 'years'));
+		return view('sports.volleyball.index', compact('date','countYesterday', 'countTomorrow', 'yesterday', 'tomorrow', 'volleyball', 'showcurrentyear', 'teams', 'years'));
 
 	}
 
@@ -232,7 +240,56 @@ class VolleyballController extends Controller
 
 
 
+	// public function apiteamschedulesummary($year, $team)
+	// {
 
+	// 	$theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+	// 	// return $theteam;
+
+	// 	$volleyball = Volleyball::leftjoin('teams as home_team', 'soccer_boys.home_team_id', '=', 'home_team.id')
+	// 						->leftjoin('teams as away_team', 'soccer_boys.away_team_id', '=', 'away_team.id')
+	// 						->join('years', 'soccer_boys.year_id', '=', 'years.id')
+	// 						->join('times', 'soccer_boys.time_id', '=', 'times.id')
+	// 						->leftjoin('teams as winner', 'soccer_boys.winning_team', '=', 'winner.id')
+	// 						->leftjoin('teams as loser', 'soccer_boys.losing_team', '=', 'loser.id')
+	// 						->select(
+	// 								'soccer_boys.id',
+	// 								'soccer_boys.date',
+	// 								'year',
+	// 								'scrimmage',
+	// 								'time',
+	// 								'soccer_boys.tournament_title',
+	// 								'away_team.school_name as away_team',
+	// 								'away_team.logo as away_team_logo',
+	// 								'soccer_boys.away_team_first_half_score',
+	// 								'soccer_boys.away_team_second_half_score',
+	// 								'soccer_boys.away_team_overtime_score',
+	// 								'soccer_boys.away_team_final_score',
+	// 								'home_team.school_name as home_team',
+	// 								'home_team.logo as home_team_logo',
+	// 								'soccer_boys.home_team_first_half_score',
+	// 								'soccer_boys.home_team_second_half_score',
+	// 								'soccer_boys.home_team_overtime_score',
+	// 								'soccer_boys.home_team_final_score',
+	// 								'soccer_boys.game_status',
+	// 								'soccer_boys.minutes_remaining',
+	// 								'soccer_boys.winning_team',
+	// 								'soccer_boys.losing_team',
+	// 								'winner.school_name as winning_team',
+	// 								'loser.school_name as losing_team'
+	// 							)
+	// 						->where('year', '=', $year)
+	// 						->where('away_team_id', '=', $theteam)
+ //    						->orWhere('home_team_id', '=', $theteam)
+ //    						->where('date', '>=', Carbon::today()->toDateString())
+ //    						->limit(4)
+ //    						->orderBy('date')
+	// 				    	->get();
+
+	// 	return $soccer;
+
+	// }
 
 
 

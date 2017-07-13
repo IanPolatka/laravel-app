@@ -394,10 +394,10 @@ Route::get('/volleyball/', 'VolleyballController@index');
 Route::get('/volleyball/create', 'VolleyballController@create');
 Route::post('/volleyball/', 'VolleyballController@store');
 
-Route::get('/volleyball/game/{id}/edit', 'VolleyballController@edit');
-Route::patch('/volleyball/game/{volleyball}', 'VolleyballController@update');
+Route::get('/volleyball/match/{id}/edit', 'VolleyballController@edit');
+Route::patch('/volleyball/match/{volleyball}', 'VolleyballController@update');
 
-Route::get('/volleyball/game/{id}', 'VolleyballController@show');
+Route::get('/volleyball/match/{id}', 'VolleyballController@show');
 Route::delete('/volleyball/{id}', 'VolleyballController@delete');
 
 Route::get('/volleyball/{year}/{team}', 'VolleyballController@teamschedule');
