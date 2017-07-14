@@ -41,6 +41,8 @@ class VolleyballController extends Controller
 		//  Query All Games By The Current Year
 		$volleyball = Volleyball::where('year_id', $currentyear)->orderBy('date')->select('volleyball.*')->get();
 
+		// return $volleyball;
+
 		return view('sports.volleyball.index', compact('date','countYesterday', 'countTomorrow', 'yesterday', 'tomorrow', 'volleyball', 'showcurrentyear', 'teams', 'years'));
 
 	}
@@ -163,11 +165,11 @@ class VolleyballController extends Controller
 	{
 
 		// return $year;
-		$selectedyear = Year::where('year', $year)->pluck('year');
-		$selectedyearid = Year::where('year', $year)->pluck('id');
+		$selectedyear 		= Year::where('year', $year)->pluck('year');
+		$selectedyearid 	= Year::where('year', $year)->pluck('id');
 
-		$selectedteam = Team::where('school_name', $team)->get();
-		$selectedteamid	=	Team::where('school_name', $team)->pluck('id');
+		$selectedteam 		= Team::where('school_name', $team)->get();
+		$selectedteamid		= Team::where('school_name', $team)->pluck('id');
 
 
 
@@ -182,18 +184,101 @@ class VolleyballController extends Controller
 
 
 		//  Display schedule for team based on selected year
-		$volleyball = Volleyball::join('years', 'volleyball.year_id', 'years.id')
-							->select('volleyball.*')
-							->where('year_id', '=', $selectedyearid)
-							->where(function ($query) use ($selectedteamid) {
-						        $query->where('away_team_id', '=' , $selectedteamid)
-						            ->orWhere('home_team_id', '=', $selectedteamid);
-						    })
-						    ->orderBy('date')
-							->get();
+		$volleyball = Volleyball::leftjoin('teams as home_team', 'volleyball.home_team_id', '=', 'home_team.id')
+								->leftjoin('teams as away_team', 'volleyball.away_team_id', '=', 'away_team.id')
+								->join('years', 'volleyball.year_id', '=', 'years.id')
+								->join('times', 'volleyball.time_id', '=', 'times.id')
+								->leftjoin('teams as winner', 'volleyball.winning_team', '=', 'winner.id')
+								->leftjoin('teams as loser', 'volleyball.losing_team', '=', 'loser.id')
+								->leftjoin('teams as g_one_w', 'volleyball.game_one_winner', '=', 'g_one_w.id')
+								->leftjoin('teams as g_two_w', 'volleyball.game_two_winner', '=', 'g_two_w.id')
+								->leftjoin('teams as g_three_w', 'volleyball.game_three_winner', '=', 'g_three_w.id')
+								->leftjoin('teams as g_four_w', 'volleyball.game_four_winner', '=', 'g_four_w.id')
+								->leftjoin('teams as g_five_w', 'volleyball.game_five_winner', '=', 'g_five_w.id')
+								->select(
+										'volleyball.id',
+										'volleyball.date',
+										'year',
+										'scrimmage',
+										'time',
+										'volleyball.tournament_title',
+										'away_team_id',
+										'away_team.school_name as away_team',
+										'away_team.logo as away_team_logo',
+										'away_team.mascot as away_team_mascot',
+										'away_team.city as away_team_city',
+										'away_team.state as away_team_state',
+										'volleyball.away_team_first_game_score',
+										'volleyball.away_team_second_game_score',
+										'volleyball.away_team_third_game_score',
+										'volleyball.away_team_fourth_game_score',
+										'volleyball.away_team_fifth_game_score',
+										'home_team_id',
+										'home_team.school_name as home_team',
+										'home_team.logo as home_team_logo',
+										'home_team.mascot as home_team_mascot',
+										'home_team.city as home_team_city',
+										'home_team.state as home_team_state',
+										'volleyball.home_team_first_game_score',
+										'volleyball.home_team_second_game_score',
+										'volleyball.home_team_third_game_score',
+										'volleyball.home_team_fourth_game_score',
+										'volleyball.home_team_fifth_game_score',
+										'volleyball.game_status',
+										'winner.school_name as winning_team',
+										'loser.school_name as losing_team',
+										'g_one_w.school_name as g_one_w',
+										'g_two_w.school_name as g_two_w',
+										'g_three_w.school_name as g_three_w',
+										'g_four_w.school_name as g_four_w',
+										'g_five_w.school_name as g_five_w'
+									)
+	    						->orderBy('date')
+	    						->where(function ($query) use ($selectedteamid) {
+							        $query->where('away_team_id', '=' , $selectedteamid)
+							            ->orWhere('home_team_id', '=', $selectedteamid);
+							    })
+						    	->get();
 
-		$region 		= Team::where('school_name', $team)->pluck('region_baseball');
-		$standings		= Team::where('region_baseball', $region)->orderBy('school_name')->get();
+		$region 		= Team::where('school_name', $team)->pluck('region_volleyball');
+		$standings		= Team::where('region_volleyball', $region)->orderBy('school_name')->get();
+
+
+		//  Count All Wins		
+    	$winning_team_by_id = Volleyball::where('winning_team', '=', $selectedteamid)
+    									->where('year_id', '=', $selectedyearid)
+    									->get();
+		$wins = $winning_team_by_id->count();
+
+		//  Count All District Wins
+		$district_wins_by_team_id = Volleyball::where('winning_team', '=', $selectedteamid)
+											->where('district_game', '=', 1)
+											->where('year_id', '=', $selectedyearid)
+											->get();
+		$district_wins = $district_wins_by_team_id->count();
+
+		//  Count All Losses	
+		$losing_team_by_id = Volleyball::where('losing_team', '=', $selectedteamid)
+										->where('year_id', '=', $selectedyearid)
+										->get();
+		$losses = $losing_team_by_id->count();
+
+
+		//  Count All District losses
+		$district_losses_by_team_id = Volleyball::where('losing_team', '=', $selectedteamid)
+											->where('district_game', '=', 1)
+											->where('year_id', '=', $selectedyearid)
+											->get();
+		$district_losses = $district_losses_by_team_id->count();
+
+
+
+		$district 		= Team::where('school_name', $team)->pluck('district_volleyball');
+		$standings		= Team::where('district_volleyball', $district)
+								->orderBy('school_name')->get();
+
+		// return $volleyball;
+
 
 		return view('sports.volleyball.teamschedule', compact('volleyball', 
 															'selectedteam',
@@ -203,7 +288,11 @@ class VolleyballController extends Controller
 															'standings',
 															'teams',
 															'year',
-															'years'
+															'years',
+															'wins',
+															'losses',
+															'district_wins',
+															'district_losses'
 															));
 
 	}
@@ -293,7 +382,7 @@ class VolleyballController extends Controller
     						->orWhere('home_team_id', '=', $theteam)
     						->where('date', '>=', Carbon::today()->toDateString())
     						->limit(4)
-    						->orderBy('date')
+    						->orderBy('date', 'asc')
 					    	->get();
 
 		return $volleyball;
@@ -350,6 +439,7 @@ class VolleyballController extends Controller
 								)
 							->where('year', '=', $year)
 							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
+							->orderBy('date','asc')
 					    	->get();
 
 		return $volleyball;

@@ -106,6 +106,14 @@
 
                                     {{ $item['away_team']['school_name'] }}
 
+                                    @if (($item->game_status > 0) && ($item->game_status < 6))
+
+                                        <strong class="pull-right game-list-status">
+                                            <span style="color: red;">LIVE</span>
+                                        </strong>
+
+                                    @endif
+
                                 </div>
 
                                 <div class="team">
@@ -150,9 +158,9 @@
 
                                     @if ($item['game_status'] < 1)
 
-                                        <strong class="pull-right game-list-status">{{ $item['time']['time'] }}</strong>
+                                        <strong class="pull-right game-list-status">{{ $item->time }}</strong>
 
-                                    @elseif (($item['game_status'] > 0) && ($item['game_status'] < 7))
+                                    @elseif (($item['game_status'] > 0) && ($item['game_status'] < 6))
 
                                         <strong class="pull-right game-list-status">
                                             <span style="color: red;">LIVE</span>
