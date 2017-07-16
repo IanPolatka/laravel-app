@@ -325,6 +325,33 @@ class FootballController extends Controller
 		$football = Football::join('years', 'football.year_id', 'years.id')
 							->select('football.*')
 							->where('year_id', '=', $selectedyearid)
+							->where('team_level', '=', 1)
+							->where(function ($query) use ($selectedteamid) {
+						        $query->where('away_team_id', '=' , $selectedteamid)
+						            ->orWhere('home_team_id', '=', $selectedteamid);
+						    })
+						    ->orderBy('date')
+							->get();
+
+
+
+		//  Display junior varsity schedule for team based on selected year
+		$jvfootball = Football::join('years', 'football.year_id', 'years.id')
+							->select('football.*')
+							->where('year_id', '=', $selectedyearid)
+							->where('team_level', '=', 2)
+							->where(function ($query) use ($selectedteamid) {
+						        $query->where('away_team_id', '=' , $selectedteamid)
+						            ->orWhere('home_team_id', '=', $selectedteamid);
+						    })
+						    ->orderBy('date')
+							->get();
+
+		//  Display junior varsity schedule for team based on selected year
+		$freshfootball = Football::join('years', 'football.year_id', 'years.id')
+							->select('football.*')
+							->where('year_id', '=', $selectedyearid)
+							->where('team_level', '=', 3)
 							->where(function ($query) use ($selectedteamid) {
 						        $query->where('away_team_id', '=' , $selectedteamid)
 						            ->orWhere('home_team_id', '=', $selectedteamid);
@@ -358,29 +385,33 @@ class FootballController extends Controller
     				->get()->pluck('score')->first();
 
     	
-    	//  Count All Wins		
+    	//  Count All Varsity Wins		
     	$winning_team_by_id = Football::where('winning_team', '=', $selectedteamid)
     									->where('year_id', '=', $selectedyearid)
+    									->where('team_level', '=', 1)
     									->get();
 		$wins = $winning_team_by_id->count();
 
-		//  Count All District Wins
+		//  Count All Varsity District Wins
 		$district_wins_by_team_id = Football::where('winning_team', '=', $selectedteamid)
 											->where('district_game', '=', 1)
+											->where('team_level', '=', 1)
 											->where('year_id', '=', $selectedyearid)
 											->get();
 		$district_wins = $district_wins_by_team_id->count();
 
-		//  Count All Losses	
+		//  Count All Varsity Losses	
 		$losing_team_by_id = Football::where('losing_team', '=', $selectedteamid)
 										->where('year_id', '=', $selectedyearid)
+										->where('team_level', '=', 1)
 										->get();
 		$losses = $losing_team_by_id->count();
 
 
-		//  Count All District losses
+		//  Count All Varsity District losses
 		$district_losses_by_team_id = Football::where('losing_team', '=', $selectedteamid)
 											->where('district_game', '=', 1)
+											->where('team_level', '=', 1)
 											->where('year_id', '=', $selectedyearid)
 											->get();
 		$district_losses = $district_losses_by_team_id->count();
@@ -392,13 +423,50 @@ class FootballController extends Controller
 								->where('class_football', $selectedFootballClass)
 								->orderBy('school_name')->get();
 
+
+
+		//  Count All Junior Varsity Wins		
+    	$jv_winning_team_by_id = Football::where('winning_team', '=', $selectedteamid)
+    									->where('year_id', '=', $selectedyearid)
+    									->where('team_level', '=', 2)
+    									->get();
+		$jv_wins = $jv_winning_team_by_id->count();
+
+		//  Count All Junior Varsity Losses	
+		$jv_losing_team_by_id = Football::where('losing_team', '=', $selectedteamid)
+										->where('year_id', '=', $selectedyearid)
+										->where('team_level', '=', 2)
+										->get();
+		$jv_losses = $jv_losing_team_by_id->count();
+
+
+		//  Count All Junior Varsity Wins		
+    	$fresh_winning_team_by_id = Football::where('winning_team', '=', $selectedteamid)
+    									->where('year_id', '=', $selectedyearid)
+    									->where('team_level', '=', 3)
+    									->get();
+		$fresh_wins = $jv_winning_team_by_id->count();
+
+		//  Count All Junior Varsity Losses	
+		$fresh_losing_team_by_id = Football::where('losing_team', '=', $selectedteamid)
+										->where('year_id', '=', $selectedyearid)
+										->where('team_level', '=', 3)
+										->get();
+		$fresh_losses = $jv_losing_team_by_id->count();
+
 		return view('sports.football.teamschedule', compact('losses',
 															'wins',
+															'jv_wins',
+															'jv_losses',
+															'fresh_wins',
+															'fresh_losses',
 															'district_wins',
 															'district_losses',
 															'away_team_score_computed',
 															'home_team_score_computed',
 															'football', 
+															'jvfootball',
+															'freshfootball',
 															'selectedteam',
 															'selectedteamid',
 															'selectedyear',
