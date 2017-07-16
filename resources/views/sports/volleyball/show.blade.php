@@ -52,7 +52,7 @@
                     <tr>
                         <td>
                             @if ($volleyball->away_team->logo)
-                                <img src="/images/team-logos/{{ $football->away_team->logo }}">
+                                <img src="/images/team-logos/{{ $volleyball->away_team->logo }}">
                             @endif
                             {{ $volleyball->away_team->school_name }}
                         </td>
