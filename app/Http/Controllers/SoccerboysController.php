@@ -177,6 +177,31 @@ class SoccerboysController extends Controller
 		$soccer = Soccerboys::join('years', 'soccer_boys.year_id', 'years.id')
 							->select('soccer_boys.*')
 							->where('year_id', '=', $selectedyearid)
+							->where('team_level', '=', 1)
+							->where(function ($query) use ($selectedteamid) {
+						        $query->where('away_team_id', '=' , $selectedteamid)
+						            ->orWhere('home_team_id', '=', $selectedteamid);
+						    })
+						    ->orderBy('date')
+							->get();
+
+		//  Display schedule for team based on selected year
+		$jvsoccer = Soccerboys::join('years', 'soccer_boys.year_id', 'years.id')
+							->select('soccer_boys.*')
+							->where('year_id', '=', $selectedyearid)
+							->where('team_level', '=', 2)
+							->where(function ($query) use ($selectedteamid) {
+						        $query->where('away_team_id', '=' , $selectedteamid)
+						            ->orWhere('home_team_id', '=', $selectedteamid);
+						    })
+						    ->orderBy('date')
+							->get();
+
+		//  Display schedule for team based on selected year
+		$freshsoccer = Soccerboys::join('years', 'soccer_boys.year_id', 'years.id')
+							->select('soccer_boys.*')
+							->where('year_id', '=', $selectedyearid)
+							->where('team_level', '=', 2)
 							->where(function ($query) use ($selectedteamid) {
 						        $query->where('away_team_id', '=' , $selectedteamid)
 						            ->orWhere('home_team_id', '=', $selectedteamid);
@@ -187,7 +212,9 @@ class SoccerboysController extends Controller
 		$region 		= Team::where('school_name', $team)->pluck('region_baseball');
 		$standings		= Team::where('region_baseball', $region)->orderBy('school_name')->get();
 
-		return view('sports.soccer_boys.teamschedule', compact('soccer', 
+		return view('sports.soccer_boys.teamschedule', compact('soccer',
+															'jvsoccer', 
+															'freshsoccer',
 															'selectedteam',
 															'selectedteamid',
 															'selectedyear',
