@@ -28,6 +28,7 @@ class Crosscountry extends Model
 
         'team_id',
         'year_id',
+        'team_level',
         'date',
         'scrimmage',
         'tournament_title',

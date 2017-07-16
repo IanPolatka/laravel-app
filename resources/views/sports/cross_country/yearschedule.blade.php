@@ -39,7 +39,7 @@
 
                             @foreach($years as $year)
 
-                                <option value="/cross-country/{{ $year->year }}"  @if ($selectedyearid[0] === $year->id) selected @endif>
+                                <option value="/cross-country/{{ $year->year }}"  @if ($selectedyearid === $year->id) selected @endif>
                                     {{ $year->year }}
                                 </option>
 

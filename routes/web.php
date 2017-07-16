@@ -185,6 +185,9 @@ Route::delete('/cross-country/{crosscountry}', 'CrosscountryController@delete');
 Route::get('/cross-country/{year}/{team}', 'CrosscountryController@teamschedule');
 Route::get('/cross-country/{year}', 'CrosscountryController@yearschedule');
 
+Route::get('/api/cross-country/schedule/{year}/{team}', 'CrosscountryController@apiteamschedule');
+Route::get('/api/cross-country/schedule-summary/{year}/{team}', 'CrosscountryController@apiteamschedulesummary');
+
 
 
 //  Golf Boys

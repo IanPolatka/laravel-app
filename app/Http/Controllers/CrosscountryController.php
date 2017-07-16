@@ -189,12 +189,79 @@ class CrosscountryController extends Controller
         //  Display schedule for team based on selected year
         $crosscountry = Crosscountry::join('years', 'cross_country.year_id', 'years.id')
                             ->select('cross_country.*')
-                            ->where('year', '=', $year)
+                            ->where('year', '=', '2017-2018')
                             ->orderBy('date')
                             ->get();
 
         return view('sports.cross_country.yearschedule', compact('crosscountry', 'selectedyear', 'selectedyearid', 'teams', 'year', 'years'));
 
     }
+
+
+
+    public function apiteamschedule($year, $team)
+    {
+
+        $theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+        $crosscountry = Crosscountry::join('teams as team', 'cross_country.team_id', '=', 'team.id')
+                                ->join('years', 'cross_country.year_id', '=', 'years.id')
+                                ->join('times', 'cross_country.time_id', '=', 'times.id')
+                                ->select(
+                                    'cross_country.id',
+                                    'cross_country.team_level',
+                                    'cross_country.date',
+                                    'year',
+                                    'time',
+                                    'cross_country.tournament_title',
+                                    'team.school_name as team_name',
+                                    'team.logo as as team_logo',
+                                    'cross_country.boys_result',
+                                    'cross_country.girls_result'
+                                )
+                            ->where('year', '=', $year)
+                            ->where('team_id', '=', $theteam)
+                            ->get();
+
+        return $crosscountry;
+
+    }
+
+
+
+    public function apiteamschedulesummary($year, $team)
+    {
+
+        $date = Carbon::today('America/New_York')->toDateTimeString();
+
+        $theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+        $crosscountry = Crosscountry::join('teams as team', 'cross_country.team_id', '=', 'team.id')
+                                ->join('years', 'cross_country.year_id', '=', 'years.id')
+                                ->join('times', 'cross_country.time_id', '=', 'times.id')
+                                ->select(
+                                    'cross_country.id',
+                                    'cross_country.team_level',
+                                    'cross_country.date',
+                                    'year',
+                                    'time',
+                                    'cross_country.tournament_title',
+                                    'team.school_name as team_name',
+                                    'team.logo as as team_logo',
+                                    'cross_country.boys_result',
+                                    'cross_country.girls_result'
+                                )
+                            ->where('year', '=', $year)
+                            ->where('team_id', '=', $theteam)
+                            ->where('date', '>=', $date)
+                            ->orderBy('date')
+                            ->limit(4)
+                            ->get();
+
+        return $crosscountry;
+
+    }
+
+
 
 }

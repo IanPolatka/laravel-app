@@ -55,6 +55,15 @@
                         </div><!--  Form  Group  -->
 
                         <div class="form-group">
+                          <label for="team_level">What Team Level Is This For?</label>
+                          <select name="team_level" id="team_level" class="form-control">
+                              <option value="1">Varsity</option>
+                              <option value="2">Junior Varsity</option>
+                              <option value="3">Freshman</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
                           <label for="date">Date</label>
                           <input type="text" class="form-control" id="datepicker" name="date">
                         </div>
