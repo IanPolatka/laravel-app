@@ -201,7 +201,7 @@ class SoccerboysController extends Controller
 		$freshsoccer = Soccerboys::join('years', 'soccer_boys.year_id', 'years.id')
 							->select('soccer_boys.*')
 							->where('year_id', '=', $selectedyearid)
-							->where('team_level', '=', 2)
+							->where('team_level', '=', 3)
 							->where(function ($query) use ($selectedteamid) {
 						        $query->where('away_team_id', '=' , $selectedteamid)
 						            ->orWhere('home_team_id', '=', $selectedteamid);
