@@ -69,15 +69,23 @@
                         @foreach($golf as $item)
 
                             <li class="list-group-item">
-                                {{ $item->date }} |
-                                <a href="/golf-boys/{{ $showcurrentyear[0] }}/{{ $item->away_team->school_name }}">
-                                    
-                                    {{ $item->away_team->school_name }}</a> 
-                                    
-                                <a href="/golf-boys/{{ $showcurrentyear[0] }}/{{ $item->home_team->school_name }}">{{ $item->home_team->school_name }}</a>
+                                {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
                                 @if ($item->tournament_title)
-                                    <small>({{ $item->tournament_title }})</small>
+                                    {{ $item->tournament_title }}<br />
                                 @endif
+                                @if ( $item->away_team->logo )
+                                    <img src="/images/team-logos/{{ $item->away_team->logo }}" title="{{ $item->away_team->school_name }}">
+                                @endif
+                                <a href="/golf-boys/{{ $showcurrentyear[0] }}/{{ $item->away_team->school_name }}">
+                                    {{ $item->away_team->school_name }}
+                                </a> 
+                                vs  
+                                @if ( $item->home_team->logo )
+                                    <img src="/images/team-logos/{{ $item->home_team->logo }}" title="{{ $item->home_team->school_name }}">
+                                @endif  
+                                <a href="/golf-boys/{{ $showcurrentyear[0] }}/{{ $item->home_team->school_name }}">
+                                    {{ $item->home_team->school_name }}
+                                </a>
                                 <span class="pull-right"><a href="/golf-boys/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
                             </li>
 

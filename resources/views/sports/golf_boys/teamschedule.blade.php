@@ -67,7 +67,55 @@
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading">{{ $selectedyear[0] }} {{ $selectedteam[0]['school_name'] }} Schedule</div>
+                <div class="panel-heading">{{ $selectedteam[0]['school_name'] }} Varsity Schedule</div>
+                    <ul class="list-group">
+                        @forelse($golf as $item)
+
+                            <li class="list-group-item">
+                                {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
+                                {{ $item['tournament-title'] }}
+                                @if ($selectedteam[0]['id'] == $item['away_team_id'])
+                                    @ <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->home_team->school_name }}">{{ $item['home_team']['school_name'] }}</a>
+                                @else
+                                    vs <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->away_team->school_name }}">{{ $item['away_team']['school_name'] }}</a>
+                                @endif
+                                <span class="pull-right"><a href="/golf-boys/{{ $item->id }}/edit">Edit</a></span>
+                            </li>
+
+                        @empty
+
+                            <li class="list-group-item">No Matches Posted</li>
+
+                        @endforelse
+                    </ul>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ $selectedteam[0]['school_name'] }} Junior Varsity Schedule</div>
+                    <ul class="list-group">
+                        @forelse($jvgolf as $item)
+
+                            <li class="list-group-item">
+                                {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
+                                {{ $item['tournament-title'] }}
+                                @if ($selectedteam[0]['id'] == $item['away_team_id'])
+                                    @ <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->home_team->school_name }}">{{ $item['home_team']['school_name'] }}</a>
+                                @else
+                                    vs <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->away_team->school_name }}">{{ $item['away_team']['school_name'] }}</a>
+                                @endif
+                                <span class="pull-right"><a href="/golf-boys/{{ $item->id }}/edit">Edit</a></span>
+                            </li>
+
+                        @empty
+
+                            <li class="list-group-item">No Matches Posted</li>
+
+                        @endforelse
+                    </ul>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ $selectedteam[0]['school_name'] }} Freshman Schedule</div>
                     <ul class="list-group">
                         @forelse($golf as $item)
 

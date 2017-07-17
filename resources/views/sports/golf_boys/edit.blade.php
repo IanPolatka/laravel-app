@@ -39,6 +39,15 @@
                         </div><!--  Form  Group  -->
 
                         <div class="form-group">
+                          <label for="team_level">What Team Level Is This For?</label>
+                          <select name="team_level" id="team_level" class="form-control">
+                              <option value="1" @if ($golf->team_level == "1") selected @endif>Varsity</option>
+                              <option value="2" @if ($golf->team_level == "2") selected @endif>Junior Varsity</option>
+                              <option value="3" @if ($golf->team_level == "3") selected @endif>Freshman</option>
+                          </select>
+                        </div>
+
+                        <div class="form-group">
                           <label for="date">Date</label>
                           <input type="text" class="form-control" id="datepicker" name="date" value="{{ $golf->date }}">
                         </div>
@@ -48,8 +57,8 @@
                           <label for="scrimmage">Is This A Scrimmage?</label>
 
                           <select name="scrimmage" id="scrimmage" class="form-control">
-                              <option value="0" @if ($golf->scrimmage === "0") selected @endif>No</option>
-                              <option value="1" @if ($golf->scrimmage === "1") selected @endif>Yes</option>
+                              <option value="0" @if ($golf->scrimmage == "0") selected @endif>No</option>
+                              <option value="1" @if ($golf->scrimmage == "1") selected @endif>Yes</option>
                           </select>
 
                         </div><!--  Form  Group  -->
@@ -87,7 +96,7 @@
 
                             @foreach($teams as $team)
 
-                              <option value="{{ $team->id }}" @if ($golf->home_team_id === $team->id) selected @endif>{{ $team->school_name }}</option>
+                              <option value="{{ $team->id }}" @if ($golf->home_team_id == $team->id) selected @endif>{{ $team->school_name }}</option>
 
                             @endforeach
 
@@ -103,7 +112,7 @@
 
                             @foreach($times as $time)
 
-                              <option value="{{ $time->id }}" @if ($golf->time_id === $time->id) selected @endif>{{ $time->time }}</option>
+                              <option value="{{ $time->id }}" @if ($golf->time_id == $time->id) selected @endif>{{ $time->time }}</option>
 
                             @endforeach
 
@@ -117,10 +126,10 @@
 
                           <select name="winner" id="winner" class="form-control">
                             <option value="">Select An Option</option>
-                            <option value="{{ $golf->away_team_id }}" @if ($golf->winner === $golf->away_team_id) selected @endif>
+                            <option value="{{ $golf->away_team_id }}" @if ($golf->winner == $golf->away_team_id) selected @endif>
                                {{ $golf->away_team->school_name }}
                             </option>
-                            <option value="{{ $golf->home_team_id }}" @if ($golf->winner === $golf->home_team_id) selected @endif>
+                            <option value="{{ $golf->home_team_id }}" @if ($golf->winner == $golf->home_team_id) selected @endif>
                               {{ $golf->home_team->school_name }}
                             </option>
                           </select>
@@ -133,10 +142,10 @@
 
                           <select name="loser" id="loser" class="form-control">
                             <option value="">Select An Option</option>
-                            <option value="{{ $golf->away_team_id }}" @if ($golf->loser === $golf->away_team_id) selected @endif>
+                            <option value="{{ $golf->away_team_id }}" @if ($golf->loser == $golf->away_team_id) selected @endif>
                                {{ $golf->away_team->school_name }}
                             </option>
-                            <option value="{{ $golf->home_team_id }}" @if ($golf->loser === $golf->home_team_id) selected @endif>
+                            <option value="{{ $golf->home_team_id }}" @if ($golf->loser == $golf->home_team_id) selected @endif>
                               {{ $golf->home_team->school_name }}
                             </option>
                           </select>

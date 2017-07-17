@@ -152,10 +152,35 @@ class GolfboysController extends Controller
 
 
 
-        //  Display schedule for team based on selected year
+        //  Display varsity schedule for team based on selected year
         $golf = Golfboys::join('years', 'golf_boys.year_id', 'years.id')
                             ->select('golf_boys.*')
                             ->where('year_id', '=', $selectedyearid)
+                            ->where('team_level', '=', 1)
+                            ->where(function ($query) use ($selectedteamid) {
+                                $query->where('away_team_id', '=' , $selectedteamid)
+                                    ->orWhere('home_team_id', '=', $selectedteamid);
+                            })
+                            ->orderBy('date')
+                            ->get();
+
+        //  Display schedule for team based on selected year
+        $jvgolf = Golfboys::join('years', 'golf_boys.year_id', 'years.id')
+                            ->select('golf_boys.*')
+                            ->where('year_id', '=', $selectedyearid)
+                            ->where('team_level', '=', 2)
+                            ->where(function ($query) use ($selectedteamid) {
+                                $query->where('away_team_id', '=' , $selectedteamid)
+                                    ->orWhere('home_team_id', '=', $selectedteamid);
+                            })
+                            ->orderBy('date')
+                            ->get();
+
+        //  Display schedule for team based on selected year
+        $freshgolf = Golfboys::join('years', 'golf_boys.year_id', 'years.id')
+                            ->select('golf_boys.*')
+                            ->where('year_id', '=', $selectedyearid)
+                            ->where('team_level', '=', 3)
                             ->where(function ($query) use ($selectedteamid) {
                                 $query->where('away_team_id', '=' , $selectedteamid)
                                     ->orWhere('home_team_id', '=', $selectedteamid);
@@ -165,7 +190,7 @@ class GolfboysController extends Controller
 
 
 
-        return view('sports.golf_boys.teamschedule', compact('golf', 'selectedteam', 'selectedteamid', 'selectedyear', 'selectedyearid', 'teams', 'year', 'years' ));
+        return view('sports.golf_boys.teamschedule', compact('golf', 'jvgolf', 'freshgolf', 'selectedteam', 'selectedteamid', 'selectedyear', 'selectedyearid', 'teams', 'year', 'years' ));
 
     }
 
@@ -231,9 +256,9 @@ class GolfboysController extends Controller
                             'team_level'
                             )
                             ->where('year', '=', $year)
-                            ->where('team_level', '=', 1)
                             ->where('away_team_id', '=', $theteam)
                             ->orWhere('home_team_id', '=', $theteam)
+                            ->where('team_level', '=', 1)
                             ->where('date', '>=', Carbon::today()->toDateString())
                             ->limit(4)
                             ->orderBy('date', 'asc')
