@@ -199,4 +199,104 @@ class GolfboysController extends Controller
 
     }
 
+
+
+    public function apiteamschedulesummary($year, $team)
+    {
+
+        $theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+        // return $theteam;
+
+        $volleyball = Golfboys::leftjoin('teams as home_team', 'golf_boys.home_team_id', '=', 'home_team.id')
+                        ->leftjoin('teams as away_team', 'golf_boys.away_team_id', '=', 'away_team.id')
+                        ->join('years', 'golf_boys.year_id', 'years.id')
+                        ->join('times', 'golf_boys.time_id', '=', 'times.id')
+                        ->leftjoin('teams as winner', 'golf_boys.winner', '=', 'winner.id')
+                        ->leftjoin('teams as loser', 'golf_boys.loser', '=', 'loser.id')
+                        ->select(
+                            'golf_boys.id',
+                            'golf_boys.date',
+                            'year',
+                            'scrimmage',
+                            'time',
+                            'golf_boys.tournament_title',
+                            'away_team.school_name as away_team',
+                            'away_team.logo as away_team_logo',
+                            'home_team.school_name as home_team',
+                            'home_team.logo as home_team_logo',
+                            'winner.school_name as winning_team',
+                            'loser.school_name as losing_team',
+                            'match_score'
+                            )
+                            ->where('year', '=', $year)
+                            ->where('away_team_id', '=', $theteam)
+                            ->orWhere('home_team_id', '=', $theteam)
+                            ->where('date', '>=', Carbon::today()->toDateString())
+                            ->limit(4)
+                            ->orderBy('date', 'asc')
+                            ->get();
+
+        return $volleyball;
+
+    }
+
+
+
+    public function apiteamschedule($year, $team)
+    {
+
+        $selectedyear = Year::where('year', $year)->pluck('year');
+        $selectedyearid = Year::where('year', $year)->pluck('id');
+
+        $selectedteam = Team::where('school_name', $team)->get();
+        $selectedteamid =   Team::where('school_name', $team)->pluck('id');
+
+
+        // Select All Teams
+        $teams = Team::all();
+
+
+
+        //  Select All Years
+        $years = Year::all();
+
+
+
+        //  Display schedule for team based on selected year
+        $golf = Golfboys::leftjoin('teams as home_team', 'golf_boys.home_team_id', '=', 'home_team.id')
+                        ->leftjoin('teams as away_team', 'golf_boys.away_team_id', '=', 'away_team.id')
+                        ->join('years', 'golf_boys.year_id', 'years.id')
+                        ->join('times', 'golf_boys.time_id', '=', 'times.id')
+                        ->leftjoin('teams as winner', 'golf_boys.winner', '=', 'winner.id')
+                        ->leftjoin('teams as loser', 'golf_boys.loser', '=', 'loser.id')
+                        ->select(
+                            'golf_boys.id',
+                            'golf_boys.date',
+                            'year',
+                            'scrimmage',
+                            'time',
+                            'golf_boys.tournament_title',
+                            'away_team.school_name as away_team',
+                            'away_team.logo as away_team_logo',
+                            'home_team.school_name as home_team',
+                            'home_team.logo as home_team_logo',
+                            'winner.school_name as winning_team',
+                            'loser.school_name as losing_team',
+                            'match_score'
+                            )
+                        ->where('year_id', '=', $selectedyearid)
+                        ->where(function ($query) use ($selectedteamid) {
+                            $query->where('away_team_id', '=' , $selectedteamid)
+                                ->orWhere('home_team_id', '=', $selectedteamid);
+                        })
+                        ->orderBy('date')
+                        ->get();
+
+
+
+        return $golf;
+
+    }
+
 }

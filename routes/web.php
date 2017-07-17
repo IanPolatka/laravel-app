@@ -205,6 +205,9 @@ Route::delete('/golf-boys/{golfboys}', 'GolfboysController@delete');
 Route::get('/golf-boys/{year}/{team}', 'GolfboysController@teamschedule');
 Route::get('/golf-boys/{year}', 'GolfboysController@yearschedule');
 
+Route::get('/api/golf-boys/schedule/{year}/{team}', 'GolfboysController@apiteamschedule');
+Route::get('/api/golf-boys/schedule-summary/{year}/{team}', 'GolfboysController@apiteamschedulesummary');
+
 
 
 //  Golf Girls
