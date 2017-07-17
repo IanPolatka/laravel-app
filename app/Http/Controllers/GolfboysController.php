@@ -233,7 +233,7 @@ class GolfboysController extends Controller
 
         // return $theteam;
 
-        $volleyball = Golfboys::leftjoin('teams as home_team', 'golf_boys.home_team_id', '=', 'home_team.id')
+        $golf = Golfboys::leftjoin('teams as home_team', 'golf_boys.home_team_id', '=', 'home_team.id')
                         ->leftjoin('teams as away_team', 'golf_boys.away_team_id', '=', 'away_team.id')
                         ->join('years', 'golf_boys.year_id', 'years.id')
                         ->join('times', 'golf_boys.time_id', '=', 'times.id')
@@ -264,13 +264,13 @@ class GolfboysController extends Controller
                             ->orderBy('date', 'asc')
                             ->get();
 
-        return $volleyball;
+        return $golf;
 
     }
 
 
 
-    public function apiteamschedule($year, $team)
+    public function apiteamschedule($year, $team, $teamlevel)
     {
 
         $selectedyear = Year::where('year', $year)->pluck('year');
@@ -318,6 +318,7 @@ class GolfboysController extends Controller
                             $query->where('away_team_id', '=' , $selectedteamid)
                                 ->orWhere('home_team_id', '=', $selectedteamid);
                         })
+                        ->where('team_level', '=', $teamlevel)
                         ->orderBy('date')
                         ->get();
 
