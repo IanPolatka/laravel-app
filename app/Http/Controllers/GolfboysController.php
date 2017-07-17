@@ -227,7 +227,8 @@ class GolfboysController extends Controller
                             'home_team.logo as home_team_logo',
                             'winner.school_name as winning_team',
                             'loser.school_name as losing_team',
-                            'match_score'
+                            'match_score',
+                            'team_level'
                             )
                             ->where('year', '=', $year)
                             ->where('team_level', '=', 1)
@@ -284,7 +285,7 @@ class GolfboysController extends Controller
                             'home_team.logo as home_team_logo',
                             'winner.school_name as winning_team',
                             'loser.school_name as losing_team',
-                            'match_score'
+                            'match_score',
                             'team_level'
                             )
                         ->where('year_id', '=', $selectedyearid)
