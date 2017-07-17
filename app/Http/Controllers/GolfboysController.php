@@ -230,6 +230,7 @@ class GolfboysController extends Controller
                             'match_score'
                             )
                             ->where('year', '=', $year)
+                            ->where('team_level', '=', 1)
                             ->where('away_team_id', '=', $theteam)
                             ->orWhere('home_team_id', '=', $theteam)
                             ->where('date', '>=', Carbon::today()->toDateString())
@@ -284,6 +285,7 @@ class GolfboysController extends Controller
                             'winner.school_name as winning_team',
                             'loser.school_name as losing_team',
                             'match_score'
+                            'team_level'
                             )
                         ->where('year_id', '=', $selectedyearid)
                         ->where(function ($query) use ($selectedteamid) {
