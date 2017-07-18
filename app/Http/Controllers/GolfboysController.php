@@ -141,6 +141,8 @@ class GolfboysController extends Controller
         $selectedteam = Team::where('school_name', $team)->get();
         $selectedteamid =   Team::where('school_name', $team)->pluck('id');
 
+        // return $selectedteamid;
+
 
         // Select All Teams
         $teams = Team::all();
@@ -153,8 +155,30 @@ class GolfboysController extends Controller
 
 
         //  Display varsity schedule for team based on selected year
-        $golf = Golfboys::join('years', 'golf_boys.year_id', 'years.id')
-                            ->select('golf_boys.*')
+        $golf = Golfboys::leftjoin('teams as home_team', 'golf_boys.home_team_id', '=', 'home_team.id')
+                        ->leftjoin('teams as away_team', 'golf_boys.away_team_id', '=', 'away_team.id')
+                        ->join('years', 'golf_boys.year_id', 'years.id')
+                        ->join('times', 'golf_boys.time_id', '=', 'times.id')
+                        ->leftjoin('teams as winner', 'golf_boys.winner', '=', 'winner.id')
+                        ->leftjoin('teams as loser', 'golf_boys.loser', '=', 'loser.id')
+                        ->select(
+                            'away_team_id',
+                            'home_team_id',
+                            'golf_boys.id',
+                            'golf_boys.date',
+                            'year',
+                            'scrimmage',
+                            'time',
+                            'golf_boys.tournament_title',
+                            'away_team.school_name as away_team',
+                            'away_team.logo as away_team_logo',
+                            'home_team.school_name as home_team',
+                            'home_team.logo as home_team_logo',
+                            'winner.school_name as winning_team',
+                            'loser.school_name as losing_team',
+                            'match_score',
+                            'team_level'
+                            )
                             ->where('year_id', '=', $selectedyearid)
                             ->where('team_level', '=', 1)
                             ->where(function ($query) use ($selectedteamid) {
@@ -164,9 +188,32 @@ class GolfboysController extends Controller
                             ->orderBy('date')
                             ->get();
 
+
         //  Display schedule for team based on selected year
-        $jvgolf = Golfboys::join('years', 'golf_boys.year_id', 'years.id')
-                            ->select('golf_boys.*')
+        $jvgolf = Golfboys::leftjoin('teams as home_team', 'golf_boys.home_team_id', '=', 'home_team.id')
+                        ->leftjoin('teams as away_team', 'golf_boys.away_team_id', '=', 'away_team.id')
+                        ->join('years', 'golf_boys.year_id', 'years.id')
+                        ->join('times', 'golf_boys.time_id', '=', 'times.id')
+                        ->leftjoin('teams as winner', 'golf_boys.winner', '=', 'winner.id')
+                        ->leftjoin('teams as loser', 'golf_boys.loser', '=', 'loser.id')
+                        ->select(
+                            'away_team_id',
+                            'home_team_id',
+                            'golf_boys.id',
+                            'golf_boys.date',
+                            'year',
+                            'scrimmage',
+                            'time',
+                            'golf_boys.tournament_title',
+                            'away_team.school_name as away_team',
+                            'away_team.logo as away_team_logo',
+                            'home_team.school_name as home_team',
+                            'home_team.logo as home_team_logo',
+                            'winner.school_name as winning_team',
+                            'loser.school_name as losing_team',
+                            'match_score',
+                            'team_level'
+                            )
                             ->where('year_id', '=', $selectedyearid)
                             ->where('team_level', '=', 2)
                             ->where(function ($query) use ($selectedteamid) {
@@ -177,8 +224,30 @@ class GolfboysController extends Controller
                             ->get();
 
         //  Display schedule for team based on selected year
-        $freshgolf = Golfboys::join('years', 'golf_boys.year_id', 'years.id')
-                            ->select('golf_boys.*')
+        $freshgolf = Golfboys::leftjoin('teams as home_team', 'golf_boys.home_team_id', '=', 'home_team.id')
+                        ->leftjoin('teams as away_team', 'golf_boys.away_team_id', '=', 'away_team.id')
+                        ->join('years', 'golf_boys.year_id', 'years.id')
+                        ->join('times', 'golf_boys.time_id', '=', 'times.id')
+                        ->leftjoin('teams as winner', 'golf_boys.winner', '=', 'winner.id')
+                        ->leftjoin('teams as loser', 'golf_boys.loser', '=', 'loser.id')
+                        ->select(
+                            'away_team_id',
+                            'home_team_id',
+                            'golf_boys.id',
+                            'golf_boys.date',
+                            'year',
+                            'scrimmage',
+                            'time',
+                            'golf_boys.tournament_title',
+                            'away_team.school_name as away_team',
+                            'away_team.logo as away_team_logo',
+                            'home_team.school_name as home_team',
+                            'home_team.logo as home_team_logo',
+                            'winner.school_name as winning_team',
+                            'loser.school_name as losing_team',
+                            'match_score',
+                            'team_level'
+                            )
                             ->where('year_id', '=', $selectedyearid)
                             ->where('team_level', '=', 3)
                             ->where(function ($query) use ($selectedteamid) {
@@ -240,6 +309,8 @@ class GolfboysController extends Controller
                         ->leftjoin('teams as winner', 'golf_boys.winner', '=', 'winner.id')
                         ->leftjoin('teams as loser', 'golf_boys.loser', '=', 'loser.id')
                         ->select(
+                            'away_team_id',
+                            'home_team_id',
                             'golf_boys.id',
                             'golf_boys.date',
                             'year',
@@ -256,9 +327,11 @@ class GolfboysController extends Controller
                             'team_level'
                             )
                             ->where('year', '=', $year)
-                            ->where('away_team_id', '=', $theteam)
-                            ->orWhere('home_team_id', '=', $theteam)
                             ->where('team_level', '=', 1)
+                            ->where(function ($query) use ($theteam) {
+                                $query->where('away_team_id', '=' , $theteam)
+                                    ->orWhere('home_team_id', '=', $theteam);
+                            })
                             ->where('date', '>=', Carbon::today()->toDateString())
                             ->limit(4)
                             ->orderBy('date', 'asc')
@@ -298,6 +371,8 @@ class GolfboysController extends Controller
                         ->leftjoin('teams as winner', 'golf_boys.winner', '=', 'winner.id')
                         ->leftjoin('teams as loser', 'golf_boys.loser', '=', 'loser.id')
                         ->select(
+                            'away_team_id',
+                            'home_team_id',
                             'golf_boys.id',
                             'golf_boys.date',
                             'year',
@@ -318,8 +393,7 @@ class GolfboysController extends Controller
                             $query->where('away_team_id', '=' , $selectedteamid)
                                 ->orWhere('home_team_id', '=', $selectedteamid);
                         })
-                        ->where('team_level', '=', $teamlevel)
-                        ->orderBy('date')
+                        ->where('team_level','=',$teamlevel)
                         ->get();
 
 

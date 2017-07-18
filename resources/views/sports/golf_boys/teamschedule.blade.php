@@ -76,10 +76,18 @@
                                 @if ($item['tournament_title'])
                                     {{ $item['tournament_title'] }}<br />
                                 @endif
-                                @if ($selectedteam[0]['id'] == $item['away_team_id'])
-                                    @ <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->home_team->school_name }}">{{ $item['home_team']['school_name'] }}</a>
+                                @if ($selectedteamid[0] == $item['away_team_id'])
+                                    @
+                                    @if ( $item['away_team_logo'] )
+                                        <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item['home_team_logo'] }}" title="{{ $item['home_team'] }}">
+                                    @endif
+                                    <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item['home_team'] }}">{{ $item['home_team'] }}</a>
                                 @else
-                                    vs <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->away_team->school_name }}">{{ $item['away_team']['school_name'] }}</a>
+                                    vs
+                                    @if ( $item['away_team_logo'] )
+                                        <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item['away_team_logo'] }}" title="{{ $item['away_team'] }}">
+                                    @endif
+                                    <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item['away_team'] }}">{{ $item['away_team'] }}</a>
                                 @endif
                                 <span class="pull-right"><a href="/golf-boys/{{ $item->id }}/edit">Edit</a></span>
                             </li>
@@ -92,6 +100,7 @@
                     </ul>
             </div>
 
+
             <div class="panel panel-default">
                 <div class="panel-heading">{{ $selectedteam[0]['school_name'] }} Junior Varsity Schedule</div>
                     <ul class="list-group">
@@ -99,11 +108,21 @@
 
                             <li class="list-group-item">
                                 {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
-                                {{ $item['tournament-title'] }}
-                                @if ($selectedteam[0]['id'] == $item['away_team_id'])
-                                    @ <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->home_team->school_name }}">{{ $item['home_team']['school_name'] }}</a>
+                                @if ($item['tournament_title'])
+                                    {{ $item['tournament_title'] }}<br />
+                                @endif
+                                @if ($selectedteamid[0] == $item['away_team_id'])
+                                    @
+                                    @if ( $item['away_team_logo'] )
+                                        <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item['home_team_logo'] }}" title="{{ $item['home_team'] }}">
+                                    @endif
+                                    <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item['home_team'] }}">{{ $item['home_team'] }}</a>
                                 @else
-                                    vs <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->away_team->school_name }}">{{ $item['away_team']['school_name'] }}</a>
+                                    vs
+                                    @if ( $item['away_team_logo'] )
+                                        <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item['away_team_logo'] }}" title="{{ $item['away_team'] }}">
+                                    @endif
+                                    <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item['away_team'] }}">{{ $item['away_team'] }}</a>
                                 @endif
                                 <span class="pull-right"><a href="/golf-boys/{{ $item->id }}/edit">Edit</a></span>
                             </li>
@@ -123,11 +142,21 @@
 
                             <li class="list-group-item">
                                 {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
-                                {{ $item['tournament-title'] }}
-                                @if ($selectedteam[0]['id'] == $item['away_team_id'])
-                                    @ <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->home_team->school_name }}">{{ $item['home_team']['school_name'] }}</a>
+                                @if ($item['tournament_title'])
+                                    {{ $item['tournament_title'] }}<br />
+                                @endif
+                                @if ($selectedteamid[0] == $item['away_team_id'])
+                                    @
+                                    @if ( $item['away_team_logo'] )
+                                        <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item['home_team_logo'] }}" title="{{ $item['home_team'] }}">
+                                    @endif
+                                    <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item['home_team'] }}">{{ $item['home_team'] }}</a>
                                 @else
-                                    vs <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->away_team->school_name }}">{{ $item['away_team']['school_name'] }}</a>
+                                    vs
+                                    @if ( $item['away_team_logo'] )
+                                        <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item['away_team_logo'] }}" title="{{ $item['away_team'] }}">
+                                    @endif
+                                    <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item['away_team'] }}">{{ $item['away_team'] }}</a>
                                 @endif
                                 <span class="pull-right"><a href="/golf-boys/{{ $item->id }}/edit">Edit</a></span>
                             </li>
