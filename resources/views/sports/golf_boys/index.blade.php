@@ -74,14 +74,14 @@
                                     {{ $item->tournament_title }}<br />
                                 @endif
                                 @if ( $item->away_team->logo )
-                                    <img src="/images/team-logos/{{ $item->away_team->logo }}" title="{{ $item->away_team->school_name }}">
+                                    <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item->away_team->logo }}" title="{{ $item->away_team->school_name }}">
                                 @endif
                                 <a href="/golf-boys/{{ $showcurrentyear[0] }}/{{ $item->away_team->school_name }}">
                                     {{ $item->away_team->school_name }}
                                 </a> 
                                 vs  
                                 @if ( $item->home_team->logo )
-                                    <img src="/images/team-logos/{{ $item->home_team->logo }}" title="{{ $item->home_team->school_name }}">
+                                    <img style="height: 25px; width: auto; margin-right: 10px;" src="/images/team-logos/{{ $item->home_team->logo }}" title="{{ $item->home_team->school_name }}">
                                 @endif  
                                 <a href="/golf-boys/{{ $showcurrentyear[0] }}/{{ $item->home_team->school_name }}">
                                     {{ $item->home_team->school_name }}

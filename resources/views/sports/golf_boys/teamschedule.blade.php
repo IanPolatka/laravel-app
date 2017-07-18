@@ -73,7 +73,9 @@
 
                             <li class="list-group-item">
                                 {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
-                                {{ $item['tournament-title'] }}
+                                @if ($item['tournament_title'])
+                                    {{ $item['tournament_title'] }}<br />
+                                @endif
                                 @if ($selectedteam[0]['id'] == $item['away_team_id'])
                                     @ <a href="/golf-boys/{{ $selectedyear[0] }}/{{ $item->home_team->school_name }}">{{ $item['home_team']['school_name'] }}</a>
                                 @else
@@ -117,7 +119,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">{{ $selectedteam[0]['school_name'] }} Freshman Schedule</div>
                     <ul class="list-group">
-                        @forelse($golf as $item)
+                        @forelse($freshgolf as $item)
 
                             <li class="list-group-item">
                                 {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
