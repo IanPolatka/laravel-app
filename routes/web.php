@@ -225,6 +225,9 @@ Route::delete('/golf-girls/{golfgirls}', 'GolfgirlsController@delete');
 Route::get('/golf-girls/{year}/{team}', 'GolfgirlsController@teamschedule');
 Route::get('/golf-girls/{year}', 'GolfgirlsController@yearschedule');
 
+Route::get('/api/golf-girls/schedule/{year}/{team}/{teamlevel}', 'GolfgirlsController@apiteamschedule');
+Route::get('/api/golf-girls/schedule-summary/{year}/{team}', 'GolfgirlsController@apiteamschedulesummary');
+
 
 
 //  Tennis Boys
