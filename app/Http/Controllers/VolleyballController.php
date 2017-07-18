@@ -375,11 +375,16 @@ class VolleyballController extends Controller
 									'g_two_w.school_name as g_two_w',
 									'g_three_w.school_name as g_three_w',
 									'g_four_w.school_name as g_four_w',
-									'g_five_w.school_name as g_five_w'
+									'g_five_w.school_name as g_five_w',
+									'team_level'
 								)
 							->where('year', '=', $year)
 							->where('away_team_id', '=', $theteam)
-    						->orWhere('home_team_id', '=', $theteam)
+    						->where(function ($query) use ($theteam) {
+                                $query->where('away_team_id', '=' , $theteam)
+                                    ->orWhere('home_team_id', '=', $theteam);
+                            })
+                            ->where('team_level', '=', 1)
     						->where('date', '>=', Carbon::today()->toDateString())
     						->limit(4)
     						->orderBy('date', 'asc')
@@ -391,7 +396,7 @@ class VolleyballController extends Controller
 
 
 
-	public function apiteamschedule($year, $team)
+	public function apiteamschedule($year, $team, $teamlevel)
 	{
 
 		$theteam = Team::where('school_name', '=', $team)->pluck('id');
@@ -435,10 +440,15 @@ class VolleyballController extends Controller
 									'g_two_w.school_name as g_two_w',
 									'g_three_w.school_name as g_three_w',
 									'g_four_w.school_name as g_four_w',
-									'g_five_w.school_name as g_five_w'
+									'g_five_w.school_name as g_five_w',
+									'team_level'
 								)
 							->where('year', '=', $year)
-							->where('away_team_id', '=', $theteam)->orWhere('home_team_id', '=', $theteam)
+							->where(function ($query) use ($theteam) {
+                                $query->where('away_team_id', '=' , $theteam)
+                                    ->orWhere('home_team_id', '=', $theteam);
+                            })
+                            ->where('team_level', '=', $teamlevel)
 							->orderBy('date','asc')
 					    	->get();
 
