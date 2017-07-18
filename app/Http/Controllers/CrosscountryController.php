@@ -264,4 +264,37 @@ class CrosscountryController extends Controller
 
 
 
+    public function todaysevents($team)
+    {
+
+        $today = Carbon::today();
+
+        $theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+        $crosscountry = Crosscountry::join('teams as team', 'cross_country.team_id', '=', 'team.id')
+                                ->join('years', 'cross_country.year_id', '=', 'years.id')
+                                ->join('times', 'cross_country.time_id', '=', 'times.id')
+                                ->select(
+                                    'cross_country.id',
+                                    'cross_country.team_level',
+                                    'cross_country.date',
+                                    'year',
+                                    'time',
+                                    'cross_country.tournament_title',
+                                    'team.school_name as team_name',
+                                    'team.logo as as team_logo',
+                                    'cross_country.boys_result',
+                                    'cross_country.girls_result'
+                                )
+                            ->where('team_id', '=', $theteam)
+                            ->where('date', '=', $today)
+                            ->orderBy('time')
+                            ->get();
+
+        return $crosscountry;
+
+    }
+
+
+
 }

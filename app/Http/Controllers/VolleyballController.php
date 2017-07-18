@@ -379,7 +379,6 @@ class VolleyballController extends Controller
 									'team_level'
 								)
 							->where('year', '=', $year)
-							->where('away_team_id', '=', $theteam)
     						->where(function ($query) use ($theteam) {
                                 $query->where('away_team_id', '=' , $theteam)
                                     ->orWhere('home_team_id', '=', $theteam);
@@ -507,6 +506,70 @@ class VolleyballController extends Controller
 									'g_five_w.school_name as g_five_w'
 								)
 							->where('volleyball.id', '=', $id)
+					    	->get();
+
+		return $volleyball;
+
+	}
+
+
+
+	public function todaysevents($team)
+	{
+
+		$today = Carbon::today();
+
+		$theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+		$volleyball = Volleyball::leftjoin('teams as home_team', 'volleyball.home_team_id', '=', 'home_team.id')
+							->leftjoin('teams as away_team', 'volleyball.away_team_id', '=', 'away_team.id')
+							->join('years', 'volleyball.year_id', '=', 'years.id')
+							->join('times', 'volleyball.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'volleyball.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'volleyball.losing_team', '=', 'loser.id')
+							->leftjoin('teams as g_one_w', 'volleyball.game_one_winner', '=', 'g_one_w.id')
+							->leftjoin('teams as g_two_w', 'volleyball.game_two_winner', '=', 'g_two_w.id')
+							->leftjoin('teams as g_three_w', 'volleyball.game_three_winner', '=', 'g_three_w.id')
+							->leftjoin('teams as g_four_w', 'volleyball.game_four_winner', '=', 'g_four_w.id')
+							->leftjoin('teams as g_five_w', 'volleyball.game_five_winner', '=', 'g_five_w.id')
+							->select(
+									'volleyball.id',
+									'volleyball.date',
+									'year',
+									'scrimmage',
+									'time',
+									'volleyball.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.logo as away_team_logo',
+									'volleyball.away_team_first_game_score',
+									'volleyball.away_team_second_game_score',
+									'volleyball.away_team_third_game_score',
+									'volleyball.away_team_fourth_game_score',
+									'volleyball.away_team_fifth_game_score',
+									'home_team.school_name as home_team',
+									'home_team.logo as home_team_logo',
+									'volleyball.home_team_first_game_score',
+									'volleyball.home_team_second_game_score',
+									'volleyball.home_team_third_game_score',
+									'volleyball.home_team_fourth_game_score',
+									'volleyball.home_team_fifth_game_score',
+									'volleyball.game_status',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team',
+									'g_one_w.school_name as g_one_w',
+									'g_two_w.school_name as g_two_w',
+									'g_three_w.school_name as g_three_w',
+									'g_four_w.school_name as g_four_w',
+									'g_five_w.school_name as g_five_w',
+									'team_level'
+								)
+    						->where(function ($query) use ($theteam) {
+                                $query->where('away_team_id', '=' , $theteam)
+                                    ->orWhere('home_team_id', '=', $theteam);
+                            })
+                            ->where('team_level', '=', 1)
+    						->where('date', '=', $today)
+    						->orderBy('time')
 					    	->get();
 
 		return $volleyball;

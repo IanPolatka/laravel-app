@@ -187,6 +187,7 @@ Route::get('/cross-country/{year}', 'CrosscountryController@yearschedule');
 
 Route::get('/api/cross-country/schedule/{year}/{team}', 'CrosscountryController@apiteamschedule');
 Route::get('/api/cross-country/schedule-summary/{year}/{team}', 'CrosscountryController@apiteamschedulesummary');
+Route::get('/api/cross-country/todays-events/{team}', 'CrosscountryController@todaysevents');
 
 
 
@@ -207,6 +208,7 @@ Route::get('/golf-boys/{year}', 'GolfboysController@yearschedule');
 
 Route::get('/api/golf-boys/schedule/{year}/{team}/{teamlevel}', 'GolfboysController@apiteamschedule');
 Route::get('/api/golf-boys/schedule-summary/{year}/{team}', 'GolfboysController@apiteamschedulesummary');
+Route::get('/api/golf-boys/todays-events/{team}', 'GolfboysController@todaysevents');
 
 
 
@@ -227,6 +229,7 @@ Route::get('/golf-girls/{year}', 'GolfgirlsController@yearschedule');
 
 Route::get('/api/golf-girls/schedule/{year}/{team}/{teamlevel}', 'GolfgirlsController@apiteamschedule');
 Route::get('/api/golf-girls/schedule-summary/{year}/{team}', 'GolfgirlsController@apiteamschedulesummary');
+Route::get('/api/golf-girls/todays-events/{team}', 'GolfgirlsController@todaysevents');
 
 
 
@@ -283,6 +286,7 @@ Route::get('/football/{year}', 'FootballController@yearschedule');
 Route::get('/api/football/schedule/{year}/{team}/{teamlevel}', 'FootballController@apiteamschedule');
 Route::get('/api/football/schedule-summary/{year}/{team}', 'FootballController@apiteamschedulesummary');
 Route::get('/api/match/{id}', 'FootballController@apigame');
+Route::get('/api/football/todays-events/{team}', 'FootballController@todaysevents');
 
 
 
@@ -304,6 +308,7 @@ Route::get('/soccer-boys/{year}', 'SoccerboysController@yearschedule');
 Route::get('/api/soccer-boys/schedule/{year}/{team}/{teamlevel}', 'SoccerboysController@apiteamschedule');
 Route::get('/api/soccer-boys/schedule-summary/{year}/{team}', 'SoccerboysController@apiteamschedulesummary');
 Route::get('/api/soccer-boys/game/{id}', 'SoccerboysController@apigame');
+Route::get('/api/soccer-boys/todays-events/{team}', 'SoccerboysController@todaysevents');
 
 
 
@@ -325,6 +330,7 @@ Route::get('/soccer-girls/{year}', 'SoccergirlsController@yearschedule');
 Route::get('/api/soccer-girls/schedule/{year}/{team}/{teamlevel}', 'SoccergirlsController@apiteamschedule');
 Route::get('/api/soccer-girls/schedule-summary/{year}/{team}', 'SoccergirlsController@apiteamschedulesummary');
 Route::get('/api/soccer-girls/game/{id}', 'SoccergirlsController@apigame');
+Route::get('/api/soccer-girls/todays-events/{team}', 'SoccergirlsController@todaysevents');
 
 
 
@@ -416,5 +422,6 @@ Route::get('/volleyball/{year}', 'VolleyballController@yearschedule');
 Route::get('/api/volleyball/schedule/{year}/{team}/{teamlevel}', 'VolleyballController@apiteamschedule');
 Route::get('/api/volleyball/schedule-summary/{year}/{team}', 'VolleyballController@apiteamschedulesummary');
 Route::get('/api/volleyball/match/{id}', 'VolleyballController@apigame');
+Route::get('/api/volleyball/todays-events/{team}', 'VolleyballController@todaysevents');
 
 

@@ -308,4 +308,50 @@ class GolfgirlsController extends Controller
 
     }
 
+
+
+    public function todaysevents($team)
+    {
+
+        $today = Carbon::today();
+
+        $theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+        $golf = Golfgirls::leftjoin('teams as home_team', 'golf_girls.home_team_id', '=', 'home_team.id')
+                        ->leftjoin('teams as away_team', 'golf_girls.away_team_id', '=', 'away_team.id')
+                        ->join('years', 'golf_girls.year_id', 'years.id')
+                        ->join('times', 'golf_girls.time_id', '=', 'times.id')
+                        ->leftjoin('teams as winner', 'golf_girls.winner', '=', 'winner.id')
+                        ->leftjoin('teams as loser', 'golf_girls.loser', '=', 'loser.id')
+                        ->select(
+                            'away_team_id',
+                            'home_team_id',
+                            'golf_girls.id',
+                            'golf_girls.date',
+                            'year',
+                            'scrimmage',
+                            'time',
+                            'golf_girls.tournament_title',
+                            'away_team.school_name as away_team',
+                            'away_team.logo as away_team_logo',
+                            'home_team.school_name as home_team',
+                            'home_team.logo as home_team_logo',
+                            'winner.school_name as winning_team',
+                            'loser.school_name as losing_team',
+                            'match_score',
+                            'team_level'
+                            )
+                            ->where('team_level', '=', 1)
+                            ->where(function ($query) use ($theteam) {
+                                $query->where('away_team_id', '=' , $theteam)
+                                    ->orWhere('home_team_id', '=', $theteam);
+                            })
+                            ->where('date', '=', $today)
+                            ->orderBy('time')
+                            ->get();
+
+        return $golf;
+
+    }
+
 }

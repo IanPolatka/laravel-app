@@ -396,4 +396,59 @@ class SoccergirlsController extends Controller
 	}
 
 
+
+	public function todaysevents($team)
+	{
+
+		$today = Carbon::today();
+
+		$theteam = Team::where('school_name', '=', $team)->pluck('id');
+
+		$soccer = Soccergirls::leftjoin('teams as home_team', 'soccer_girls.home_team_id', '=', 'home_team.id')
+							->leftjoin('teams as away_team', 'soccer_girls.away_team_id', '=', 'away_team.id')
+							->join('years', 'soccer_girls.year_id', '=', 'years.id')
+							->join('times', 'soccer_girls.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'soccer_girls.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'soccer_girls.losing_team', '=', 'loser.id')
+							->select(
+									'soccer_girls.id',
+									'soccer_girls.date',
+									'year',
+									'scrimmage',
+									'time',
+									'soccer_girls.tournament_title',
+									'away_team.school_name as away_team',
+									'away_team.logo as away_team_logo',
+									'soccer_girls.away_team_first_half_score',
+									'soccer_girls.away_team_second_half_score',
+									'soccer_girls.away_team_overtime_score',
+									'soccer_girls.away_team_final_score',
+									'home_team.school_name as home_team',
+									'home_team.logo as home_team_logo',
+									'soccer_girls.home_team_first_half_score',
+									'soccer_girls.home_team_second_half_score',
+									'soccer_girls.home_team_overtime_score',
+									'soccer_girls.home_team_final_score',
+									'soccer_girls.game_status',
+									'soccer_girls.minutes_remaining',
+									'soccer_girls.winning_team',
+									'soccer_girls.losing_team',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team',
+									'team_level'
+								)
+							->where(function ($query) use ($theteam) {
+							    $query->where('away_team_id', '=' , $theteam)
+							    	->orWhere('home_team_id', '=', $theteam);
+							})
+    						->where('date', '=', $today)
+    						->orderBy('time')
+    						->where('team_level','=',1)
+					    	->get();
+
+		return $soccer;
+
+	}
+
+
 }
