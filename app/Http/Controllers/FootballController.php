@@ -608,11 +608,15 @@ class FootballController extends Controller
 									'football.minutes_remaining',
 									'football.seconds_remaining',
 									'football.winning_team',
-									'football.losing_team'
+									'football.losing_team',
+									'football.team_level'
 								)
 							->where('year', '=', $year)
-							->where('away_team_id', '=', $theteam)
-							->orWhere('home_team_id', '=', $theteam)
+							->where('football.team_level', '=', 1)
+							->where(function ($query) use ($theteam) {
+						        $query->where('away_team_id', '=' , $theteam)
+						            ->orWhere('home_team_id', '=', $theteam);
+						    })
 							->where('date', '>=', $date)
     						->orderBy('date')
     						->limit(4)
