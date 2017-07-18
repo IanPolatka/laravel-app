@@ -259,7 +259,7 @@ class SoccerboysController extends Controller
 
 
 
-	public function apiteamschedule($year, $team)
+	public function apiteamschedule($year, $team, $teamlevel)
 	{
 
 		$theteam = Team::where('school_name', '=', $team)->pluck('id');
@@ -296,11 +296,16 @@ class SoccerboysController extends Controller
 									'soccer_boys.winning_team',
 									'soccer_boys.losing_team',
 									'winner.school_name as winning_team',
-									'loser.school_name as losing_team'
+									'loser.school_name as losing_team',
+									'team_level'
 								)
 							->where('year', '=', $year)
-							->where('away_team_id', '=', $theteam)
-    						->orWhere('home_team_id', '=', $theteam)
+							->where(function ($query) use ($theteam) {
+							    $query->where('away_team_id', '=' , $theteam)
+							    	->orWhere('home_team_id', '=', $theteam);
+							})
+							->where('team_level','=',$teamlevel)
+							->orderBy('date','asc')
 					    	->get();
 
 		return $soccer;
@@ -346,14 +351,18 @@ class SoccerboysController extends Controller
 									'soccer_boys.winning_team',
 									'soccer_boys.losing_team',
 									'winner.school_name as winning_team',
-									'loser.school_name as losing_team'
+									'loser.school_name as losing_team',
+									'team_level'
 								)
 							->where('year', '=', $year)
-							->where('away_team_id', '=', $theteam)
-    						->orWhere('home_team_id', '=', $theteam)
+							->where(function ($query) use ($theteam) {
+							    $query->where('away_team_id', '=' , $theteam)
+							    	->orWhere('home_team_id', '=', $theteam);
+							})
     						->where('date', '>=', Carbon::today()->toDateString())
-    						->limit(4)
     						->orderBy('date')
+    						->where('team_level','=',1)
+    						->limit(4)
 					    	->get();
 
 		return $soccer;
