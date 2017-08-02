@@ -18,7 +18,7 @@
 
                           <select name="team_id" id="team_id" class="form-control">
 
-                            <option value="null">Please Select An Away School</option>
+                            <option value="null">Please Select An School</option>
 
                             @foreach($teams as $team)
 
@@ -83,10 +83,36 @@
                           <label for="tournament_title">Tournament Title</label>
                           <input type="text" class="form-control" id="tournament_title" name="tournament_title">
                         </div>
+
+                        <div class="form-group">
+
+                          <label for="host_id">Who Is Hosting This Event?</label>
+
+                          <select name="host_id" id="host_id" class="form-control">
+
+                            <option value="null">Please Select A School</option>
+
+                            @foreach($teams as $team)
+
+                              <option value="{{ $team['id'] }}" > {{ $team['school_name'] }}</option>
+
+                            @endforeach
+
+                          </select>
+
+                        </div><!--  Form  Group -->
+
+                        <div class="form-group">
+
+                          <label for="meet_location">Event Location</label>
+
+                          <input type="text" class="form-control" id="meet_location" name="meet_location">
+
+                        </div><!--  Form  Group  -->
                      
                         <div class="form-group">
 
-                          <label for="time_id">What Time Is The Match?</label>
+                          <label for="time_id">What Time Is The Event?</label>
 
                           <select name="time_id" id="time_id" class="form-control">
 

@@ -23,6 +23,11 @@ class Crosscountry extends Model
     {
         return $this->belongsTo('App\Team');
     }
+
+    public function host()
+    {
+        return $this->belongsTo('App\Team', 'host_id');
+    }
     
 	protected $fillable = [
 
@@ -32,6 +37,8 @@ class Crosscountry extends Model
         'date',
         'scrimmage',
         'tournament_title',
+        'host_id',
+        'meet_location',
         'time_id',
         'boys_result',
         'girls_result'

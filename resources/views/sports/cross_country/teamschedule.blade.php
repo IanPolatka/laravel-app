@@ -73,12 +73,15 @@
 
                             <li class="list-group-item">
                                 {{ Carbon\Carbon::parse($item->date)->format('l') }} {{ Carbon\Carbon::parse($item->date)->format('M j, o') }}<br />
-                                @if ( $item->team->logo )
-                                    <img style="height: 25px; width: auto; margin-right: 5px;" src="/images/team-logos/{{ $item->team->logo }}">
+                                @if ( $item->host->logo )
+                                    <img style="height: 25px; width: auto; margin-right: 5px;" src="/images/team-logos/{{ $item->host->logo }}">
                                 @endif
-                                {{ $item->team->school_name }}
+                                {{ $item->host->school_name }}
                                 @if ($item->tournament_title)
                                     - {{ $item->tournament_title }}
+                                @endif
+                                @if ($item->meet_location)
+                                    @ {{ $item->meet_location }}
                                 @endif
                                 @if ($item->result)
                                     | {{ $item->result }}

@@ -78,6 +78,8 @@ class CrosscountryController extends Controller
             'date'                      =>  request('date'),
             'scrimmage'                 =>  request('scrimmage'),
             'tournament_title'          =>  request('tournament_title'),
+            'host_id'                   =>  request('host_id'),
+            'meet_location'             =>  request('meet_location'),
             'time_id'                   =>  request('time_id'),
             'boys_result'               =>  request('boys_result'),
             'girls_result'				=>	request('girls_result')
@@ -146,6 +148,8 @@ class CrosscountryController extends Controller
         // Select All Teams
         $teams = Team::all()->sortBy('school_name');
 
+        // return $host_team;
+
 
 
         //  Select All Years
@@ -160,8 +164,6 @@ class CrosscountryController extends Controller
                             ->where('team_id', '=', $selectedteamid)
                             ->orderBy('date')
                             ->get();
-
-
 
         return view('sports.cross_country.teamschedule', compact('crosscountry', 'selectedteam', 'selectedteamid', 'selectedyear', 'selectedyearid', 'teams', 'year', 'years' ));
 

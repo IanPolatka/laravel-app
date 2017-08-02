@@ -74,6 +74,12 @@
                                     <img style="height: 25px; width: auto; margin-right: 5px;" src="/images/team-logos/{{ $item->team->logo }}">
                                 @endif
                                 {{ $item->team->school_name }}
+                                @if ( $item->host->logo )
+                                    <img style="height: 25px; width: auto; margin-right: 5px;" src="/images/team-logos/{{ $item->host->logo }}">
+                                @endif
+                                @if ($item->host->school_name)
+                                    - {{ $item->host->school_name }}
+                                @endif
                                 @if ($item->tournament_title)
                                     - {{ $item->tournament_title }}
                                 @endif
