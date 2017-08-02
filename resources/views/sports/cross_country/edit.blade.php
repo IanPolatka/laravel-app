@@ -1,6 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+
+<div class="secondary-menu">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <a href="/cross-country">Cross Country</a> &#187; Create Event
+
+            </div><!--  Col  -->
+
+        </div><!--  Row  -->
+
+    </div><!--  Container  -->
+
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

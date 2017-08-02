@@ -19,7 +19,7 @@ class BowlingboysController extends Controller
     {
 
         //  Query All Teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
         //  Query All Years
         $years = Year::all();
@@ -56,7 +56,7 @@ class BowlingboysController extends Controller
         $years = Year::all();
 
         //  Display all teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
         //  Display the game times
         $times = Time::all();
@@ -101,7 +101,7 @@ class BowlingboysController extends Controller
         $years = Year::all();
 
         //  Display all teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
         //  Display the game times
         $times = Time::all();
@@ -143,7 +143,7 @@ class BowlingboysController extends Controller
 
 
         // Select All Teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
 
 
@@ -181,7 +181,7 @@ class BowlingboysController extends Controller
 
 
         //  Select All Teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
 
 

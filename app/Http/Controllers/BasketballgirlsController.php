@@ -21,7 +21,7 @@ class BasketballgirlsController extends Controller
 	{
 
 		//  Query All Teams
-		$teams = Team::all();
+		$teams = Team::all()->sortBy('school_name');
 
 		//  Query All Years
 		$years = Year::all();

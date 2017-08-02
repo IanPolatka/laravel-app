@@ -22,7 +22,7 @@ class CrosscountryController extends Controller
         $years = Year::all();
 
         //  Query All Teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
         //  Query The Current Year
         $currentyear = CurrentYear::find(1)->pluck('year_id');
@@ -56,7 +56,7 @@ class CrosscountryController extends Controller
         $years = Year::all();
 
         //  Display all the teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
         //  Display the game times
         $times = Time::all();
@@ -102,7 +102,7 @@ class CrosscountryController extends Controller
         $years = Year::all();
 
         //  Display all teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
         //  Display the game times
         $times = Time::all();
@@ -144,7 +144,7 @@ class CrosscountryController extends Controller
 
 
         // Select All Teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
 
 
@@ -179,7 +179,7 @@ class CrosscountryController extends Controller
 
 
         //  Select All Teams
-        $teams = Team::all();
+        $teams = Team::all()->sortBy('school_name');
 
 
 
@@ -199,7 +199,7 @@ class CrosscountryController extends Controller
 
 
 
-    public function apiteamschedule($year, $team)
+    public function apiteamschedule($year, $team, $teamlevel)
     {
 
         $theteam = Team::where('school_name', '=', $team)->pluck('id');
@@ -221,6 +221,7 @@ class CrosscountryController extends Controller
                                 )
                             ->where('year', '=', $year)
                             ->where('team_id', '=', $theteam)
+                            ->where('team_level', '=', $teamlevel)
                             ->get();
 
         return $crosscountry;
@@ -253,6 +254,7 @@ class CrosscountryController extends Controller
                                 )
                             ->where('year', '=', $year)
                             ->where('team_id', '=', $theteam)
+                            ->where('cross_country.team_level', '=', 1)
                             ->where('date', '>=', $date)
                             ->orderBy('date')
                             ->limit(4)
