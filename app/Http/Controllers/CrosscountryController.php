@@ -206,25 +206,28 @@ class CrosscountryController extends Controller
 
         $theteam = Team::where('school_name', '=', $team)->pluck('id');
 
-        $crosscountry = Crosscountry::join('teams as team', 'cross_country.team_id', '=', 'team.id')
-                                ->join('years', 'cross_country.year_id', '=', 'years.id')
-                                ->join('times', 'cross_country.time_id', '=', 'times.id')
-                                ->select(
-                                    'cross_country.id',
-                                    'cross_country.team_level',
-                                    'cross_country.date',
-                                    'year',
-                                    'time',
-                                    'cross_country.tournament_title',
-                                    'team.school_name as team_name',
-                                    'team.logo as as team_logo',
-                                    'cross_country.boys_result',
-                                    'cross_country.girls_result'
-                                )
-                            ->where('year', '=', $year)
-                            ->where('team_id', '=', $theteam)
-                            ->where('team_level', '=', $teamlevel)
-                            ->get();
+        $crosscountry = Crosscountry::join('teams as host', 'cross_country.host_id', '=', 'host.id')
+                                    ->join('teams as schedule_for','cross_country.team_id', '=', 'schedule_for.id')
+                                    ->join('years', 'cross_country.year_id', '=', 'years.id')
+                                    ->join('times', 'cross_country.time_id', '=', 'times.id')
+                                    ->select(
+                                        'cross_country.id',
+                                        'schedule_for.school_name as schedule_for',
+                                        'years.year',
+                                        'date',
+                                        'scrimmage',
+                                        'host.school_name as host_school',
+                                        'tournament_title',
+                                        'meet_location',
+                                        'host.logo as host_school_logo',
+                                        'times.time',
+                                        'boys_result',
+                                        'girls_result'
+                                    )
+                                ->where('year', '=', $year)
+                                ->where('team_id', '=', $theteam)
+                                ->where('team_level', '=', $teamlevel)
+                                ->get();
 
         return $crosscountry;
 
