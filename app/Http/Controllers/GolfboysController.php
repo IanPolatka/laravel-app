@@ -394,6 +394,7 @@ class GolfboysController extends Controller
                                 ->orWhere('home_team_id', '=', $selectedteamid);
                         })
                         ->where('team_level','=',$teamlevel)
+                        ->orderBy('date', 'asc')
                         ->get();
 
 
