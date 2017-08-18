@@ -164,6 +164,21 @@ h1, h2, h3, h4, h5, h6 {
     color: #FFFFFF;
 }
 
+.navbar-brand a {
+	color: #fff;
+		&:hover {
+			color: #eee;
+		}
+}
+
+.navbar-brand svg {
+	height: 20px;
+}
+
+a.st0 {
+	color: #ffffff;
+}
+
 
 /* Mobile Dropdown Menu Link Color  */
 

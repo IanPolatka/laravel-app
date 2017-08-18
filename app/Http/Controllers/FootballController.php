@@ -12,6 +12,8 @@ use App\CurrentYear;
 use App\Team;
 use App\Time;
 
+use DB;
+
 use Session;
 
 class FootballController extends Controller
@@ -309,26 +311,6 @@ class FootballController extends Controller
 		$selectedteamid	=	Team::where('school_name', $team)->pluck('id');
 		$selectedFootballClass = Team::where('school_name', $team)->pluck('class_football');
 
-		$district 	= Team::where('school_name', $team)->pluck('district_football');
-
-		$district_teams	= Football::join('teams as home_team', 'football.home_team_id', '=', 'home_team.id')
-									->join('teams as away_team', 'football.away_team_id', '=', 'away_team.id')
-									->select(
-										'away_team.school_name as away_team',
-										'away_team.district_football as away_team_district',
-										'home_team.school_name as home_team',
-										'home_team.district_football as home_team_district'
-									)
-									->where(function ($query) use ($district) {
-								        $query->where('away_team.district_football', '=' , $district)
-								            ->orWhere('home_team.district_football', '=', $district);
-								    })
-									->get();
-
-		return $district_teams;
-
-
-
 		//  Select All Teams
 		$teams = Team::all();
 
@@ -350,8 +332,6 @@ class FootballController extends Controller
 						    })
 						    ->orderBy('date')
 							->get();
-
-		return $football;
 
 
 
@@ -669,6 +649,11 @@ class FootballController extends Controller
 									'away_team.logo as away_team_logo',
 									'away_team.city as away_team_city',
 									'away_team.state as away_team_state',
+									'football.away_team_first_qrt_score',
+									'football.away_team_second_qrt_score',
+									'football.away_team_third_qrt_score',
+									'football.away_team_fourth_qrt_score',
+									'football.away_team_overtime_score',
 									'football.away_team_final_score',
 									'home_team.school_name as home_team',
 									'home_team.abbreviated_name as home_team_abbreviated_name',
