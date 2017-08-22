@@ -248,28 +248,33 @@
 
             <div class="content-box">
                 
-                <h5 class="small-heading">District</h5>
+                <h5 class="small-heading">Standings</h5>
 
-                <ul class="standings-list">
+                <table class="table">
 
-                    @forelse ($standings as $item)
+                    <thead>
+                        <th>Team</th>
+                        <th>District</th>
+                        <th>Overall</th>
+                    </thead>
+                    <tbody>
+                        @foreach($the_standings as $item)
+                        <tr>
+                            <td>
+                                <img src="/images/team-logos/{{$item->logo}}" style="height:20px;width:20px;margin-right:5px;">
+                                {{$item->Team}}
+                            </td>
+                            <td>
+                                {{$item->DistrictWins}} - {{$item->DistrictLoses}}
+                            </td>
+                            <td>
+                                {{$item->Wins}} - {{$item->Losses}}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
 
-                        <li>
-                            @if ($item->logo)
-                                <img src="/images/team-logos/{{ $item->logo }}" class="standings-logo">
-                            @endif  
-                            <a href="/football/{{ $selectedyear[0] }}/{{ $item->school_name }}">
-                                {{ $item->school_name }}
-                            </a>
-                        </li> 
-
-                    @empty
-
-                        <li>No Districts Opponents Listed</li>
-
-                    @endforelse
-
-                </ul>
+                </table>
 
             </div>
 

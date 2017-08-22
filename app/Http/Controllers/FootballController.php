@@ -310,6 +310,50 @@ class FootballController extends Controller
 		$selectedteam = Team::where('school_name', $team)->get();
 		$selectedteamid	=	Team::where('school_name', $team)->pluck('id');
 		$selectedFootballClass = Team::where('school_name', $team)->pluck('class_football');
+		$selectedFootballDistrict = Team::where('school_name', $team)->pluck('district_football');
+
+
+
+		$the_standings = DB::select('SELECT
+ 							school_name AS Team, logo, district_football, class_football, Sum(W) AS Wins, Sum(L) AS Losses, SUM(F) as F,SUM(A) AS A, SUM(DW) AS DistrictWins, SUM(DL) AS DistrictLoses
+						FROM(
+
+							SELECT
+							    home_team_id Team,
+							    IF(home_team_final_score > away_team_final_score,1,0) W,
+							    IF(home_team_final_score < away_team_final_score,1,0) L,
+							    home_team_final_score F,
+							    away_team_final_score A,
+							    IF(district_game = 1 && home_team_final_score > away_team_final_score,1,0) DW,
+							    IF(district_game = 1 && home_team_final_score < away_team_final_score,1,0) DL
+							    
+							FROM football
+							WHERE year_id = ?
+							UNION ALL
+							  SELECT
+							    away_team_id,
+							    IF(home_team_final_score < away_team_final_score,1,0),
+							    IF(home_team_final_score > away_team_final_score,1,0),
+							    away_team_final_score,
+							    home_team_final_score,
+							    IF(district_game = 1 && home_team_final_score < away_team_final_score,1,0),
+							    IF(district_game = 1 && home_team_final_score > away_team_final_score,1,0)
+							   
+							FROM football
+							WHERE year_id = ?
+							  
+						)
+						as tot
+						JOIN teams t ON tot.Team=t.id
+						WHERE district_football = ? AND class_football = ?
+						GROUP BY Team
+						ORDER BY dw DESC, dl ASC, w DESC, l ASC', array($selectedyearid[0], $selectedyearid[0], $selectedFootballDistrict[0], $selectedFootballClass[0]));
+
+		return $the_standings;
+
+
+		// return $the_standings;
+
 
 		//  Select All Teams
 		$teams = Team::all();
@@ -456,6 +500,7 @@ class FootballController extends Controller
 
 		return view('sports.football.teamschedule', compact('losses',
 															'wins',
+															'the_standings',
 															'jv_wins',
 															'jv_losses',
 															'fresh_wins',
