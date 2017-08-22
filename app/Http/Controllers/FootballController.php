@@ -349,11 +349,6 @@ class FootballController extends Controller
 						GROUP BY Team
 						ORDER BY dw DESC, dl ASC, w DESC, l ASC', array($selectedyearid[0], $selectedyearid[0], $selectedFootballDistrict[0], $selectedFootballClass[0]));
 
-		return $the_standings;
-
-
-		// return $the_standings;
-
 
 		//  Select All Teams
 		$teams = Team::all();
