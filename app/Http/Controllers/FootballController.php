@@ -328,7 +328,8 @@ class FootballController extends Controller
 							    IF(district_game = 1 && home_team_final_score < away_team_final_score,1,0) DL
 							    
 							FROM football
-							WHERE year_id = ?
+							WHERE year_id = ? AND team_level = 1
+
 							UNION ALL
 							  SELECT
 							    away_team_id,
@@ -340,7 +341,7 @@ class FootballController extends Controller
 							    IF(district_game = 1 && home_team_final_score > away_team_final_score,1,0)
 							   
 							FROM football
-							WHERE year_id = ?
+							WHERE year_id = ? AND team_level = 1
 							  
 						)
 						as tot
