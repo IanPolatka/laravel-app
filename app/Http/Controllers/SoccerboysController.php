@@ -31,7 +31,7 @@ class SoccerboysController extends Controller
 		$showcurrentyear = Year::where('id', $currentyear)->pluck('year');
 
 		//  Query All Games By The Current Year
-		$soccer = Soccerboys::where('year_id', $currentyear)->orderBy('date')->select('soccer_boys.*')->get();
+		$soccer = Soccerboys::where('year_id', $currentyear)->where('team_level',1)->orderBy('date')->get();
 
 		return view('sports.soccer_boys.index', compact('soccer', 'showcurrentyear', 'teams', 'years'));
 
@@ -45,9 +45,34 @@ class SoccerboysController extends Controller
  		//  Query All Games By The Game ID
 		$soccer = Soccerboys::find($id);
 
-		// return $soccer;
 
-		return view('sports.soccer_boys.show', compact('soccer'));
+
+		$away_team_score_computed = 	\DB::table('soccer_boys')
+    		->select(\DB::raw('sum(
+    			IFNULL( `soccer_boys`.`away_team_first_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`away_team_second_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`away_team_overtime_score` , 0 )
+    			)
+    			AS score' 
+    		))
+    		->where('id', '=', $id)
+    		->get()->pluck('score')->first();
+
+
+
+    	$home_team_score_computed = 	\DB::table('soccer_boys')
+    		->select(\DB::raw('sum(
+    			IFNULL( `soccer_boys`.`home_team_first_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`home_team_second_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`home_team_overtime_score` , 0 )
+    			)
+    			AS score' 
+    		))
+    		->where('id', '=', $id)
+    		->get()->pluck('score')->first();
+
+
+		return view('sports.soccer_boys.show', compact('soccer', 'away_team_score_computed', 'home_team_score_computed'));
 
 	}
 
@@ -125,7 +150,31 @@ class SoccerboysController extends Controller
 		//  Display the game times
 		$times = Time::all();
 
-		return view('sports.soccer_boys.edit', compact('years', 'thecurrentyear', 'teams', 'times', 'soccer'));
+		$away_team_score_computed = 	\DB::table('soccer_boys')
+    		->select(\DB::raw('sum(
+    			IFNULL( `soccer_boys`.`away_team_first_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`away_team_second_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`away_team_overtime_score` , 0 )
+    			)
+    			AS score' 
+    		))
+    		->where('id', '=', $id)
+    		->get()->pluck('score')->first();
+
+
+
+    	$home_team_score_computed = 	\DB::table('soccer_boys')
+    		->select(\DB::raw('sum(
+    			IFNULL( `soccer_boys`.`home_team_first_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`home_team_second_half_score` , 0 ) +
+    			IFNULL( `soccer_boys`.`home_team_overtime_score` , 0 )
+    			)
+    			AS score' 
+    		))
+    		->where('id', '=', $id)
+    		->get()->pluck('score')->first();
+
+		return view('sports.soccer_boys.edit', compact('years', 'thecurrentyear', 'teams', 'times', 'soccer', 'away_team_score_computed', 'home_team_score_computed'));
 
 	}
 

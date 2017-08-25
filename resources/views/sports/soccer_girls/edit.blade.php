@@ -1,46 +1,5 @@
 @extends('layouts.app')
 
-
-
-<?php
-
-  if (isset($soccer->away_team_first_half_score)) :
-    $awayFirst = $soccer->away_team_first_half_score;
-  else:
-    $awayFirst = 0;
-  endif;
-  if (isset($soccer->away_team_second_half_score)) :
-    $awaySecond = $soccer->away_team_second_half_score;
-  else:
-    $awaySecond = 0;
-  endif;
-  if (isset($soccer->away_team_overtime_score)) :
-    $awayOver = $soccer->away_team_overtime_score;
-  else:
-    $awayOver = 0;
-  endif;
-
-  if (isset($soccer->home_team_first_half_score)) :
-    $homeFirst = $soccer->home_team_first_half_score;
-  else:
-    $homeFirst = 0;
-  endif;
-  if (isset($soccer->home_team_second_half_score)) :
-    $homeSecond = $soccer->home_team_second_half_score;
-  else:
-    $homeSecond = 0;
-  endif;
-  if (isset($soccer->home_team_overtime_score)) :
-    $homeOver = $soccer->home_team_overtime_score;
-  else:
-    $homeOver = 0;
-  endif;
-
-  $awayActiveScore = $awayFirst + $awaySecond + $awayOver;
-  $homeActiveScore = $homeFirst + $homeSecond + $homeOver;
-
-?>
-
 @section('content')
 <div class="container">
     <div class="row">
@@ -99,12 +58,18 @@
                           <span class="glyphicon glyphicon-bell" aria-hidden="true" style="margin-right: 10px"></span>
                         @endif
                         @if ($soccer->game_status < 1 && $soccer->game_status > 4)
-                          <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;"><?php echo $awayActiveScore; ?>&nbsp;</span>
+                          <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;">
+                            <?php echo $away_team_score_computed; ?>&nbsp;
+                          </span>
                         @else
                           @if ($soccer->away_team_final_score)
-                            <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;">{{$soccer->away_team_final_score}}&nbsp;</span>
+                            <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;">
+                              {{$soccer->away_team_final_score}}&nbsp;
+                            </span>
                           @else
-                            <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;"><?php echo $awayActiveScore; ?>&nbsp;</span>
+                            <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;">
+                              <?php echo $away_team_score_computed; ?>&nbsp;
+                            </span>
                           @endif
                         @endif
                         <span class="pull-right" style="width: 25px">{{ $soccer->away_team_overtime_score }}</span>
@@ -121,12 +86,12 @@
                           <small><span class="glyphicon glyphicon-bell" aria-hidden="true" style="margin-left: 10px"></span></small>
                         @endif
                         @if ($soccer->game_status < 1 && $soccer->game_status > 4)
-                          <?php echo $homeActiveScore; ?></span>
+                          <?php echo $home_team_score_computed; ?></span>
                         @else
                          @if ($soccer->home_team_final_score)
                             <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;">{{$soccer->home_team_final_score}}</span>
                           @else
-                            <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;"><?php echo $homeActiveScore; ?></span>
+                            <span class="pull-right" style="width: 25px; border-left: 1px solid #999; padding-left: 10px;"><?php echo $home_team_score_computed; ?></span>
                           @endif
                         @endif
                         <span class="pull-right" style="width: 25px">{{ $soccer->home_team_overtime_score }}</span>
@@ -143,7 +108,7 @@
                 <div class="panel-heading">Update Game</div>
 
                 <div class="panel-body">
-                    <form method="POST" action="/soccer-girls/match/{{ $soccer->id }}">
+                    <form method="POST" action="/soccer-boys/match/{{ $soccer->id }}">
 
                       {{ method_field('PATCH') }}
 
@@ -176,9 +141,9 @@
                         <div class="form-group">
                           <label for="team_level">What Team Level Is This For?</label>
                           <select name="team_level" id="team_level" class="form-control">
-                              <option value="1" @if ($soccer->team_level === "1") selected @endif>Varsity</option>
-                              <option value="2" @if ($soccer->team_level === "2") selected @endif>Junior Varsity</option>
-                              <option value="3" @if ($soccer->team_level === "3") selected @endif>Freshman</option>
+                              <option value="1" @if ($soccer->team_level == "1") selected @endif>Varsity</option>
+                              <option value="2" @if ($soccer->team_level == "2") selected @endif>Junior Varsity</option>
+                              <option value="3" @if ($soccer->team_level == "3") selected @endif>Freshman</option>
                           </select>
                         </div>
 
@@ -333,7 +298,7 @@
                           <select name="home_team_first_half_score" id="home_team_first_half_score" class="form-control">
                               <option value="">Enter Score</option>
                               @for ($i = 0; $i < 99; $i++) 
-                                 <option value="{{ $i }}" @if ($soccer->away_team_first_half_score == "$i") selected @endif>{{ $i }}</option>
+                                <option value="{{ $i }}" @if ($soccer->home_team_first_half_score == "$i") selected @endif>{{ $i }}</option>
                               @endfor
                           </select>
 
@@ -422,41 +387,12 @@
 
                         <div class="form-group">
 
-                          <label for="minutes_remaining">How Many Minutes Are Remaining?</label>
+                          <label for="minutes_remaining">What Minute Is The Game In?</label>
 
                           <select name="minutes_remaining" id="minutes_remaining" class="form-control">
                               <option value="">Enter A Minute</option>
                               @for ($i = 0; $i < 150; $i++) 
                                 <option value="{{ $i }}" @if ($soccer->minutes_remaining == "$i") selected @endif>{{ $i }}</option>
-                              @endfor
-                          </select>
-
-                        </div><!--  Form  Group  -->
-
-
-
-                        <div class="form-group">
-
-                          <label for="seconds_remaining">How Many Seconds Are Remaining?</label>
-
-                          <select name="seconds_remaining" id="seconds_remaining" class="form-control">
-                              <option value="">Enter A Second</option>
-                              <option value="00" @if ($soccer->seconds_remaining == "00") selected @endif>
-                                00
-                              </option>
-                              <option value="01" @if ($soccer->seconds_remaining == "01") selected @endif>
-                                01
-                              </option>
-                              <option value="02" @if ($soccer->seconds_remaining == "02") selected @endif>02</option>
-                              <option value="03" @if ($soccer->seconds_remaining == "03") selected @endif>03</option>
-                              <option value="04" @if ($soccer->seconds_remaining == "04") selected @endif>04</option>
-                              <option value="05" @if ($soccer->seconds_remaining == "05") selected @endif>05</option>
-                              <option value="06" @if ($soccer->seconds_remaining == "06") selected @endif>06</option>
-                              <option value="07" @if ($soccer->seconds_remaining == "07") selected @endif>07</option>
-                              <option value="08" @if ($soccer->seconds_remaining == "08") selected @endif>08</option>
-                              <option value="09" @if ($soccer->seconds_remaining == "09") selected @endif>09</option>
-                              @for ($i = 10; $i < 60; $i++)
-                                <option value='{{ $i }} @if ($soccer->seconds_remaining == $i) selected @endif'>{{ $i }}</option>
                               @endfor
                           </select>
 
@@ -518,7 +454,7 @@
                     
                     </form>
 
-                    <form method="POST" action="/soccer-girls/{{ $soccer->id }}">
+                    <form method="POST" action="/soccer-boys/{{ $soccer->id }}">
 
                       {{ method_field('DELETE') }}
 

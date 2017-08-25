@@ -53,7 +53,7 @@
 
                 <div class="col-lg-2">
 
-                    <p><a class="pull-right btn btn-success" href="/soccer-boys/create">Create Game</a></p>
+                    <p><a class="pull-right btn btn-success" href="/soccer-boys/create">Create Match</a></p>
 
                     <div class="clearfix"></div>
 
@@ -88,13 +88,13 @@
                                     </a>
                                 @endif
                                 @if (Auth::user())
-                                    <span class="pull-right"><a href="/soccer-boys/game/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
+                                    <span class="pull-right"><a href="/soccer-boys/match/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
                                 @endif
                             </li>
 
                         @empty
 
-                            <li class="list-group-item">No Games Posted</li>
+                            <li class="list-group-item">No Matches Posted</li>
 
                         @endforelse
                     </ul>
@@ -125,13 +125,13 @@
                                     </a>
                                 @endif
                                 @if (Auth::user())
-                                    <span class="pull-right"><a href="/soccer-boys/game/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
+                                    <span class="pull-right"><a href="/soccer-boys/match/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
                                 @endif
                             </li>
 
                         @empty
 
-                            <li class="list-group-item">No Games Posted</li>
+                            <li class="list-group-item">No Matches Posted</li>
 
                         @endforelse
                     </ul>
@@ -162,13 +162,13 @@
                                     </a>
                                 @endif
                                 @if (Auth::user())
-                                    <span class="pull-right"><a href="/soccer-boys/game/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
+                                    <span class="pull-right"><a href="/soccer-boys/match/{{ $item->id }}/edit">Edit</a></span>&nbsp;&nbsp;&nbsp;
                                 @endif
                             </li>
 
                         @empty
 
-                            <li class="list-group-item">No Games Posted</li>
+                            <li class="list-group-item">No Matches Posted</li>
 
                         @endforelse
                     </ul>
