@@ -565,6 +565,8 @@ class FootballController extends Controller
 							->join('teams as away_team', 'football.away_team_id', '=', 'away_team.id')
 							->join('years', 'football.year_id', '=', 'years.id')
 							->join('times', 'football.time_id', '=', 'times.id')
+							->leftjoin('teams as winner', 'football.winning_team', '=', 'winner.id')
+							->leftjoin('teams as loser', 'football.losing_team', '=', 'loser.id')
 							->select(
 									'football.id',
 									'football.date',
@@ -594,7 +596,9 @@ class FootballController extends Controller
 									'football.seconds_remaining',
 									'football.winning_team',
 									'football.losing_team',
-									'football.team_level'
+									'football.team_level',
+									'winner.school_name as winning_team',
+									'loser.school_name as losing_team'
 								)
 							->where('year', '=', $year)
 							->where(function ($query) use ($theteam) {
