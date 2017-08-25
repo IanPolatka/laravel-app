@@ -809,9 +809,9 @@
                           <div class="form-group">
                           <label for="team_level">What Team Level?</label>
                           <select name="team_level" id="team_level" class="form-control">
-                              <option value="1" @if ($football->team_level === "1") selected @endif>Varsity</option>
-                              <option value="2" @if ($football->team_level === "2") selected @endif>Junior Varsity</option>
-                              <option value="3" @if ($football->team_level === "3") selected @endif>Freshman</option>
+                              <option value="1" @if ($football->team_level == "1") selected @endif>Varsity</option>
+                              <option value="2" @if ($football->team_level == "2") selected @endif>Junior Varsity</option>
+                              <option value="3" @if ($football->team_level == "3") selected @endif>Freshman</option>
                           </select>
                         </div><!--  Form Group  -->
 
