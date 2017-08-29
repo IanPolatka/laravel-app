@@ -182,6 +182,8 @@ class SoccergirlsController extends Controller
 
 		$soccergirls->update($request->all());
 
+		Session::flash('success', 'Match Updated');
+
 		return redirect()->back();
 
 	}

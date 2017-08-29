@@ -108,7 +108,7 @@
                 <div class="panel-heading">Update Game</div>
 
                 <div class="panel-body">
-                    <form method="POST" action="/soccer-boys/match/{{ $soccer->id }}">
+                    <form method="POST" action="/soccer-girls/match/{{ $soccer->id }}">
 
                       {{ method_field('PATCH') }}
 
