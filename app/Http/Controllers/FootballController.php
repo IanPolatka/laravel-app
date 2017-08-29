@@ -606,6 +606,7 @@ class FootballController extends Controller
 						            ->orWhere('home_team_id', '=', $theteam);
 						    })
 							->where('team_level', '=', $teamlevel)
+							->orderBy('date')
 					    	->get();
 
 		return $football;
