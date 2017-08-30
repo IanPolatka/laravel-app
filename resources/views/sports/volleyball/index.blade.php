@@ -144,6 +144,17 @@
 
                     <ul class="schedule-list">
 
+                        @if (Auth::user())
+
+                            <a href="/volleyball/create" class="create-game">
+                                <li>
+                                    <img src="/images/team-logos/create-game.png">Create Match
+                                </li>
+                                <div class="clearfix"></div>
+                            </a>
+
+                        @endif
+
                         @forelse ($countYesterday as $item)
 
                             <li><a href="volleyball/match/{{ $item->id }}">
@@ -151,16 +162,12 @@
                                 <div class="team">
                                 
                                     @if ( $item['away_team']['logo'] )
-                                        <img src="/images/team-logos/{{ $item->away_team->logo }}">
+                                        <img src="/images/team-logos/{{ $item['away_team']['logo'] }}">
                                     @endif
 
                                     {{ $item['away_team']['school_name'] }}
 
-                                    @if ($item['game_status'] < 1)
-
-                                        <strong class="pull-right game-list-status">{{ $item->time }}</strong>
-
-                                    @elseif (($item['game_status'] > 0) && ($item['game_status'] < 6))
+                                    @if (($item->game_status > 0) && ($item->game_status < 6))
 
                                         <strong class="pull-right game-list-status">
                                             <span style="color: red;">LIVE</span>
@@ -168,15 +175,23 @@
 
                                     @endif
 
-                                    @if ($item['winning_team'] == $item['away_team_id'])</strong>@endif
+                                </div>
 
-                                </div><!--  Team  -->
+                                <div class="team">
 
-                                
+                                    @if ( $item['home_team']['logo'] )
+                                        <img src="/images/team-logos/{{ $item->home_team->logo }}"> 
+                                    @endif
+
+                                    {{ $item['home_team']['school_name'] }}
+
+                                </div>
+
+                            </a></li>
 
                         @empty
 
-                            <li>No Games Posted</li>
+                            <li>No Matches Posted</li>
 
                         @endforelse
 
@@ -189,10 +204,60 @@
 
             <div class="content-box">
 
-                    <h4>Tomorrows's Games <small>({{ Carbon\Carbon::parse($tomorrow)->format('l M j, o') }})</small></h4>
+                    <h4>Tomorrow's Matches <small>({{ Carbon\Carbon::parse($tomorrow)->format('l M j, o') }})</small></h4>
 
                     <ul class="schedule-list">
 
+                        @if (Auth::user())
+
+                            <a href="/volleyball/create" class="create-game">
+                                <li>
+                                    <img src="/images/team-logos/create-game.png">Create Match
+                                </li>
+                                <div class="clearfix"></div>
+                            </a>
+
+                        @endif
+
+                        @forelse ($countTomorrow as $item)
+
+                            <li><a href="volleyball/match/{{ $item->id }}">
+
+                                <div class="team">
+                                
+                                    @if ( $item['away_team']['logo'] )
+                                        <img src="/images/team-logos/{{ $item['away_team']['logo'] }}">
+                                    @endif
+
+                                    {{ $item['away_team']['school_name'] }}
+
+                                    @if (($item->game_status > 0) && ($item->game_status < 6))
+
+                                        <strong class="pull-right game-list-status">
+                                            <span style="color: red;">LIVE</span>
+                                        </strong>
+
+                                    @endif
+
+                                </div>
+
+                                <div class="team">
+
+                                    @if ( $item['home_team']['logo'] )
+                                        <img src="/images/team-logos/{{ $item->home_team->logo }}"> 
+                                    @endif
+
+                                    {{ $item['home_team']['school_name'] }}
+
+                                </div>
+
+                            </a></li>
+
+                        @empty
+
+                            <li>No Matches Posted</li>
+
+                        @endforelse
 
                     </ul>
 
