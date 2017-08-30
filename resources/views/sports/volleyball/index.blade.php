@@ -144,17 +144,6 @@
 
                     <ul class="schedule-list">
 
-                        @if (Auth::user())
-
-                            <a href="/volleyball/create" class="create-game">
-                                <li>
-                                    <img src="/images/team-logos/create-game.png">Create Match
-                                </li>
-                                <div class="clearfix"></div>
-                            </a>
-
-                        @endif
-
                         @forelse ($countYesterday as $item)
 
                             <li><a href="volleyball/match/{{ $item->id }}">
@@ -207,17 +196,6 @@
                     <h4>Tomorrow's Matches <small>({{ Carbon\Carbon::parse($tomorrow)->format('l M j, o') }})</small></h4>
 
                     <ul class="schedule-list">
-
-                        @if (Auth::user())
-
-                            <a href="/volleyball/create" class="create-game">
-                                <li>
-                                    <img src="/images/team-logos/create-game.png">Create Match
-                                </li>
-                                <div class="clearfix"></div>
-                            </a>
-
-                        @endif
 
                         @forelse ($countTomorrow as $item)
 
