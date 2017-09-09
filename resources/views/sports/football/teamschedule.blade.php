@@ -262,7 +262,7 @@
                         <tr>
                             <td>
                                 <img src="/images/team-logos/{{$item->logo}}" style="height:20px;width:20px;margin-right:5px;">
-                                {{$item->Team}}
+                                <a href="/football/{{ $selectedyear[0] }}/{{$item->Team}}">{{$item->Team}}</a>
                             </td>
                             <td>
                                 {{$item->DistrictWins}} - {{$item->DistrictLoses}}

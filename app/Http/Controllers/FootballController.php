@@ -348,7 +348,7 @@ class FootballController extends Controller
 						JOIN teams t ON tot.Team=t.id
 						WHERE district_football = ? AND class_football = ?
 						GROUP BY Team
-						ORDER BY dw DESC, dl ASC, w DESC, l ASC', array($selectedyearid[0], $selectedyearid[0], $selectedFootballDistrict[0], $selectedFootballClass[0]));
+						ORDER BY DistrictWins DESC, DistrictLoses ASC, wins DESC, losses ASC, school_name', array($selectedyearid[0], $selectedyearid[0], $selectedFootballDistrict[0], $selectedFootballClass[0]));
 
 
 		//  Select All Teams
