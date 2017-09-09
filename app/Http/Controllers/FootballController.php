@@ -77,12 +77,14 @@ class FootballController extends Controller
 		//  Count Away Team Wins		
     	$away_team_wins_total = Football::where('winning_team', '=', $away_team)
     									->where('year_id', '=', $selectedyearid)
+    									->where('team_level',1)
     									->get();
 		$away_team_wins = $away_team_wins_total->count();
 
 		//  Count Away Team Losses	
 		$away_team_losses_total = Football::where('losing_team', '=', $away_team)
 										->where('year_id', '=', $selectedyearid)
+										->where('team_level', 1)
 										->get();
 		$away_team_losses = $away_team_losses_total->count();
 
@@ -90,12 +92,14 @@ class FootballController extends Controller
 		//  Count Home Team Wins		
     	$home_team_wins_total = Football::where('winning_team', '=', $home_team)
     									->where('year_id', '=', $selectedyearid)
+    									->where('team_level', 1)
     									->get();
 		$home_team_wins = $home_team_wins_total->count();
 
 		//  Count Home Team Losses	
 		$home_team_losses_total = Football::where('losing_team', '=', $home_team)
 										->where('year_id', '=', $selectedyearid)
+										->where('team_level', 1)
 										->get();
 		$home_team_losses = $home_team_losses_total->count();
 
