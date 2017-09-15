@@ -62,8 +62,10 @@
                     <span class="score">
                         @if ($item->game_status == NULL || $item->game_status < 1)
                             -
-                        @else
+                        @elseif (empty($item->away_team_final_score))
                             <?php echo $awayTeamScore; ?>
+                        @else 
+                            {{ $item->away_team_final_score }}
                         @endif
                     </span>
                 </div>
@@ -75,8 +77,10 @@
                     <span class="score">
                         @if ($item->game_status == NULL || $item->game_status < 1)
                             -
-                        @else
+                        @elseif (empty($item->home_team_final_score))
                             <?php echo $homeTeamScore; ?>
+                        @else 
+                            {{ $item->home_team_final_score }}
                         @endif
                     </span>
                 </div>
@@ -104,6 +108,9 @@
                         @endif
                         @if ($item->game_status == 6) 
                             Overtime
+                        @endif
+                        @if ($item->game_status == 7) 
+                            Final
                         @endif
                     @else
                         {{$item->time}}
