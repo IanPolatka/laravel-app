@@ -19,7 +19,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -95,6 +95,7 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        @if (Auth::user())
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Years <span class="caret"></span></a>
                           <ul class="dropdown-menu">
@@ -102,7 +103,6 @@
                             <li><a href="/years/create">Create</a></li>
                           </ul>
                         </li>
-                        @if (Auth::user())
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Times <span class="caret"></span></a>
                           <ul class="dropdown-menu">
@@ -110,7 +110,6 @@
                             <li><a href="/times/create">Create</a></li>
                           </ul>
                         </li>
-                        @endif
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
                           <ul class="dropdown-menu">
@@ -125,6 +124,7 @@
                             <li><a href="/current-year/edit">Edit</a></li>
                           </ul>
                         </li>
+                        @endif
                         <li class="dropdown">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sports <span class="caret"></span></a>
                           <ul class="dropdown-menu">
