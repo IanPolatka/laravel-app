@@ -24,103 +24,107 @@
 
             <h3><strong>Welcome {{ Auth::user()->name }},</strong></h3>
 
-            <p>Here are today's football events</p>
-
         @endif
 
-        <ul class="home-events">
+        @if(count($football))
 
-            @foreach($football as $item)
+            <p>Here are today's football events</p>
 
-            <?php 
+            <ul class="home-events">
 
-            $awayTeamScore = $item->away_team_first_qrt_score + 
-                                   $item->away_team_second_qrt_score + 
-                                   $item->away_team_third_qrt_score +
-                                   $item->away_team_fourth_qrt_score +
-                                   $item->away_team_overtime_score;
+                @foreach($football as $item)
 
-            $homeTeamScore = $item->home_team_first_qrt_score + 
-                                   $item->home_team_second_qrt_score + 
-                                   $item->home_team_third_qrt_score +
-                                   $item->home_team_fourth_qrt_score +
-                                   $item->home_team_overtime_score;
+                <?php 
 
-            ?>
+                $awayTeamScore = $item->away_team_first_qrt_score + 
+                                       $item->away_team_second_qrt_score + 
+                                       $item->away_team_third_qrt_score +
+                                       $item->away_team_fourth_qrt_score +
+                                       $item->away_team_overtime_score;
 
-            @if (($item->game_status > 1) && ($item->game_status < 7)) 
-                <li class="red-pulse-border">
-            @else
-                <li>
-            @endif
-            <a href="/football/game/{{ $item->id }}">
-                <div class="team">
-                    @if ($item->away_team_logo)
-                        <img src="/images/team-logos/{{ $item->away_team_logo }}">
-                    @endif
-                    {{$item->away_team}}
-                    <span class="score">
-                        @if ($item->game_status == NULL || $item->game_status < 1)
-                            -
-                        @elseif (empty($item->away_team_final_score))
-                            <?php echo $awayTeamScore; ?>
-                        @else 
-                            {{ $item->away_team_final_score }}
-                        @endif
-                    </span>
-                </div>
-                <div class="team">
-                    @if ($item->home_team_logo)
-                        <img src="/images/team-logos/{{ $item->home_team_logo }}">
-                    @endif
-                    {{$item->home_team}}
-                    <span class="score">
-                        @if ($item->game_status == NULL || $item->game_status < 1)
-                            -
-                        @elseif (empty($item->home_team_final_score))
-                            <?php echo $homeTeamScore; ?>
-                        @else 
-                            {{ $item->home_team_final_score }}
-                        @endif
-                    </span>
-                </div>
+                $homeTeamScore = $item->home_team_first_qrt_score + 
+                                       $item->home_team_second_qrt_score + 
+                                       $item->home_team_third_qrt_score +
+                                       $item->home_team_fourth_qrt_score +
+                                       $item->home_team_overtime_score;
 
-                @if (($item->game_status > 1) && ($item->game_status < 7))
-                    <div class="red-pulse-background status">
+                ?>
+
+                @if (($item->game_status > 1) && ($item->game_status < 7)) 
+                    <li class="red-pulse-border">
                 @else
-                    <div class="status">
+                    <li>
                 @endif
-                    @if($item->game_status > 1 )
-                        @if ($item->game_status == 1) 
-                            1st Quarter
+                <a href="/football/game/{{ $item->id }}">
+                    <div class="team">
+                        @if ($item->away_team_logo)
+                            <img src="/images/team-logos/{{ $item->away_team_logo }}">
                         @endif
-                        @if ($item->game_status == 2) 
-                            2nd Quarter 
+                        {{$item->away_team}}
+                        <span class="score">
+                            @if ($item->game_status == NULL || $item->game_status < 1)
+                                -
+                            @elseif (empty($item->away_team_final_score))
+                                <?php echo $awayTeamScore; ?>
+                            @else 
+                                {{ $item->away_team_final_score }}
+                            @endif
+                        </span>
+                    </div>
+                    <div class="team">
+                        @if ($item->home_team_logo)
+                            <img src="/images/team-logos/{{ $item->home_team_logo }}">
                         @endif
-                        @if ($item->game_status == 3) 
-                            Halftime
-                        @endif
-                        @if ($item->game_status == 4) 
-                            3rd Quarter
-                        @endif
-                        @if ($item->game_status == 5) 
-                            4th Quarter
-                        @endif
-                        @if ($item->game_status == 6) 
-                            Overtime
-                        @endif
-                        @if ($item->game_status == 7) 
-                            Final
-                        @endif
+                        {{$item->home_team}}
+                        <span class="score">
+                            @if ($item->game_status == NULL || $item->game_status < 1)
+                                -
+                            @elseif (empty($item->home_team_final_score))
+                                <?php echo $homeTeamScore; ?>
+                            @else 
+                                {{ $item->home_team_final_score }}
+                            @endif
+                        </span>
+                    </div>
+
+                    @if (($item->game_status > 1) && ($item->game_status < 7))
+                        <div class="red-pulse-background status">
                     @else
-                        {{$item->time}}
+                        <div class="status">
                     @endif
-                </div><!--  Status  -->
-            </a></li>
+                        @if($item->game_status > 1 )
+                            @if ($item->game_status == 1) 
+                                1st Quarter
+                            @endif
+                            @if ($item->game_status == 2) 
+                                2nd Quarter 
+                            @endif
+                            @if ($item->game_status == 3) 
+                                Halftime
+                            @endif
+                            @if ($item->game_status == 4) 
+                                3rd Quarter
+                            @endif
+                            @if ($item->game_status == 5) 
+                                4th Quarter
+                            @endif
+                            @if ($item->game_status == 6) 
+                                Overtime
+                            @endif
+                            @if ($item->game_status == 7) 
+                                Final
+                            @endif
+                        @else
+                            {{$item->time}}
+                        @endif
+                    </div><!--  Status  -->
+                </a></li>
 
-            @endforeach
+                @endforeach
 
-        </ul>
+            </ul>
+
+        @endif
 
     </div>
 
