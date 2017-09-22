@@ -20,6 +20,8 @@ class RegisterController extends Controller
     |
     */
 
+    
+
     use RegistersUsers;
 
     /**
@@ -60,12 +62,39 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return User
      */
+
+
+
+    //////////////////////////////////////////////////////////////////
+    //  Users cannot register - Removed on 9/22/2017
+    //////////////////////////////////////////////////////////////////
+    
+
+    // protected function create(array $data)
+    // {
+    //     return User::create([
+    //         'name' => $data['name'],
+    //         'email' => $data['email'],
+    //         'password' => bcrypt($data['password']),
+    //     ]);
+    // }
+
+    public function showRegistrationForm()
+    {
+        return redirect('/');
+    }
+
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+        return redirect('/');
+        /*return User::create([
+            'name' => $            'email' => $data['email'],
             'password' => bcrypt($data['password']),
-        ]);
+        ]);*/data['name'],
+
     }
+
+    //////////////////////////////////////////////////////////////////
+
+
 }
