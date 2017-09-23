@@ -88,7 +88,6 @@ class HomeController extends Controller
                                 'home_team_overtime_score',
                                 'home_team_final_score'
                             )
-                            ->where('team_level', 1)
                             ->whereDate('date', Carbon::today())
                             ->get();
 
