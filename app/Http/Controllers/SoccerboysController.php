@@ -224,11 +224,7 @@ class SoccerboysController extends Controller
 
 		//  Display schedule for team based on selected year
 		$soccer = Soccerboys::join('years', 'soccer_boys.year_id', 'years.id')
-							->join('times', 'soccer_boys.time_id', 'times.id')
-							->select(
-								'soccer_boys.*',
-								'time as time'
-							)
+							->select('soccer_boys.*')
 							->where('year_id', '=', $selectedyearid)
 							->where('team_level', '=', 1)
 							->where(function ($query) use ($selectedteamid) {
@@ -237,8 +233,6 @@ class SoccerboysController extends Controller
 						    })
 						    ->orderBy('date')
 							->get();
-
-		
 
 		//  Display schedule for team based on selected year
 		$jvsoccer = Soccerboys::join('years', 'soccer_boys.year_id', 'years.id')

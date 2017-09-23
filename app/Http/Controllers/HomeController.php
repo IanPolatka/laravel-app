@@ -32,6 +32,30 @@ class HomeController extends Controller
     public function index()
     {
 
+        $away_team_score_computed =     \DB::table('football')
+                    ->select(\DB::raw('sum(
+                                IFNULL( `football`.`away_team_first_qrt_score` , 0 ) +
+                                IFNULL( `football`.`away_team_second_qrt_score` , 0 ) +
+                                IFNULL( `football`.`away_team_third_qrt_score` , 0 ) +
+                                IFNULL( `football`.`away_team_fourth_qrt_score` , 0 ) +
+                                IFNULL( `football`.`away_team_overtime_score` , 0 )
+                                )
+                                AS score' 
+                    ))
+                    ->get()->pluck('score')->first();
+
+        $home_team_score_computed =     \DB::table('football')
+                    ->select(\DB::raw('sum(
+                                IFNULL( `football`.`home_team_first_qrt_score` , 0 ) +
+                                IFNULL( `football`.`home_team_second_qrt_score` , 0 ) +
+                                IFNULL( `football`.`home_team_third_qrt_score` , 0 ) +
+                                IFNULL( `football`.`home_team_fourth_qrt_score` , 0 ) +
+                                IFNULL( `football`.`home_team_overtime_score` , 0 )
+                                )
+                                AS score' 
+                    ))
+                    ->get()->pluck('score')->first();
+
         $football = Football::join('teams as home_team', 'football.home_team_id', '=', 'home_team.id')
                             ->join('teams as away_team', 'football.away_team_id', '=', 'away_team.id')
                             ->join('times', 'football.time_id', '=', 'times.id')
